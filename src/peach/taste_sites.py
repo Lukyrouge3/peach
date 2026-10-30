@@ -113,6 +113,27 @@ def _extra_account(domain, parts):
     return domain, account.removeprefix("@")
 
 
+#: 番号在页面标题或网址末段里的形态：`ABP-123`、`abp-123-片名-slug`、`FC2-PPV-1234567`。
+PAGE_CODE = re.compile(r"(?<![a-z0-9])(fc2-?ppv-?\d{5,8}|[a-z]{2,6}-\d{2,5})(?![a-z0-9])", re.I)
+
+
+@lru_cache(maxsize=URL_CACHE_SIZE)
+def page_code(url: str, title: str = "") -> str | None:
+    """在线观看页（jav.guru、missav 等）的番号键；先看标题，再看网址末段。"""
+    from .catalog_rules import normalise_code_key, release_code_from_text
+    try:
+        path = unquote(parse_url(url).path)
+    except ValueError:
+        path = ""
+    slug = next((part for part in reversed(path.split("/")) if part), "")
+    for text in (title, slug):
+        match = PAGE_CODE.search(text or "")
+        code = release_code_from_text(match[1]) if match else None
+        if code:
+            return normalise_code_key(code)
+    return None
+
+
 @lru_cache(maxsize=URL_CACHE_SIZE)
 def mixed_adult(url: str, title: str = "") -> bool:
     try:

@@ -57,7 +57,8 @@ QUERY_KEYS = {"q", "query", "search", "keyword", "keywords", "tag", "tags", "ter
 NEGATIVE_QUERY_TERM = re.compile(
     r"(?<![a-z0-9\u3400-\u9fff])-[a-z0-9\u3400-\u9fff]+(?:[_-][a-z0-9\u3400-\u9fff]+)*"
 )
-CREATOR_MARKERS = {"artist", "artists", "author", "channel", "creator", "creators", "model", "models", "profile"}
+CREATOR_MARKERS = {"actress", "actresses", "artist", "artists", "author", "channel", "creator", "creators", "idol", "idols",
+                   "model", "models", "pornstar", "pornstars", "profile"}
 CREATOR_HOSTS = {"fansly.com", "onlyfans.com", "patreon.com", "rule34video.com"}
 RESERVED_HANDLES = {
     "about", "account", "creator", "creators", "explore", "home", "login", "messages", "model",
@@ -66,7 +67,7 @@ RESERVED_HANDLES = {
 STOPWORDS = {
     "and", "com", "download", "for", "from", "html", "http", "https", "in", "index", "is",
     "login", "of", "one", "page", "search", "the", "this", "to", "video", "watch", "www",
-    "图片", "搜索", "视频",
+    "jav", "图片", "搜索", "视频",
 }
 TASTE_DOMAIN_SUFFIXES = {
     "cangku.moe", "coomer.st", "e-hentai.org", "exhentai.org", "f95zone.to", "fanbox.cc",
@@ -1339,7 +1340,8 @@ def _linked_signals(history_store, cached, ledger_connection):
            tuple(sorted((eid, row["kind"], row["canonical_name"]) for eid, row in index.entities.items())),
            tuple(sorted((kind, label, tuple(sorted(ids))) for (kind, label), ids in index.aliases.items())),
            tuple(sorted((identity, tuple(sorted(values))) for identity, values in accounts.items())),
-           tuple(sorted(excluded)))
+           tuple(sorted(excluded)),
+           tuple(sorted((code, tuple(sorted(ids))) for code, ids in index.codes.items())))
     hit = _LINKED_SIGNALS.get(key)
     if hit is not None:
         return hit
@@ -1616,7 +1618,7 @@ def _url_candidates(url: str, title: str = "") -> tuple[str | None, set[str], se
 
     segments = [unquote(segment).casefold() for segment in parsed.path.split("/") if segment]
     for index, segment in enumerate(segments[:-1]):
-        if segment in {"tag", "tags", "search"}:
+        if segment in {"tag", "tags", "search", "category", "categories", "genre", "genres"}:
             tags.update(_tokens(segments[index + 1]))
     for index, segment in enumerate(segments[:-1]):
         candidate = _creator_candidate(segments[index + 1])

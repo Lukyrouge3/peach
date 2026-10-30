@@ -8,9 +8,9 @@ import sqlite3
 from contextlib import closing
 import ahocorasick
 
-from .catalog_rules import LENGTH_TAGS, TECH_TAGS
+from .catalog_rules import LENGTH_TAGS, TECH_TAGS, normalise_code_key
 from .entities import male_performer_ids, normalize_entity_name
-from .taste_sites import account_key, host, identity_context, linked_identities, mixed_adult, MIXED_DOMAINS
+from .taste_sites import account_key, host, identity_context, linked_identities, mixed_adult, page_code, MIXED_DOMAINS
 
 KINDS = ("performer", "creator", "tag", "studio", "series")
 
@@ -37,6 +37,20 @@ class IdentityIndex:
         for eid, alias in connection.execute("SELECT entity_id,alias FROM entity_alias"):
             if eid in self.entities:
                 self.aliases[(self.entities[eid]["kind"], normalize_entity_name(alias))].add(eid)
+        # 番号键到实体：馆藏作品与新作壳上已登记的出演者、厂牌、系列和标签。在线观看页
+        # 只带番号，靠它把浏览记录接回规范身份。
+        self.codes = defaultdict(set)
+        tables = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+        joins = [("SELECT a.code,ae.entity_id FROM asset a JOIN asset_entity ae ON ae.asset_id=a.id "
+                  "WHERE a.code IS NOT NULL AND a.code<>''")]
+        if "feed_discovery_entity" in tables:
+            joins.append("SELECT d.code,de.entity_id FROM feed_discovery d "
+                         "JOIN feed_discovery_entity de ON de.discovery_id=d.id")
+        for query in joins:
+            for code, eid in connection.execute(query):
+                key = normalise_code_key(code)
+                if key and eid in self.entities and self.entities[eid]["kind"] in KINDS:
+                    self.codes[key].add(eid)
 
     def resolve(self, kind, name):
         key = kind, normalize_entity_name(name)
@@ -122,6 +136,11 @@ def browser_entities(url, title, index, matcher, accounts, decisions, account_ho
     yield from title_entities(title, matcher, index)
     if social and not (adult or matched):
         return
+    code = page_code(url, title) if adult else None
+    for eid in sorted(index.codes.get(code, ())) if code else ():
+        row = index.entities[eid]
+        if row["canonical_name"] not in TECH_TAGS | LENGTH_TAGS:
+            yield eid, row["kind"], row["canonical_name"]
     for tag in tags:
         mapped = resolve_genre(tag.replace("_", " "), decisions)
         for label in (tag, mapped) if mapped else (tag,):
@@ -131,7 +150,8 @@ def browser_entities(url, title, index, matcher, accounts, decisions, account_ho
                     yield entity["id"], kind, entity["canonical_name"]
     for creator in creators:
         for kind in ("performer", "creator"):
-            entity = index.resolve(kind, creator)
+            # 网址里的名字常是 `yua-mikami` 这样的 slug，别名里登记的是 `Yua Mikami`。
+            entity = index.resolve(kind, creator) or index.resolve(kind, re.sub(r"[-_]+", " ", creator))
             if entity:
                 yield entity["id"], kind, entity["canonical_name"]
 
@@ -147,7 +167,8 @@ def browser_evidence(connection, store, index, accounts, counters, *, cache=True
     decisions = load_genre_decisions(connection) if "genre_decision" in tables else {}
     inputs = [store_version(store), _policy_fingerprint(), list(index.entities.values()),
               sorted((kind, label, sorted(ids)) for (kind, label), ids in index.aliases.items()),
-              sorted((key, sorted(values)) for key, values in accounts.items()), decisions]
+              sorted((key, sorted(values)) for key, values in accounts.items()), decisions,
+              sorted((code, sorted(ids)) for code, ids in index.codes.items())]
     fingerprint = hashlib.sha256(json.dumps(inputs, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
     cache_path = store.parent / 'browser-preference-cache.json'
     try:
