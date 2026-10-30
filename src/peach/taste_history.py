@@ -33,7 +33,7 @@ import ahocorasick
 
 from .catalog_rules import LENGTH_TAGS, TECH_TAGS
 from .review_csv import read_rows, write_rows
-from .taste_sites import ADULT_DOMAINS, MIXED_DOMAINS, account_key, identity_context, mixed_adult, parse_url
+from .taste_sites import ADULT_DOMAINS, MIXED_DOMAINS, account_key, identity_context, mixed_adult, page_code, parse_url
 
 
 @dataclass(frozen=True)
@@ -1294,7 +1294,7 @@ def _taste_analysis(
 #: 域名，键是历史库版本加身份输入。只留最新一版。账本的其它写入（播放、关注检查、
 #: 状态）不改身份输入，这份结果照样命中，重算只剩按行累加。
 _LINKED_SIGNALS: dict[tuple, tuple[tuple, ...]] = {}
-_NO_SIGNAL = ((), (), "", False)
+_NO_SIGNAL = ((), (), "", False, ())
 
 
 def _linked_history_evidence(history_store, ledger_connection, since, history):
@@ -1308,7 +1308,12 @@ def _linked_history_evidence(history_store, ledger_connection, since, history):
         for (visited_at, bookmark), signal in zip(rows, _linked_signals(history_store, cached, ledger_connection)):
             if since and visited_at < since:
                 continue
-            performers, creators, domain, counts_domain = signal
+            performers, creators, domain, counts_domain, tags = signal
+            # 在线观看页按番号接回的标签：网址和标题本身认出的那几个已在访问行里计过。
+            for name in tags:
+                history["tags"][name] += 1
+                if bookmark:
+                    history["bookmark_tags"][name] += 1
             for name in performers:
                 browser_performers[name] += 1
                 if bookmark:
@@ -1352,7 +1357,7 @@ def _linked_signals(history_store, cached, ledger_connection):
         signal = pairs.get((url, title))
         if signal is None:
             signal = pairs[url, title] = _linked_signal(
-                url, title, browser_entities(url, title, index, matcher, accounts, {}), excluded)
+                url, title, browser_entities(url, title, index, matcher, accounts, {}), excluded, index.codes)
         signals.append(signal)
     result = tuple(signals)
     _LINKED_SIGNALS.clear()
@@ -1360,12 +1365,13 @@ def _linked_signals(history_store, cached, ledger_connection):
     return result
 
 
-def _linked_signal(url, title, entities, excluded):
-    """一对网址与标题贡献的出演者、创作者、域名，以及这次访问算不算进域名榜。"""
+def _linked_signal(url, title, entities, excluded, index_codes=None):
+    """一对网址与标题贡献的出演者、创作者、域名、番号带出的标签，以及这次访问算不算进域名榜。"""
     matches = set(entities)
-    raw_creators = _url_candidates(url, title)[2]
+    _, raw_tags, raw_creators = _url_candidates(url, title)
     domain = (parse_url(url).hostname or "").removeprefix("www.")
-    performers, creators = [], []
+    performers, creators, tags = [], [], []
+    code_ids = set(index_codes.get(page_code(url, title), ())) if index_codes else set()
     for eid, kind, name in matches:
         if eid in excluded:
             continue
@@ -1373,10 +1379,12 @@ def _linked_signal(url, title, entities, excluded):
             performers.append(name)
         elif kind == "creator" and name.casefold() not in raw_creators:
             creators.append(name)
+        elif kind == "tag" and eid in code_ids and name not in raw_tags:
+            tags.append(name)
     counts_domain = bool(matches) and not (_is_taste_domain(domain) or mixed_adult(url, title))
-    if not (performers or creators or counts_domain):
+    if not (performers or creators or counts_domain or tags):
         return _NO_SIGNAL
-    return tuple(performers), tuple(creators), domain, counts_domain
+    return tuple(performers), tuple(creators), domain, counts_domain, tuple(sorted(tags))
 
 
 def _attach_bookmark_counts(rows, counts):

@@ -41,8 +41,9 @@ class IdentityIndex:
         # 只带番号，靠它把浏览记录接回规范身份。
         self.codes = defaultdict(set)
         tables = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+        asset_columns = {row[1] for row in connection.execute("PRAGMA table_info(asset)")}
         joins = [("SELECT a.code,ae.entity_id FROM asset a JOIN asset_entity ae ON ae.asset_id=a.id "
-                  "WHERE a.code IS NOT NULL AND a.code<>''")]
+                  "WHERE a.code IS NOT NULL AND a.code<>''")] if {"code"} <= asset_columns and "asset_entity" in tables else []
         if "feed_discovery_entity" in tables:
             joins.append("SELECT d.code,de.entity_id FROM feed_discovery d "
                          "JOIN feed_discovery_entity de ON de.discovery_id=d.id")
