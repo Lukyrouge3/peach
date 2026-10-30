@@ -1,7 +1,9 @@
 services:
   peach:
-    image: longmeidao/peach:${PEACH_VERSION:-edge}
+    # 用本仓库源码构建，不拉取线上镜像。
+    image: peach:local
     build: .
+    pull_policy: build
     init: true
     restart: unless-stopped
     stop_grace_period: 75s
