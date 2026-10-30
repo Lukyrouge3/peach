@@ -1,7 +1,7 @@
 (function() {
 	try {
 		var e = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, t = new e.Error().stack;
-		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "f5c89ca7-5af8-4135-9b68-d1f145ae11ee", e._sentryDebugIdIdentifier = "sentry-dbid-f5c89ca7-5af8-4135-9b68-d1f145ae11ee");
+		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "8e49da40-f1e3-42c5-bc5d-a69d2c355a30", e._sentryDebugIdIdentifier = "sentry-dbid-8e49da40-f1e3-42c5-bc5d-a69d2c355a30");
 	} catch {}
 })();
 import { Button as e, CloudDownloadDialog as t, CollectionSummary as n, EmptyState as r, LOC as i, Note as a, OA as o, QUALITY_GOALS_KEY as s, __toESM as c, cardClass as l, errorMessage as u, fetchQualityGoals as d, fmtDur as f, fmtSize as p, previewUrl as m, require_jsx_runtime as h, require_react as g, useQuery as _ } from "./peach-app.js";
@@ -22,11 +22,11 @@ function x({ item: t, openItem: n, searchResources: r, javTitleHtml: a, javDispl
 			children: [/* @__PURE__ */ (0, b.jsxs)("button", {
 				type: "button",
 				onClick: c,
-				"aria-label": `打开 ${o(t)}`,
+				"aria-label": `Open ${o(t)}`,
 				className: "relative inline-grid w-card-cover shrink-0 self-start aspect-card-cover cursor-pointer place-items-center overflow-hidden rounded-2lg bg-background-tertiary-default",
 				children: [/* @__PURE__ */ (0, b.jsx)("span", {
 					className: "text-caption-1-regular text-text-secondary",
-					children: "暂无预览"
+					children: "No preview yet"
 				}), /* @__PURE__ */ (0, b.jsx)("img", {
 					src: m(t),
 					alt: "",
@@ -56,7 +56,7 @@ function x({ item: t, openItem: n, searchResources: r, javTitleHtml: a, javDispl
 							}),
 							/* @__PURE__ */ (0, b.jsx)("span", { children: i[t.location] ?? t.location }),
 							/* @__PURE__ */ (0, b.jsx)("span", { children: f(t.duration) }),
-							/* @__PURE__ */ (0, b.jsx)("span", { children: Number(t.size) > 0 ? p(Number(t.size)) : "大小未知" })
+							/* @__PURE__ */ (0, b.jsx)("span", { children: Number(t.size) > 0 ? p(Number(t.size)) : "Size unknown" })
 						]
 					}),
 					t.reason ? /* @__PURE__ */ (0, b.jsx)("p", {
@@ -78,12 +78,12 @@ function x({ item: t, openItem: n, searchResources: r, javTitleHtml: a, javDispl
 					duration: t.duration,
 					cover: m(t)
 				}),
-				children: "查找资源"
+				children: "Find resources"
 			}) : null, /* @__PURE__ */ (0, b.jsx)(e, {
 				variant: "secondary",
 				size: "small",
 				onClick: c,
-				children: "查看版本"
+				children: "View versions"
 			})]
 		})]
 	});
@@ -95,14 +95,14 @@ function S({ toast: e, ...i }) {
 	}), p = f.data;
 	if (!p) return /* @__PURE__ */ (0, b.jsx)(v, { children: /* @__PURE__ */ (0, b.jsx)(a, {
 		tone: "error",
-		title: "高清版目标读取失败",
-		children: f.error ? u(f.error) : "未取得高清版目标，请刷新页面重试。"
+		title: "Couldn't load HD version goals",
+		children: f.error ? u(f.error) : "HD version goals not obtained; refresh the page and try again."
 	}) });
 	let m = p.items || [];
 	return m.length ? /* @__PURE__ */ (0, b.jsxs)(v, { children: [
 		/* @__PURE__ */ (0, b.jsx)(n, {
-			label: "待升级",
-			figure: `${Number(p.total || 0).toLocaleString()} 部作品`,
+			label: "Upgradable",
+			figure: `${Number(p.total || 0).toLocaleString()} titles`,
 			flush: !0
 		}),
 		/* @__PURE__ */ (0, b.jsx)("ul", {
@@ -115,7 +115,7 @@ function S({ toast: e, ...i }) {
 		}),
 		Number(p.total || 0) > m.length ? /* @__PURE__ */ (0, b.jsx)("p", {
 			className: "mt-6 text-center text-caption-1-regular text-text-secondary",
-			children: `显示前 ${m.length.toLocaleString()} 部，共 ${Number(p.total).toLocaleString()} 部。`
+			children: `Showing the first ${m.length.toLocaleString()} of ${Number(p.total).toLocaleString()} titles.`
 		}) : null,
 		/* @__PURE__ */ (0, b.jsx)(t, {
 			prefill: c,
@@ -124,10 +124,10 @@ function S({ toast: e, ...i }) {
 		})
 	] }) : /* @__PURE__ */ (0, b.jsx)(v, { children: /* @__PURE__ */ (0, b.jsx)(r, {
 		icon: o,
-		title: "没有标记中的高清版目标",
-		children: "现有版本都已满足条件，或还没有加入追踪。"
+		title: "No HD version goals marked",
+		children: "Existing versions all meet the criteria, or nothing is being tracked yet."
 	}) });
 }
 export { S as QualityGoalsPage };
 
-//# debugId=f5c89ca7-5af8-4135-9b68-d1f145ae11ee
+//# debugId=8e49da40-f1e3-42c5-bc5d-a69d2c355a30

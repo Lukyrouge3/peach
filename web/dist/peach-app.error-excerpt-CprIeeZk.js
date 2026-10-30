@@ -1,7 +1,7 @@
 (function() {
 	try {
 		var e = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, t = new e.Error().stack;
-		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "96ce7f75-05b8-4558-ba82-7cbecf3611da", e._sentryDebugIdIdentifier = "sentry-dbid-96ce7f75-05b8-4558-ba82-7cbecf3611da");
+		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "5057f329-4742-4a8a-9a68-26ce180c7c7a", e._sentryDebugIdIdentifier = "sentry-dbid-5057f329-4742-4a8a-9a68-26ce180c7c7a");
 	} catch {}
 })();
 import { Button as e, __toESM as t, cardClass as n, readableErrorHeadline as r, require_jsx_runtime as i, require_react as a, useOverlayScrollbar as o } from "./peach-app.js";
@@ -37,7 +37,7 @@ function u({ text: t, className: n = "" }) {
 		className: `flex min-w-0 max-w-full flex-col items-start gap-1 ${n}`,
 		children: [i ? /* @__PURE__ */ (0, c.jsx)(l, {
 			id: o,
-			label: "完整错误详情",
+			label: "Full error details",
 			children: u
 		}) : /* @__PURE__ */ (0, c.jsx)("p", {
 			className: "w-full wrap-anywhere",
@@ -50,10 +50,10 @@ function u({ text: t, className: n = "" }) {
 			"aria-expanded": i,
 			"aria-controls": i ? o : void 0,
 			onClick: () => a(!i),
-			children: i ? "收起详情" : "查看详情"
+			children: i ? "Hide details" : "Show details"
 		}) : null]
 	});
 }
 export { l as ErrorDetails, u as ErrorExcerpt };
 
-//# debugId=96ce7f75-05b8-4558-ba82-7cbecf3611da
+//# debugId=5057f329-4742-4a8a-9a68-26ce180c7c7a

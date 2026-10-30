@@ -1,12 +1,12 @@
 (function() {
 	try {
 		var e = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, t = new e.Error().stack;
-		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "cf9fe502-e46c-4f37-a8b5-bb57a7442240", e._sentryDebugIdIdentifier = "sentry-dbid-cf9fe502-e46c-4f37-a8b5-bb57a7442240");
+		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "20200360-f028-42f3-83a2-d8c74fd5f2be", e._sentryDebugIdIdentifier = "sentry-dbid-20200360-f028-42f3-83a2-d8c74fd5f2be");
 	} catch {}
 })();
 import { createPaginatedRowModel as e } from "./peach-app.createPaginatedRowModel-ClHnhG_T.js";
 import { $76d00c5a4edb230a$export$76ccd210b9029917 as t, $76d00c5a4edb230a$export$816b5d811295e6bc as n, $76d00c5a4edb230a$export$b59bdbef9ce70de2 as r, $76d00c5a4edb230a$export$f6f0c3fe4ec306ea as i, $76d00c5a4edb230a$export$f850895b287ef28e as ee, $ea3928288112382f$export$439d29a4e110a164 as a, Button as o, Bx as te, COLUMN_SORT as s, Checkbox as c, ChevronSortDown as ne, CollapseChevron as re, CollapseRegion as l, DataTableFooter as ie, DataTableFrame as u, EmptyState as d, FOLLOW_CHECK_KEY as f, LAYOUTS as ae, M6 as oe, Note as p, SORT_DEFAULT_DIR as se, SORT_OPTIONS as ce, Select as le, SelectItem as ue, SelectionDock as de, SortDirectionIcon as fe, Switch as pe, Table as me, TableColumnControls as he, TableColumnResizer as ge, TableSelectionHeader as _e, TaskProgress as ve, Un as ye, __toESM as m, authorGroups as be, authorName as xe, busyProps as h, cardClass as Se, checkEvidenceGap as Ce, checkFailures as we, checkReceipt as Te, checkSummary as Ee, checkedText as De, clickedBlank as g, columnVisibilityFeature as Oe, confirmModal as _, createColumnHelper as ke, dZ as v, dropSources as Ae, du as je, errorHeadline as Me, errorMessage as y, fetchCheckJob as Ne, fetchPending as Pe, flexRender as Fe, isBroken as Ie, l7 as b, mapLimit as Le, markItem as Re, pageWindow as ze, patchSource as Be, reloadFollowManage as Ve, removeSource as He, require_jsx_runtime as x, require_react as S, rowPaginationFeature as C, rowSelectionFeature as Ue, rowSortingFeature as w, selectionState as We, setSourceEnabled as Ge, sortLabel as Ke, startCheck as qe, tableFeatures as Je, tableRows as Ye, toggleGroup as T, useBackgroundJob as Xe, useMutation as E, useTable as Ze, useTablePreferences as Qe } from "./peach-app.js";
-import { AuthorAvatar as $e, ErrorLine as et, SourceIcon as D, SourceLink as tt, StatusBadge as nt } from "./peach-app.source-view-DalWfDkm.js";
+import { AuthorAvatar as $e, ErrorLine as et, SourceIcon as D, SourceLink as tt, StatusBadge as nt } from "./peach-app.source-view-CRsaavRy.js";
 // src/react/follow-manage/source-list.tsx
 var O = /* @__PURE__ */ m(S(), 1), k = x(), rt = Je({
 	rowPaginationFeature: C,
@@ -27,13 +27,13 @@ function at() {
 	return (0, O.useEffect)(() => () => n.current?.disconnect(), []), [r, e];
 }
 var ot = {
-	select: "选择",
-	author: "创作者",
-	source: "来源",
-	provider: "站点",
-	status: "状态",
-	checked: "上次检查",
-	actions: "操作"
+	select: "Select",
+	author: "Creators",
+	source: "Source",
+	provider: "Site",
+	status: "Status",
+	checked: "Last checked",
+	actions: "Actions"
 }, st = Object.entries(ot).map(([e, t]) => ({
 	id: e,
 	label: t,
@@ -55,7 +55,7 @@ function M({ source: e, selected: t, onToggle: n, handlers: r }) {
 			/* @__PURE__ */ (0, k.jsx)(c, {
 				isSelected: t,
 				onChange: n,
-				"aria-label": `选择 ${e.label}`
+				"aria-label": `Select ${e.label}`
 			}),
 			/* @__PURE__ */ (0, k.jsxs)("span", {
 				className: "flex min-w-0 grow basis-0 items-center gap-1.5",
@@ -93,7 +93,7 @@ function M({ source: e, selected: t, onToggle: n, handlers: r }) {
 						children: De(e)
 					}),
 					/* @__PURE__ */ (0, k.jsx)(pe, {
-						"aria-label": `启用 ${e.label}`,
+						"aria-label": `Enable ${e.label}`,
 						isSelected: e.enabled,
 						isDisabled: r.readOnly,
 						onChange: (t) => r.toggle(e, t)
@@ -105,7 +105,7 @@ function M({ source: e, selected: t, onToggle: n, handlers: r }) {
 							size: "small",
 							iconOnly: !0,
 							leadingIcon: v,
-							"aria-label": `检查 ${e.label} 的更新`,
+							"aria-label": `Check ${e.label} for updates`,
 							disabled: !e.enabled || r.readOnly,
 							...h(r.busy),
 							onClick: () => r.check([e.id])
@@ -114,7 +114,7 @@ function M({ source: e, selected: t, onToggle: n, handlers: r }) {
 							size: "small",
 							iconOnly: !0,
 							leadingIcon: oe,
-							"aria-label": `移除 ${e.label}`,
+							"aria-label": `Remove ${e.label}`,
 							disabled: r.readOnly,
 							onClick: () => r.remove(e)
 						})]
@@ -125,9 +125,9 @@ function M({ source: e, selected: t, onToggle: n, handlers: r }) {
 	});
 }
 function ct({ group: e, name: t, open: n, selected: r, handlers: i, onOpen: ee, onToggleGroup: te, onToggle: s }) {
-	let c = e.map((e) => e.id), ne = e.filter((e) => e.enabled).map((e) => e.id), ie = e.filter(Ie).length, u = [...new Set(e.map((e) => e.provider_label || e.provider))].join("、"), d = `follow-author-${e[0].id}`, f = We(r, c);
+	let c = e.map((e) => e.id), ne = e.filter((e) => e.enabled).map((e) => e.id), ie = e.filter(Ie).length, u = [...new Set(e.map((e) => e.provider_label || e.provider))].join(", "), d = `follow-author-${e[0].id}`, f = We(r, c);
 	return /* @__PURE__ */ (0, k.jsxs)("section", {
-		"aria-label": `${t} 的关注来源`,
+		"aria-label": `${t}'s follow sources`,
 		className: Se({
 			variant: "raised",
 			padding: "none",
@@ -153,10 +153,10 @@ function ct({ group: e, name: t, open: n, selected: r, handlers: i, onOpen: ee, 
 						title: u,
 						children: [
 							e.map((e) => /* @__PURE__ */ (0, k.jsx)(D, { provider: e.provider }, e.id)),
-							/* @__PURE__ */ (0, k.jsx)(a, { children: `来源：${u}` }),
+							/* @__PURE__ */ (0, k.jsx)(a, { children: `Sources: ${u}` }),
 							ie ? /* @__PURE__ */ (0, k.jsx)("span", {
 								className: "ml-1 shrink-0 text-text-error-primary",
-								children: `${ie} 个失败`
+								children: `${ie} failed`
 							}) : null
 						]
 					})]
@@ -169,7 +169,7 @@ function ct({ group: e, name: t, open: n, selected: r, handlers: i, onOpen: ee, 
 						size: "small",
 						iconOnly: !0,
 						leadingIcon: v,
-						"aria-label": `检查 ${t} 的全部来源`,
+						"aria-label": `Check all of ${t}'s sources`,
 						disabled: !ne.length || i.readOnly,
 						...h(i.busy),
 						onClick: () => i.check(ne)
@@ -180,18 +180,18 @@ function ct({ group: e, name: t, open: n, selected: r, handlers: i, onOpen: ee, 
 							size: "small",
 							leadingIcon: b,
 							"aria-pressed": f.all ? "true" : f.some ? "mixed" : "false",
-							"aria-label": `${f.all ? "取消全选" : "全选"} ${t} 的来源`,
+							"aria-label": `${f.all ? "Deselect all" : "Select all"} ${t} sources of`,
 							onClick: () => te(!f.all),
-							children: f.all ? "取消全选" : "全选"
+							children: f.all ? "Deselect all" : "Select all"
 						}), /* @__PURE__ */ (0, k.jsx)(o, {
 							variant: "secondary",
 							size: "small",
 							"aria-expanded": n,
 							"aria-controls": d,
 							leadingIcon: re,
-							"aria-label": `${n ? "收起" : "展开"} ${t} 的来源`,
+							"aria-label": `${n ? "Collapse" : "Expand"} ${t} sources of`,
 							onClick: () => ee(!n),
-							children: n ? "收起" : "展开"
+							children: n ? "Collapse" : "Expand"
 						})]
 					})]
 				})
@@ -226,14 +226,14 @@ function lt(e) {
 		start: (e) => qe(e),
 		onError: (e) => L(y(e)),
 		onFinish: (e) => {
-			Ve(), M(e.status === "failed" ? e.error || "检查失败" : Te(e));
+			Ve(), M(e.status === "failed" ? e.error || "Check failed" : Te(e));
 		}
 	}), H = (e) => {
 		B || gt.isPending || (L(""), gt.mutate(e));
 	}, _t = (e, t) => j(T(x, [e], t)), vt = (e, t) => j(T(x, e, t)), yt = E({
 		mutationFn: (e) => He(e),
 		onSuccess: (e, t) => {
-			Ae([t]), j(T(x, [t], !1)), M("已取消关注来源");
+			Ae([t]), j(T(x, [t], !1)), M("Unfollowed source");
 		},
 		onError: (e) => L(y(e))
 	}), bt = E({
@@ -243,9 +243,9 @@ function lt(e) {
 		},
 		onError: (e) => L(y(e))
 	}), xt = (e) => void _({
-		title: "取消关注来源",
-		body: "将移除这个来源及已抓取的条目，媒体文件保留。",
-		confirmLabel: "取消关注来源",
+		title: "Unfollow source",
+		body: "This will remove the source and its fetched entries; media files are kept.",
+		confirmLabel: "Unfollow source",
 		danger: !0,
 		onConfirm: () => yt.mutateAsync(e.id)
 	}), U = E({
@@ -265,12 +265,12 @@ function lt(e) {
 			j(T(x, e.done, !1));
 			let t = e.results.filter((e) => !e.ok);
 			if (t.length) {
-				L(`${t.length}/${e.ids.length} 个来源未更新：${y(t[0]?.error)}`);
+				L(`${t.length}/${e.ids.length} sources not updated: ${y(t[0]?.error)}`);
 				return;
 			}
 			L("");
-			let n = e.action === "remove" ? "删除" : e.action === "enabled" ? "启用" : "暂停";
-			M(`已${n} ${e.done.length} 个关注来源`);
+			let n = e.action === "remove" ? "Delete" : e.action === "enabled" ? "Enabled" : "Pause";
+			M(`${n}: ${e.done.length} follow sources`);
 		},
 		onError: (e) => L(y(e))
 	}), W = E({
@@ -286,7 +286,7 @@ function lt(e) {
 			};
 		},
 		onSuccess: (e) => {
-			Ve(), e.failed.length ? L(`批量更新 ${e.failed.length}/${e.ids.length} 项未完成`) : (L(""), M(`已批量标记 ${e.ids.length} 项`));
+			Ve(), e.failed.length ? L(`Bulk update: ${e.failed.length}/${e.ids.length} items not done`) : (L(""), M(`Bulk marked ${e.ids.length} items`));
 		},
 		onError: (e) => L(y(e))
 	}), St = (e, t) => bt.mutate({
@@ -313,14 +313,14 @@ function lt(e) {
 				id: "select",
 				header: (e) => /* @__PURE__ */ (0, k.jsx)(_e, {
 					table: e.table,
-					label: "全选本页来源",
+					label: "Select all sources on this page",
 					page: !0
 				}),
 				cell: (e) => /* @__PURE__ */ (0, k.jsx)(c, {
 					slot: null,
 					isSelected: e.row.getIsSelected(),
 					onChange: (t) => e.row.toggleSelected(t),
-					"aria-label": `选择 ${e.row.original.source.label}`
+					"aria-label": `Select ${e.row.original.source.label}`
 				})
 			}),
 			e.accessor((e) => e.author, {
@@ -370,7 +370,7 @@ function lt(e) {
 					className: "flex items-center gap-1",
 					children: [
 						/* @__PURE__ */ (0, k.jsx)(pe, {
-							"aria-label": `启用 ${e.row.original.source.label}`,
+							"aria-label": `Enable ${e.row.original.source.label}`,
 							isSelected: e.row.original.source.enabled,
 							isDisabled: K.readOnly,
 							onChange: (t) => G.current.toggle(e.row.original.source, t)
@@ -380,7 +380,7 @@ function lt(e) {
 							size: "small",
 							iconOnly: !0,
 							leadingIcon: v,
-							"aria-label": `检查 ${e.row.original.source.label} 的更新`,
+							"aria-label": `Check ${e.row.original.source.label} for updates`,
 							disabled: !e.row.original.source.enabled || K.readOnly,
 							...h(K.busy),
 							onClick: () => G.current.check([e.row.original.source.id])
@@ -390,7 +390,7 @@ function lt(e) {
 							size: "small",
 							iconOnly: !0,
 							leadingIcon: oe,
-							"aria-label": `移除 ${e.row.original.source.label}`,
+							"aria-label": `Remove ${e.row.original.source.label}`,
 							disabled: K.readOnly,
 							onClick: () => G.current.remove(e.row.original.source)
 						})
@@ -454,10 +454,10 @@ function lt(e) {
 					"data-toolbar-heading": "",
 					children: [/* @__PURE__ */ (0, k.jsx)("h3", {
 						className: "text-title-2-medium text-text-primary",
-						children: "关注列表"
+						children: "Following list"
 					}), /* @__PURE__ */ (0, k.jsx)("span", {
 						className: "text-body-2-regular text-text-secondary",
-						children: `${N.length.toLocaleString()} 个来源${F.new ? ` · ${A(F.new)} 条未看` : ""}`
+						children: `${N.length.toLocaleString()} sources ${F.new ? ` · ${A(F.new)} unwatched` : ""}`
 					})]
 				}), /* @__PURE__ */ (0, k.jsxs)("div", {
 					"data-follow-toolbar-actions": "",
@@ -468,17 +468,17 @@ function lt(e) {
 							disabled: S,
 							...h(K.busy),
 							onClick: () => H(kt),
-							children: "检查失败项"
+							children: "Check failed items"
 						}) : null,
 						/* @__PURE__ */ (0, k.jsx)(o, {
 							variant: "primary",
 							leadingIcon: v,
 							disabled: S,
-							"aria-label": "检查全部",
+							"aria-label": "Check all",
 							iconOnly: pt,
 							...h(K.busy),
 							onClick: () => H([]),
-							children: "检查全部"
+							children: "Check all"
 						}),
 						/* @__PURE__ */ (0, k.jsxs)("span", {
 							"data-follow-toolbar-controls": "",
@@ -487,7 +487,7 @@ function lt(e) {
 								/* @__PURE__ */ (0, k.jsxs)("span", {
 									"data-button-group": !0,
 									role: "group",
-									"aria-label": "关注列表版式",
+									"aria-label": "Following list layout",
 									children: [/* @__PURE__ */ (0, k.jsx)(o, {
 										variant: "ghost",
 										iconOnly: !0,
@@ -506,13 +506,13 @@ function lt(e) {
 								}),
 								J ? /* @__PURE__ */ (0, k.jsx)(he, {
 									preferences: Y,
-									label: "关注来源"
+									label: "Follow sources"
 								}) : null,
 								/* @__PURE__ */ (0, k.jsxs)("span", {
 									className: "flex flex-none items-center gap-2",
 									children: [/* @__PURE__ */ (0, k.jsx)(le, {
-										"aria-label": "关注列表排序",
-										prefix: "排序",
+										"aria-label": "Following list sort",
+										prefix: "Sort",
 										selectedKey: m,
 										onSelectionChange: (e) => {
 											if (e === null) return;
@@ -537,9 +537,9 @@ function lt(e) {
 									iconOnly: pt,
 									leadingIcon: re,
 									"aria-expanded": !$,
-									"aria-label": $ ? "全部展开" : "全部收起",
+									"aria-label": $ ? "Expand all" : "Collapse all",
 									onClick: () => dt($ ? /* @__PURE__ */ new Set() : new Set(R.map((e) => String(e[0].author_key || e[0].id)))),
-									children: $ ? "全部展开" : "全部收起"
+									children: $ ? "Expand all" : "Collapse all"
 								})
 							]
 						})
@@ -552,39 +552,39 @@ function lt(e) {
 				children: [
 					B ? /* @__PURE__ */ (0, k.jsx)(ve, {
 						embedded: !0,
-						label: z?.message || (z?.total ? `${z.older ? "抓取历史" : "检查更新"}：已完成 ${z.checked || 0}/${z.total} 个来源` : "正在准备检查任务"),
+						label: z?.message || (z?.total ? `${z.older ? "Fetch history" : "Check for updates"}: done ${z.checked || 0}/${z.total} sources` : "Preparing check task"),
 						value: z?.checked,
 						total: z?.total
 					}) : null,
 					mt ? /* @__PURE__ */ (0, k.jsx)(p, {
 						tone: "error",
-						title: "操作未完成",
+						title: "Action not completed",
 						children: mt
 					}) : null,
 					!B && V?.results?.length ? /* @__PURE__ */ (0, k.jsx)(p, {
 						tone: "neutral",
-						title: "检查结果",
+						title: "Check results",
 						children: Ee(V)
 					}) : null,
 					Ot.length ? /* @__PURE__ */ (0, k.jsx)(p, {
 						tone: "error",
-						title: `${Ot.length} 个来源检查失败`,
+						title: `${Ot.length} sources failed their check`,
 						extra: /* @__PURE__ */ (0, k.jsx)("ul", {
 							className: "flex flex-col gap-0.5 text-body-2-regular",
-							children: Ot.map((e, t) => /* @__PURE__ */ (0, k.jsx)("li", { children: `${e.provider_label || e.provider || ""} ${e.author || e.label || e.ref || ""}：${Me(e.error || "") || "未说明原因"}` }, `${e.provider || ""}-${e.ref || t}`))
+							children: Ot.map((e, t) => /* @__PURE__ */ (0, k.jsx)("li", { children: `${e.provider_label || e.provider || ""} ${e.author || e.label || e.ref || ""}: ${Me(e.error || "") || "No reason given"}` }, `${e.provider || ""}-${e.ref || t}`))
 						}),
-						children: "这些来源这一轮没有取到更新。"
+						children: "These sources got no updates this round."
 					}) : null,
 					At ? /* @__PURE__ */ (0, k.jsx)(p, {
 						tone: "warning",
-						children: `条目已保存，但这次未保存来源的原始响应：${At}`
+						children: `Entries were saved, but the source's raw response wasn't saved this time: ${At}`
 					}) : null
 				]
 			}),
 			/* @__PURE__ */ (0, k.jsxs)(de, {
-				label: "关注来源批量操作",
+				label: "Follow source bulk actions",
 				visible: Q.length > 0,
-				count: `已选 ${Q.length} 个来源`,
+				count: `${Q.length} sources selected`,
 				children: [
 					/* @__PURE__ */ (0, k.jsx)(o, {
 						variant: "secondary",
@@ -592,7 +592,7 @@ function lt(e) {
 						disabled: S,
 						...h(K.busy),
 						onClick: () => H(Q),
-						children: "检查所选"
+						children: "Check selected"
 					}),
 					/* @__PURE__ */ (0, k.jsx)(o, {
 						variant: "secondary",
@@ -603,7 +603,7 @@ function lt(e) {
 							ids: Q,
 							action: "enabled"
 						}),
-						children: "启用"
+						children: "Enabled"
 					}),
 					/* @__PURE__ */ (0, k.jsx)(o, {
 						variant: "secondary",
@@ -614,7 +614,7 @@ function lt(e) {
 							ids: Q,
 							action: "paused"
 						}),
-						children: "暂停"
+						children: "Pause"
 					}),
 					/* @__PURE__ */ (0, k.jsx)(o, {
 						variant: "danger",
@@ -622,22 +622,22 @@ function lt(e) {
 						disabled: S,
 						...h(U.isPending),
 						onClick: () => void _({
-							title: `删除 ${Q.length} 个关注来源`,
-							body: "将移除所选关注来源及其已抓取条目，媒体文件保留。",
-							confirmLabel: "删除所选来源",
+							title: `Delete ${Q.length} follow sources`,
+							body: "This will remove the selected follow sources and their fetched entries; media files are kept.",
+							confirmLabel: "Delete selected sources",
 							danger: !0,
 							onConfirm: () => U.mutateAsync({
 								ids: Q,
 								action: "remove"
 							})
 						}),
-						children: "删除"
+						children: "Delete"
 					}),
 					/* @__PURE__ */ (0, k.jsx)(o, {
 						variant: "ghost",
 						size: "small",
 						onClick: () => j(/* @__PURE__ */ new Set()),
-						children: "取消选择"
+						children: "Clear selection"
 					})
 				]
 			}),
@@ -646,7 +646,7 @@ function lt(e) {
 				preferences: Y,
 				onRowClick: (e) => _t(Number(e), !x.has(Number(e))),
 				children: /* @__PURE__ */ (0, k.jsxs)(me, {
-					"aria-label": "关注来源",
+					"aria-label": "Follow sources",
 					size: "sm",
 					sortDescriptor: q[0] ? {
 						column: q[0].id,
@@ -677,12 +677,12 @@ function lt(e) {
 						}, e.id);
 					}), /* @__PURE__ */ (0, k.jsx)(n, {
 						id: "remaining-space",
-						"aria-label": "行空白区域",
+						"aria-label": "Row blank area",
 						"data-table-space": "",
 						width: Y.spaceWidth,
 						minWidth: 0
 					})] }), /* @__PURE__ */ (0, k.jsx)(t, {
-						renderEmptyState: () => "这一页没有来源",
+						renderEmptyState: () => "No sources on this page",
 						children: Tt.map((e) => /* @__PURE__ */ (0, k.jsxs)(r, {
 							id: e.id,
 							"data-follow-selected": e.getIsSelected() || void 0,
@@ -694,8 +694,8 @@ function lt(e) {
 				isSelected: Dt.all,
 				isIndeterminate: Dt.some,
 				onChange: (e) => vt(Et, e),
-				"aria-label": "全选本页来源",
-				children: "全选本页"
+				"aria-label": "Select all sources on this page",
+				children: "Select page"
 			}), /* @__PURE__ */ (0, k.jsx)("div", {
 				className: "flex flex-col gap-3",
 				children: R.slice(X.start, X.end).map((e) => {
@@ -716,14 +716,14 @@ function lt(e) {
 				})
 			})] }),
 			/* @__PURE__ */ (0, k.jsx)(ie, {
-				label: "关注列表",
+				label: "Following list",
 				total: X.total,
 				pagination: {
 					pageIndex: X.page - 1,
 					pageSize: b
 				},
-				unit: J ? "个来源" : "位创作者",
-				pageUnit: J ? "条" : "位",
+				unit: J ? "sources" : "creators",
+				pageUnit: J ? "items" : "people",
 				onChange: (e) => {
 					e.pageSize === b ? Z.setPageIndex(e.pageIndex) : Z.setPageSize(e.pageSize);
 				}
@@ -733,13 +733,13 @@ function lt(e) {
 				children: [
 					/* @__PURE__ */ (0, k.jsx)("span", {
 						className: "mr-auto text-body-2-regular text-text-secondary",
-						children: `未看 ${A(F.new)} · 已看 ${A(F.seen)} · 已保存 ${A(F.saved)} · 已忽略 ${A(F.ignored)}`
+						children: `Unwatched ${A(F.new)} · Watched ${A(F.seen)} · Saved ${A(F.saved)} · Ignored ${A(F.ignored)}`
 					}),
 					/* @__PURE__ */ (0, k.jsx)(o, {
 						variant: "secondary",
 						size: "small",
 						onClick: lt,
-						children: "去看更新"
+						children: "See updates"
 					}),
 					/* @__PURE__ */ (0, k.jsx)(o, {
 						variant: "secondary",
@@ -747,12 +747,12 @@ function lt(e) {
 						disabled: S,
 						...h(W.isPending),
 						onClick: () => void _({
-							title: "标记已看",
-							body: "将把当前未看作品标记为已看。",
-							confirmLabel: "标记已看",
+							title: "Mark watched",
+							body: "Current unwatched titles will be marked as watched.",
+							confirmLabel: "Mark watched",
 							onConfirm: () => W.mutateAsync("seen")
 						}),
-						children: "全部标记已看"
+						children: "Mark all watched"
 					}),
 					/* @__PURE__ */ (0, k.jsx)(o, {
 						variant: "secondary",
@@ -760,28 +760,28 @@ function lt(e) {
 						disabled: S,
 						...h(W.isPending),
 						onClick: () => void _({
-							title: "标记已忽略",
-							body: "将把当前未看作品标记为已忽略。",
-							confirmLabel: "标记已忽略",
+							title: "Mark ignored",
+							body: "Current unwatched titles will be marked as ignored.",
+							confirmLabel: "Mark ignored",
 							onConfirm: () => W.mutateAsync("ignored")
 						}),
-						children: "全部忽略"
+						children: "Ignore all"
 					})
 				]
 			}) : null
 		]
 	}) : /* @__PURE__ */ (0, k.jsx)(d, {
 		icon: te,
-		title: "还没有关注来源",
+		title: "No follow sources yet",
 		actions: /* @__PURE__ */ (0, k.jsx)(o, {
 			variant: "primary",
 			size: "small",
 			onClick: ut,
-			children: "添加关注"
+			children: "Add follows"
 		}),
-		children: "关注来源及其检查状态会显示在这里。"
+		children: "Follow sources and their check status show up here."
 	});
 }
 export { lt as SourceList };
 
-//# debugId=cf9fe502-e46c-4f37-a8b5-bb57a7442240
+//# debugId=20200360-f028-42f3-83a2-d8c74fd5f2be

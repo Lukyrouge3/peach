@@ -1,12 +1,12 @@
 (function() {
 	try {
 		var e = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, t = new e.Error().stack;
-		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "3da260cd-77d5-4cde-a549-276f053dc6e8", e._sentryDebugIdIdentifier = "sentry-dbid-3da260cd-77d5-4cde-a549-276f053dc6e8");
+		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "c226b9cc-ae78-4356-931a-7ecb2d543e66", e._sentryDebugIdIdentifier = "sentry-dbid-c226b9cc-ae78-4356-931a-7ecb2d543e66");
 	} catch {}
 })();
 import { $fe21c36db05242bb$export$d7b12c4107be0d61 as e, ArtSlot as t, Button as n, ButtonLink as r, Chip as i, CloudDownloadDialog as a, DISCOVERY_SORTS as o, DOWNLOADS_KEY as s, DOWNLOADS_URL as c, E3 as l, EmptyFocusButton as u, EmptyState as d, FilterGlassRows as f, FilterIconButton as p, FilterPill as m, GlassPill as h, Help as g, Input as _, JAV_LAYOUTS as v, JAV_RECOMMENDATION_GRID as ee, JavHeader as y, LibraryShortcuts as te, M6 as b, Note as x, PHASES as S, Pagination as C, SEGMENT as w, SEGMENTED_TRACK as T, SegmentedRadioGroup as E, Segments as ne, SortKeys as re, SourceAvatar as ie, TaskProgress as ae, WANTS_KEY as oe, WantMagnets as D, Wt as se, __toESM as ce, addWant as le, apiGet as O, appSettingsStore as ue, avatarInner as k, busyProps as A, cachedMagnetStates as j, cardClass as M, cardRatio as de, coverUrl as fe, discoveryArtwork as pe, discoveryKey as me, discoveryScore as he, entityDisplayName as N, entityPath as ge, errorMessage as P, fetchDiscoveries as _e, fetchWants as F, gridLayout as ve, invalidateWants as I, javContentSkeleton as ye, javLayout as be, javTagSkeleton as xe, pageWindow as L, peachHistory$1 as R, qE as z, recommendationScore as Se, relayoutCovers as Ce, removeWants as B, require_jsx_runtime as V, require_react as H, resetWants as U, searchNote as W, shellNavigate as G, spriteGlyph as K, storeJavLayout as we, textLang as Te, useAction as q, useEntityNames as J, useQuery as Y, wantName as X, wireHorizontalScroller as Ee } from "./peach-app.js";
-import { ErrorLine as De } from "./peach-app.source-view-DalWfDkm.js";
-import "./peach-app.source-list-ri5fRK2E.js";
+import { ErrorLine as De } from "./peach-app.source-view-CRsaavRy.js";
+import "./peach-app.source-list-BGaRj6Rq.js";
 // src/react/jav/discovery-faces.tsx
 var Z = /* @__PURE__ */ ce(H(), 1), Q = V();
 function Oe({ item: e }) {
@@ -20,7 +20,7 @@ function Oe({ item: e }) {
 			"data-media-avatar": "",
 			style: r,
 			href: ge("performer", t.name, t.id),
-			"aria-label": `打开女优页：${N("performer", t.name, t.id)}`,
+			"aria-label": `Open actress page: ${N("performer", t.name, t.id)}`,
 			...i
 		}, t.name) : /* @__PURE__ */ (0, Q.jsx)("span", {
 			"data-media-avatar": "",
@@ -37,13 +37,13 @@ function Oe({ item: e }) {
 }
 // src/react/wants/want-list.tsx
 var ke = {
-	code: "手动添加",
-	feed: "订阅新作",
-	follow: "关注"
+	code: "Added manually",
+	feed: "Subscribe to new releases",
+	follow: "Following"
 }, Ae = [
-	["all", "全部"],
-	["available", "有磁链"],
-	["missing", "没磁链"]
+	["all", "All"],
+	["available", "Has magnet"],
+	["missing", "No magnet"]
 ], je = (e) => [
 	e.release_date,
 	e.studio,
@@ -55,7 +55,7 @@ function Me({ want: e }) {
 		className: "relative inline-grid w-card-cover shrink-0 aspect-card-cover place-items-center overflow-hidden rounded-2lg bg-background-tertiary-default max-sm:w-24",
 		children: [/* @__PURE__ */ (0, Q.jsx)("span", {
 			className: "text-caption-1-regular text-text-secondary",
-			children: "无封面"
+			children: "No cover"
 		}), e.cover ? /* @__PURE__ */ (0, Q.jsx)("img", {
 			src: e.cover,
 			alt: "",
@@ -100,7 +100,7 @@ function Ne({ want: e, readOnly: t, busy: i, onReset: a, onRemove: o, onCloudDow
 					}) : null,
 					e.scrape_error ? /* @__PURE__ */ (0, Q.jsx)(De, {
 						text: e.scrape_error,
-						prefix: "资料未取得：",
+						prefix: "Metadata not obtained:",
 						tone: "muted"
 					}) : null,
 					/* @__PURE__ */ (0, Q.jsxs)("div", {
@@ -114,7 +114,7 @@ function Ne({ want: e, readOnly: t, busy: i, onReset: a, onRemove: o, onCloudDow
 								href: p,
 								target: "_blank",
 								rel: "noopener noreferrer",
-								children: "来源页"
+								children: "Source page"
 							}) : null,
 							/* @__PURE__ */ (0, Q.jsx)(n, {
 								variant: "secondary",
@@ -123,7 +123,7 @@ function Ne({ want: e, readOnly: t, busy: i, onReset: a, onRemove: o, onCloudDow
 								disabled: t,
 								...A(i === `remove:${e.id}`),
 								onClick: o,
-								children: "移除"
+								children: "Remove"
 							}),
 							e.phase === "given_up" ? /* @__PURE__ */ (0, Q.jsx)(n, {
 								variant: "secondary",
@@ -131,13 +131,13 @@ function Ne({ want: e, readOnly: t, busy: i, onReset: a, onRemove: o, onCloudDow
 								disabled: t,
 								...A(i === `reset:${e.id}`),
 								onClick: a,
-								children: "重新查找"
+								children: "Search again"
 							}) : null,
 							e.phase === "searching" || e.phase === "given_up" ? /* @__PURE__ */ (0, Q.jsx)(n, {
 								variant: "secondary",
 								size: "small",
 								onClick: s,
-								children: "查找资源"
+								children: "Find resources"
 							}) : null
 						]
 					})
@@ -170,7 +170,7 @@ function Pe({ phase: t, label: r, rows: i, row: a }) {
 					})]
 				}), t === "searching" ? /* @__PURE__ */ (0, Q.jsx)(E, {
 					name: "want-magnet-filter",
-					"aria-label": "待找磁链筛选",
+					"aria-label": "Magnet search filter",
 					orientation: "horizontal",
 					value: c,
 					className: T,
@@ -191,13 +191,13 @@ function Pe({ phase: t, label: r, rows: i, row: a }) {
 			m.length ? null : /* @__PURE__ */ (0, Q.jsx)(d, {
 				size: "compact",
 				icon: z,
-				title: "暂无符合条件的作品",
+				title: "No matching titles yet",
 				actions: /* @__PURE__ */ (0, Q.jsx)(n, {
 					size: "small",
 					onClick: () => {
 						l("all"), s(1);
 					},
-					children: "查看全部"
+					children: "View all"
 				}),
 				children: null
 			}),
@@ -210,9 +210,9 @@ function Pe({ phase: t, label: r, rows: i, row: a }) {
 				className: "flex flex-wrap items-center justify-between gap-3",
 				children: [/* @__PURE__ */ (0, Q.jsx)("span", {
 					className: "text-body-2-regular tabular-nums text-text-secondary",
-					children: `${(h.start + 1).toLocaleString()}–${h.end.toLocaleString()} / ${h.total.toLocaleString()} 条`
+					children: `${(h.start + 1).toLocaleString()}–${h.end.toLocaleString()} / ${h.total.toLocaleString()}`
 				}), /* @__PURE__ */ (0, Q.jsx)(C, {
-					label: `${r}分页`,
+					label: `${r} pages`,
 					page: h.page,
 					pages: h.pages,
 					onPage: s
@@ -230,17 +230,17 @@ function Fe({ readOnly: e, toast: t, query: r = "", clearQuery: i }) {
 	}), v = () => {
 		let n = o.trim();
 		n && !e && m.run("add", (e) => le({ code: n }, e), (e) => {
-			t(e.created ? `已加入想要：${X(e.want)}` : `${X(e.want)} 已经在想要里`), l(""), I();
+			t(e.created ? `Added to wants: ${X(e.want)}` : `${X(e.want)} is already in wants`), l(""), I();
 		});
 	}, ee = (e) => {
 		e.key === "Enter" && !e.nativeEvent.isComposing && (e.preventDefault(), v());
 	}, y = (e) => {
 		m.run(`remove:${e.id}`, (t) => B([e.id], t), () => {
-			t(`已移除：${X(e)}`), I();
+			t(`Removed: ${X(e)}`), I();
 		});
 	}, te = (e) => {
 		m.run(`reset:${e.id}`, (t) => U([e.id], t), () => {
-			t(`${X(e)} 回到待找`), I();
+			t(`${X(e)} back to searching`), I();
 		});
 	}, b = h.data, C = (b?.items || []).filter((e) => !r || [
 		e.code,
@@ -263,15 +263,15 @@ function Fe({ readOnly: e, toast: t, query: r = "", clearQuery: i }) {
 				children: [
 					/* @__PURE__ */ (0, Q.jsx)("h3", {
 						className: "text-title-2-medium text-text-primary",
-						children: "按番号添加"
+						children: "Add by code"
 					}),
 					/* @__PURE__ */ (0, Q.jsxs)("div", {
 						className: "flex flex-wrap items-end gap-2",
 						children: [/* @__PURE__ */ (0, Q.jsx)("div", {
 							className: "min-w-64 grow max-sm:min-w-0",
 							children: /* @__PURE__ */ (0, Q.jsx)(_, {
-								"aria-label": "番号",
-								placeholder: "输入番号，例如 SSIS-950",
+								"aria-label": "Code",
+								placeholder: "Enter a code, e.g. SSIS-950",
 								value: o,
 								isDisabled: e,
 								onChange: l,
@@ -282,59 +282,59 @@ function Fe({ readOnly: e, toast: t, query: r = "", clearQuery: i }) {
 							disabled: e || !o.trim(),
 							...A(m.busy === "add"),
 							onClick: v,
-							children: "添加"
+							children: "Add"
 						})]
 					}),
 					m.error ? /* @__PURE__ */ (0, Q.jsx)(x, {
 						tone: "error",
-						title: "这一次没有完成",
+						title: "This run didn't finish",
 						children: m.error
 					}) : null
 				]
 			}),
 			h.error ? /* @__PURE__ */ (0, Q.jsx)(x, {
 				tone: "error",
-				title: "想要清单读取失败",
+				title: "Couldn't load wants",
 				children: P(h.error)
 			}) : null,
 			h.isPending ? /* @__PURE__ */ (0, Q.jsx)("div", {
 				role: "status",
-				"aria-label": "正在读取想要",
+				"aria-label": "Loading wants",
 				dangerouslySetInnerHTML: { __html: ye("wants") }
 			}) : null,
 			b?.scraping ? /* @__PURE__ */ (0, Q.jsx)(g, {
 				role: "status",
-				children: "正在给刚加入的番号取资料与封面。"
+				children: "Fetching metadata and covers for newly added codes."
 			}) : null,
 			w.error ? /* @__PURE__ */ (0, Q.jsx)(x, {
 				tone: "error",
-				title: "下载配置未取得",
+				title: "Download settings not obtained",
 				children: P(w.error)
 			}) : null,
 			w.data && !T.length ? /* @__PURE__ */ (0, Q.jsxs)(x, {
 				tone: "neutral",
-				children: ["尚未配置下载渠道。", /* @__PURE__ */ (0, Q.jsx)("a", {
-					href: "/settings/library?section=%E4%B8%8B%E8%BD%BD%E6%B8%A0%E9%81%93",
-					children: "下载渠道设置"
+				children: ["No download channel configured yet.", /* @__PURE__ */ (0, Q.jsx)("a", {
+					href: "/settings/library?section=Download%20channels",
+					children: "Download channel settings"
 				})]
 			}) : null,
 			w.data && !w.data.available ? /* @__PURE__ */ (0, Q.jsx)(x, {
 				tone: "neutral",
-				children: "云下载只在允许修改数据库的设备上可用。"
+				children: "Cloud downloads are only available on devices allowed to modify the database."
 			}) : null,
 			b && !C.length ? /* @__PURE__ */ (0, Q.jsx)(d, {
 				size: "compact",
 				icon: z,
-				title: r ? "没有符合条件的作品" : "还没有想要的作品",
+				title: r ? "No matching titles" : "No wanted titles yet",
 				actions: r && i ? /* @__PURE__ */ (0, Q.jsx)(n, {
 					size: "small",
 					onClick: i,
-					children: "清除搜索"
+					children: "Clear search"
 				}) : !r && !e ? /* @__PURE__ */ (0, Q.jsx)(u, {
-					target: "input[aria-label=\"番号\"]",
-					children: "添加作品"
+					target: "input[aria-label=\"Code\"]",
+					children: "Add title"
 				}) : void 0,
-				children: r ? "试试其他番号、女优或标题。" : "输入番号，添加想看的作品。"
+				children: r ? "Try another code, actress or title." : "Enter a code to add a title you want to watch."
 			}) : null,
 			S.map(([n, r]) => {
 				let i = C.filter((e) => e.phase === n);
@@ -395,14 +395,14 @@ function ze({ tab: e, readOnly: t, navigate: n, receipt: r }) {
 				find: () => o({})
 			}),
 			/* @__PURE__ */ (0, Q.jsx)("form", {
-				"aria-label": e === "discover" ? "筛选推荐" : "筛选想要",
+				"aria-label": e === "discover" ? "Filter recommendations" : "Filter wants",
 				onSubmit: (e) => {
 					e.preventDefault();
 				},
 				children: /* @__PURE__ */ (0, Q.jsx)(_, {
 					type: "search",
-					"aria-label": e === "discover" ? "筛选推荐" : "筛选想要",
-					placeholder: "筛选番号、女优或标题",
+					"aria-label": e === "discover" ? "Filter recommendations" : "Filter wants",
+					placeholder: "Filter by code, actress or title",
 					leadingIcon: Ie,
 					value: s,
 					onChange: l,
@@ -484,13 +484,13 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 	].join(" ").toLocaleLowerCase().includes(c.toLocaleLowerCase()))), X = B.isPending;
 	return /* @__PURE__ */ (0, Q.jsxs)("section", {
 		ref: k,
-		"aria-label": "为你推荐",
+		"aria-label": "Recommended for you",
 		"aria-busy": X,
 		className: "flex min-w-0 flex-col gap-4",
 		children: [
 			/* @__PURE__ */ (0, Q.jsx)(f, {
-				label: "发现筛选与排序",
-				topLabel: "发现范围与标签",
+				label: "Discover filters and sort",
+				topLabel: "Discover scope and tags",
 				attrs: {
 					"data-filter-frame": "",
 					"data-jav-filter": "",
@@ -503,7 +503,7 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 					"data-catalog-scroll": "",
 					children: [/* @__PURE__ */ (0, Q.jsxs)("div", {
 						"data-catalog-views": "",
-						children: [[["external", "库外发现"], ["library", "馆藏探索"]].map(([e, t]) => /* @__PURE__ */ (0, Q.jsx)(m, {
+						children: [[["external", "Found outside library"], ["library", "Explore library"]].map(([e, t]) => /* @__PURE__ */ (0, Q.jsx)(m, {
 							"data-entity-tag": e,
 							"data-entity-press": "",
 							pressed: y === e,
@@ -537,14 +537,14 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 							"data-skeleton": "count",
 							"aria-hidden": !0,
 							className: "relative inline-block h-3.5 w-37.5 rounded-md align-middle skeleton-sheen"
-						}) : `${J.length} 部`
+						}) : `${J.length} titles`
 					}),
 					/* @__PURE__ */ (0, Q.jsx)(te, { currentHref: () => location.pathname + location.search }),
 					c || S ? /* @__PURE__ */ (0, Q.jsx)(h, {
 						onPress: () => {
 							D(""), g();
 						},
-						children: "清除筛选"
+						children: "Clear filters"
 					}) : null,
 					/* @__PURE__ */ (0, Q.jsxs)("span", {
 						"data-entity-sorts": "",
@@ -552,7 +552,7 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 							y === "external" ? /* @__PURE__ */ (0, Q.jsx)(p, {
 								"data-entity-batch": "",
 								"data-jav-metadata-update": "",
-								label: V?.status === "running" ? "停止读取" : "更新资料",
+								label: V?.status === "running" ? "Stop reading" : "Update metadata",
 								disabled: X,
 								"data-skeleton-action": X ? "" : void 0,
 								busy: !!U.busy,
@@ -560,7 +560,7 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 								onPress: () => W(V?.status === "running" ? "stop" : "update")
 							}) : null,
 							/* @__PURE__ */ (0, Q.jsx)(ne, {
-								label: "JAV 卡片版式",
+								label: "JAV card layout",
 								value: M,
 								options: v,
 								onChange: we
@@ -583,12 +583,12 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 			}),
 			X ? /* @__PURE__ */ (0, Q.jsx)("div", {
 				role: "status",
-				"aria-label": "正在读取推荐",
+				"aria-label": "Loading recommendations",
 				dangerouslySetInnerHTML: { __html: ye("discover", M) }
 			}) : null,
 			B.error ? /* @__PURE__ */ (0, Q.jsx)(x, {
 				tone: "error",
-				title: "推荐未取得",
+				title: "Recommendations not obtained",
 				children: P(B.error)
 			}) : null,
 			y === "external" && V?.status === "running" ? /* @__PURE__ */ (0, Q.jsx)("div", {
@@ -596,7 +596,7 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 				className: "min-w-0",
 				children: /* @__PURE__ */ (0, Q.jsx)(ae, {
 					embedded: !0,
-					label: `正在读取作品资料 · ${V.completed} / ${V.total} 部`,
+					label: `Loading title metadata · ${V.completed} / ${V.total} titles`,
 					value: V.completed,
 					total: V.total
 				})
@@ -606,11 +606,11 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 				action: /* @__PURE__ */ (0, Q.jsx)(n, {
 					variant: "secondary",
 					...A(U.busy === "retry"),
-					"aria-label": "立即重试读取作品资料",
+					"aria-label": "Retry loading title metadata now",
 					onClick: () => W("retry"),
-					children: "立即重试"
+					children: "Retry now"
 				}),
-				children: V.message || `作品资料 ${V.completed} / ${V.total} 部`
+				children: V.message || `Title metadata ${V.completed} / ${V.total} titles`
 			}) : null,
 			U.error ? /* @__PURE__ */ (0, Q.jsx)(x, {
 				tone: "error",
@@ -618,12 +618,12 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 			}) : null,
 			!X && !B.error && !J.length ? /* @__PURE__ */ (0, Q.jsx)(d, {
 				icon: l,
-				title: c || S ? "没有符合条件的推荐" : "暂无匹配口味的作品",
+				title: c || S ? "No matching recommendations" : "No titles match your taste yet",
 				actions: /* @__PURE__ */ (0, Q.jsxs)(Q.Fragment, { children: [/* @__PURE__ */ (0, Q.jsx)(r, {
 					size: "small",
 					href: "/taste",
 					variant: "secondary",
-					children: "查看口味"
+					children: "View taste"
 				}), c || S ? /* @__PURE__ */ (0, Q.jsx)(n, {
 					variant: "primary",
 					size: "small",
@@ -633,19 +633,19 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 							tag: ""
 						});
 					},
-					children: "清除筛选"
+					children: "Clear filters"
 				}) : y === "library" ? /* @__PURE__ */ (0, Q.jsx)(r, {
 					variant: "primary",
 					size: "small",
 					href: "/",
-					children: "浏览馆藏"
+					children: "Browse library"
 				}) : /* @__PURE__ */ (0, Q.jsx)(n, {
 					variant: "primary",
 					size: "small",
 					onClick: () => s({}),
-					children: "查找作品"
+					children: "Find titles"
 				})] }),
-				children: c || S ? "清除筛选后查看其他作品。" : y === "library" ? "观看或标记作品后，可以探索少看的馆藏。" : "可以查找番号，或更新关注来源。"
+				children: c || S ? "Clear filters to see other titles." : y === "library" ? "After you watch or mark titles, you can explore less-watched parts of the library." : "You can search for a code, or update follow sources."
 			}) : null,
 			H.error ? /* @__PURE__ */ (0, Q.jsx)(x, {
 				tone: "error",
@@ -656,11 +656,11 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 				className: ee,
 				style: { "--card-ratio": N },
 				children: J.map((o) => {
-					let c = o.performer_refs?.length ? o.performer_refs.map((e) => e.name).join("、") : o.performers, l = pe(o, M, j.value.javImage), d = Se(o.taste_score ?? o.score), f = [
+					let c = o.performer_refs?.length ? o.performer_refs.map((e) => e.name).join(", ") : o.performers, l = pe(o, M, j.value.javImage), d = Se(o.taste_score ?? o.score), f = [
 						d.label,
-						`口味 ${he(o.taste_score ?? o.score)}`,
-						B.data?.ranking_method === "mmr" && o.ranking_score != null ? `排序 ${he(o.ranking_score)}` : "",
-						o.source_score == null ? "" : `来源评分 ${o.source_score.toFixed(1)} / 5`,
+						`Taste ${he(o.taste_score ?? o.score)}`,
+						B.data?.ranking_method === "mmr" && o.ranking_score != null ? `Rank ${he(o.ranking_score)}` : "",
+						o.source_score == null ? "" : `Source rating ${o.source_score.toFixed(1)} / 5`,
 						...o.reasons || []
 					].filter(Boolean).join(" · ");
 					return /* @__PURE__ */ (0, Q.jsxs)("article", {
@@ -672,7 +672,7 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 						children: [
 							/* @__PURE__ */ (0, Q.jsx)("a", {
 								href: o.asset_id ? `/assets/${o.asset_id}` : `/works/${encodeURIComponent(o.code)}`,
-								"aria-label": `查看 ${o.code} 详情`,
+								"aria-label": `View ${o.code} details`,
 								onClick: (e) => {
 									e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0 || (e.preventDefault(), u(e.currentTarget.getAttribute("href")));
 								},
@@ -688,7 +688,7 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 									relayout: (e) => Ce(e, M)
 								}) : /* @__PURE__ */ (0, Q.jsx)("span", {
 									"data-media-nopic": "",
-									children: "无封面"
+									children: "No cover"
 								})
 							}),
 							/* @__PURE__ */ (0, Q.jsxs)("div", {
@@ -699,14 +699,14 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 										/* @__PURE__ */ (0, Q.jsxs)("h3", {
 											"data-jav-title": "",
 											"data-media-title": "",
-											title: `${o.code} · ${o.title || "标题未取得"}`,
+											title: `${o.code} · ${o.title || "Title not obtained"}`,
 											children: [
 												/* @__PURE__ */ (0, Q.jsx)("b", { children: o.code }),
 												" ",
 												o.title ? /* @__PURE__ */ (0, Q.jsx)("span", {
 													lang: Te(o.title),
 													children: o.title
-												}) : "标题未取得"
+												}) : "Title not obtained"
 											]
 										}),
 										/* @__PURE__ */ (0, Q.jsxs)("div", {
@@ -733,9 +733,9 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 												(o.performer_refs?.length || 0) > 1 ? /* @__PURE__ */ (0, Q.jsxs)("span", {
 													"data-media-who-more": "",
 													children: [
-														"等 ",
+														"+",
 														o.performer_refs.length,
-														" 人"
+														" more"
 													]
 												}) : null,
 												o.release_date ? /* @__PURE__ */ (0, Q.jsxs)("time", {
@@ -756,7 +756,7 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 												"data-jav-taste-score": "",
 												type: "button",
 												title: f,
-												"aria-label": `推荐分 ${d.score}，${d.label}`,
+												"aria-label": `Recommendation score ${d.score}, ${d.label}`,
 												className: "rounded-md outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring",
 												children: /* @__PURE__ */ (0, Q.jsx)(i, {
 													color: d.color,
@@ -784,7 +784,7 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 										href: o.link,
 										target: "_blank",
 										rel: "noopener noreferrer",
-										children: "作品来源"
+										children: "Title sources"
 									}) : null,
 									/* @__PURE__ */ (0, Q.jsx)(n, {
 										variant: "ghost",
@@ -792,10 +792,10 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 										...A(H.busy === String(o.id)),
 										onClick: () => {
 											H.run(String(o.id), (e) => le({ code: o.code }, e), () => {
-												a("已加入想要"), I(), B.refetch();
+												a("Added to wants"), I(), B.refetch();
 											});
 										},
-										children: o.asset_id ? "已入库" : o.wanted ? "已加入想要" : "想要"
+										children: o.asset_id ? "In library" : o.wanted ? "Added to wants" : "Want"
 									}),
 									/* @__PURE__ */ (0, Q.jsx)(n, {
 										variant: "secondary",
@@ -804,7 +804,7 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 											cover: o.has_cover ? fe(o, !0) : o.cover_url,
 											origin: `${o.asset_id ? "asset" : "feed"}:${o.id}`
 										}),
-										children: "查找资源"
+										children: "Find resources"
 									})
 								]
 							})
@@ -817,4 +817,4 @@ function Be({ readOnly: e, receipt: a, resource: s, query: c, navigate: u, clear
 }
 export { ze as JavPage };
 
-//# debugId=3da260cd-77d5-4cde-a549-276f053dc6e8
+//# debugId=c226b9cc-ae78-4356-931a-7ecb2d543e66

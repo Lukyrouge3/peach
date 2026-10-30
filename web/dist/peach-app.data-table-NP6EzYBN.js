@@ -1,7 +1,7 @@
 (function() {
 	try {
 		var e = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, t = new e.Error().stack;
-		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "b91d1612-859b-4e23-9bb9-74a868b7d2a0", e._sentryDebugIdIdentifier = "sentry-dbid-b91d1612-859b-4e23-9bb9-74a868b7d2a0");
+		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "c3535024-8f30-4498-b12a-de27b3c6372a", e._sentryDebugIdIdentifier = "sentry-dbid-c3535024-8f30-4498-b12a-de27b3c6372a");
 	} catch {}
 })();
 import { createPaginatedRowModel as e } from "./peach-app.createPaginatedRowModel-ClHnhG_T.js";
@@ -16,10 +16,10 @@ var M = /* @__PURE__ */ y(T(), 1), N = w(), P = k({
 	sortedRowModel: t(),
 	paginatedRowModel: e()
 });
-function F({ label: e, items: t, columns: y, rowId: x, rowLabel: w, selected: T, onSelected: E, actions: D, title: O = e, titleId: k, description: F, footerActions: I, panel: L = !0, unit: R = "条记录" }) {
+function F({ label: e, items: t, columns: y, rowId: x, rowLabel: w, selected: T, onSelected: E, actions: D, title: O = e, titleId: k, description: F, footerActions: I, panel: L = !0, unit: R = "records" }) {
 	let [z, B] = (0, M.useState)([]), V = (0, M.useMemo)(() => [{
 		id: "select",
-		label: "选择",
+		label: "Select",
 		width: 48,
 		min: 48,
 		max: 48,
@@ -39,11 +39,11 @@ function F({ label: e, items: t, columns: y, rowId: x, rowLabel: w, selected: T,
 			id: "select",
 			header: ({ table: t }) => /* @__PURE__ */ (0, N.jsx)(v, {
 				table: t,
-				label: `全选${e}`
+				label: `Select all ${e}`
 			}),
 			cell: ({ row: e }) => /* @__PURE__ */ (0, N.jsx)(l, {
 				slot: null,
-				"aria-label": `选择 ${w(e.original)}`,
+				"aria-label": `Select ${w(e.original)}`,
 				isSelected: e.getIsSelected(),
 				onChange: (t) => e.toggleSelected(t)
 			})
@@ -100,7 +100,7 @@ function F({ label: e, items: t, columns: y, rowId: x, rowLabel: w, selected: T,
 			/* @__PURE__ */ (0, N.jsxs)("div", {
 				"data-responsive-toolbar": "",
 				role: "toolbar",
-				"aria-label": `${e}工具栏`,
+				"aria-label": `${e} toolbar`,
 				children: [/* @__PURE__ */ (0, N.jsxs)("div", {
 					"data-toolbar-heading": "",
 					children: [/* @__PURE__ */ (0, N.jsx)("h3", {
@@ -137,14 +137,14 @@ function F({ label: e, items: t, columns: y, rowId: x, rowLabel: w, selected: T,
 				children: F
 			}) : null,
 			/* @__PURE__ */ (0, N.jsxs)(m, {
-				label: `${e}批量操作`,
+				label: `${e} bulk actions`,
 				visible: Z.length > 0,
-				count: `已选 ${Z.length.toLocaleString()} ${R}`,
+				count: `${Z.length.toLocaleString()} ${R} selected`,
 				children: [D(Z, () => E([])), /* @__PURE__ */ (0, N.jsx)(c, {
 					variant: "ghost",
 					size: "small",
 					onClick: () => E([]),
-					children: "取消选择"
+					children: "Clear selection"
 				})]
 			}),
 			/* @__PURE__ */ (0, N.jsx)(f, {
@@ -177,12 +177,12 @@ function F({ label: e, items: t, columns: y, rowId: x, rowLabel: w, selected: T,
 						})] })
 					}, e.id)), /* @__PURE__ */ (0, N.jsx)(i, {
 						id: "remaining-space",
-						"aria-label": "行空白区域",
+						"aria-label": "Row blank area",
 						"data-table-space": "",
 						width: H.spaceWidth,
 						minWidth: 0
 					})] }), /* @__PURE__ */ (0, N.jsx)(r, {
-						renderEmptyState: () => "没有记录",
+						renderEmptyState: () => "No records",
 						children: X.getRowModel().rows.map((e) => /* @__PURE__ */ (0, N.jsxs)(a, {
 							id: e.id,
 							"data-board-selected": e.getIsSelected() || void 0,
@@ -210,4 +210,4 @@ function F({ label: e, items: t, columns: y, rowId: x, rowLabel: w, selected: T,
 }
 export { F as DataTable };
 
-//# debugId=b91d1612-859b-4e23-9bb9-74a868b7d2a0
+//# debugId=c3535024-8f30-4498-b12a-de27b3c6372a

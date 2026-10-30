@@ -2,7 +2,7 @@
 (function() {
 	try {
 		var e = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, t = new e.Error().stack;
-		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "e0055ad0-274c-46a6-a955-4d9fcf067df8", e._sentryDebugIdIdentifier = "sentry-dbid-e0055ad0-274c-46a6-a955-4d9fcf067df8");
+		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "a0d841e2-6efc-4bff-bdaf-ec05b46f7d9c", e._sentryDebugIdIdentifier = "sentry-dbid-a0d841e2-6efc-4bff-bdaf-ec05b46f7d9c");
 	} catch {}
 })();
 var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescriptor, r = Object.getOwnPropertyNames, i = Object.getPrototypeOf, a = Object.prototype.hasOwnProperty, o = (e, t) => () => (t || (e((t = { exports: {} }).exports, t, t.exports), e = null), t.exports), s = (e, i, o, s) => {
@@ -184,7 +184,7 @@ function E() {
 		credentials: "same-origin",
 		body: JSON.stringify({
 			kind: "context",
-			message: "浏览器环境快照",
+			message: "Browser environment snapshot",
 			browser: e
 		})
 	})).catch(() => {});
@@ -216,11 +216,11 @@ function E() {
 			keepalive: !0
 		}).catch(() => {}));
 	};
-	window.addEventListener("error", (e) => r("error", e.error, e.message, e)), window.addEventListener("unhandledrejection", (e) => r("unhandledrejection", e.reason, "Promise 未处理的异常")), document.addEventListener("error", (e) => {
+	window.addEventListener("error", (e) => r("error", e.error, e.message, e)), window.addEventListener("unhandledrejection", (e) => r("unhandledrejection", e.reason, "Unhandled Promise rejection")), document.addEventListener("error", (e) => {
 		let t = e.target, n = t instanceof HTMLMediaElement ? t : t instanceof HTMLElement && t.matches("hlsjs-video,dash-video") ? t.querySelector("video") : null, i = t?.error || e.error;
 		if (!n || !i) return;
 		let a = y(n, i);
-		r("media", `媒体播放失败（${a.code}）`, "", void 0, a);
+		r("media", `Media playback failed (${a.code})`, "", void 0, a);
 	}, !0);
 }
 // node_modules/scheduler/cjs/scheduler.production.js
@@ -11204,12 +11204,12 @@ function Ht({ id: e, children: t }) {
 }
 // src/react/pages/error/error-page.tsx
 var Ut = {
-	403: "这里不能打开",
-	404: "四〇四",
-	409: "现在不能这样做"
+	403: "Can't open this",
+	404: "Four-oh-four",
+	409: "Can't do that right now"
 };
 function Wt(e) {
-	return Ut[e ?? ""] ?? "出了点问题";
+	return Ut[e ?? ""] ?? "Something went wrong";
 }
 function B({ data: e }) {
 	let t = Wt(e.status);
@@ -11221,7 +11221,7 @@ function B({ data: e }) {
 		children: /* @__PURE__ */ (0, z.jsx)(zt, {
 			href: "/",
 			className: "self-start",
-			children: "返回首页"
+			children: "Back to home"
 		})
 	});
 }
@@ -19207,7 +19207,7 @@ function pm({ label: e, hint: t, tooltip: n, placeholder: r, leadingIcon: i, tra
 }
 pm.displayName = "Input";
 function mm({ data: e }) {
-	let [t, n] = (0, j.useState)(e.error || (e.invalid === "true" ? "访问密码不正确" : ""));
+	let [t, n] = (0, j.useState)(e.error || (e.invalid === "true" ? "Incorrect access password" : ""));
 	return /* @__PURE__ */ (0, z.jsx)(Bt, {
 		title: "Peach",
 		children: /* @__PURE__ */ (0, z.jsxs)("form", {
@@ -19218,7 +19218,7 @@ function mm({ data: e }) {
 			children: [
 				/* @__PURE__ */ (0, z.jsx)(pm, {
 					id: "login-token",
-					label: "访问密码",
+					label: "Access password",
 					name: "token",
 					type: "password",
 					maxLength: 256,
@@ -19241,12 +19241,12 @@ function mm({ data: e }) {
 					name: "days",
 					value: "30",
 					defaultSelected: !0,
-					children: "保持登录"
+					children: "Stay signed in"
 				}),
 				/* @__PURE__ */ (0, z.jsx)(Rt, {
 					type: "submit",
 					className: "w-full",
-					children: "登录"
+					children: "Sign in"
 				})
 			]
 		})
@@ -19320,22 +19320,22 @@ async function bm(e, t, n) {
 			}
 		});
 	} catch (e) {
-		throw t.signal?.aborted ? e : new ym(0, "连接不到 Peach，请确认它仍在运行后重试");
+		throw t.signal?.aborted ? e : new ym(0, "Can't reach Peach; make sure it's still running and try again");
 	}
 	let i = await r.json().catch(() => null);
 	if (!r.ok) throw new ym(r.status, i?.error || n, i?.errors);
 	return i;
 }
-var xm = (e) => bm(_m, { signal: e }, "没能读取设置题目"), Sm = (e) => bm(vm, {
+var xm = (e) => bm(_m, { signal: e }, "Couldn't load the setup questions"), Sm = (e) => bm(vm, {
 	method: "POST",
 	body: JSON.stringify(e)
-}, "没能完成设置"), Cm = (e) => bm(`${vm}/restore`, {
+}, "Couldn't finish setup"), Cm = (e) => bm(`${vm}/restore`, {
 	method: "POST",
 	body: JSON.stringify({ data_root: e })
-}, "没能使用此数据目录"), wm = async (e) => (await bm(gm, {
+}, "Couldn't use this data folder"), wm = async (e) => (await bm(gm, {
 	method: "POST",
 	body: JSON.stringify({ initial: e })
-}, "没能打开文件夹对话框")).path, Tm = (e) => e instanceof Error && e.message || "请求失败，请重试", Em = 8e3, Dm = /* @__PURE__ */ new WeakMap();
+}, "Couldn't open the folder dialog")).path, Tm = (e) => e instanceof Error && e.message || "Request failed; try again", Em = 8e3, Dm = /* @__PURE__ */ new WeakMap();
 function Om(e, t, n) {
 	km(t, n, () => e.open, (t) => {
 		e.open = t;
@@ -19657,7 +19657,7 @@ function th() {
 	});
 }
 function nh({ step: e }) {
-	let t = e === 0 ? "你的私人媒体空间。" : e === 1 ? "让文件成为馆藏。" : e === 2 ? "从书桌，到手边。" : e === 3 ? "全都准备好了。" : e === "restore" ? "从熟悉的地方继续。" : "馆藏，准备开启。", n = e === 0 ? "把喜欢的内容，整理成自己的收藏。" : e === 1 ? "按媒体库归类，文件保留在原来的位置。" : e === 2 ? "电脑与手机，连接同一套 Peach。" : e === 3 ? "确认后保存，扫描按你的选择开始。" : e === "restore" ? "沿用原来的配置与记录，接着使用。" : "进入 Peach，开始探索你的收藏。";
+	let t = e === 0 ? "Your private media space." : e === 1 ? "Turn files into a library." : e === 2 ? "From your desk to your hand." : e === 3 ? "All set." : e === "restore" ? "Pick up where you left off." : "Your library is ready to open.", n = e === 0 ? "Organize what you love into your own collection." : e === 1 ? "Grouped by media library; files stay where they are." : e === 2 ? "Computer and phone, connected to the same Peach." : e === 3 ? "Saved once confirmed; scanning starts as you chose." : e === "restore" ? "Keep your existing settings and records, and carry on." : "Enter Peach and start exploring your collection.";
 	return /* @__PURE__ */ (0, z.jsxs)("aside", {
 		"data-setup-scene": "",
 		children: [
@@ -19699,7 +19699,7 @@ function nh({ step: e }) {
 					"data-setup-library-scene": "",
 					children: [/* @__PURE__ */ (0, z.jsx)(th, {}), /* @__PURE__ */ (0, z.jsxs)("div", {
 						"data-setup-scene-badge": "",
-						children: [/* @__PURE__ */ (0, z.jsx)(nm, {}), /* @__PURE__ */ (0, z.jsx)("span", { children: "你的媒体库" })]
+						children: [/* @__PURE__ */ (0, z.jsx)(nm, {}), /* @__PURE__ */ (0, z.jsx)("span", { children: "Your media library" })]
 					})]
 				})
 			}, e),
@@ -19732,7 +19732,7 @@ function rh({ step: e, children: t }) {
 function ih({ done: e }) {
 	let t = (0, j.useRef)(null);
 	return (0, j.useEffect)(() => {
-		document.title = "Peach · 设置完成", t.current?.focus();
+		document.title = "Peach · Setup complete", t.current?.focus();
 	}, []), (0, j.useEffect)(() => {
 		let t = e.redirect;
 		if (!t) return;
@@ -19748,7 +19748,7 @@ function ih({ done: e }) {
 					"data-setup-top": "",
 					children: /* @__PURE__ */ (0, z.jsx)("span", {
 						className: "text-body-2-regular text-text-secondary",
-						children: "设置完成"
+						children: "Setup complete"
 					})
 				}),
 				/* @__PURE__ */ (0, z.jsx)("div", {
@@ -19760,16 +19760,16 @@ function ih({ done: e }) {
 							children: [/* @__PURE__ */ (0, z.jsx)("h1", {
 								id: "auth-card-title",
 								className: "text-title-1-semibold text-text-primary",
-								children: "可以开始使用了"
+								children: "Ready to go"
 							}), /* @__PURE__ */ (0, z.jsx)("p", {
 								className: "text-body-regular text-text-secondary",
-								children: "你的 Peach 已准备就绪。"
+								children: "Your Peach is ready."
 							})]
 						}), /* @__PURE__ */ (0, z.jsxs)("div", { children: [/* @__PURE__ */ (0, z.jsx)("p", {
 							className: "text-body-regular text-text-primary",
-							children: e.restored ? "已连接已有数据目录。" : e.skip_media ? "可在「媒体库与入库」添加媒体目录并开始扫描。" : e.scan_requested ? "首次扫描已排队，在后台整理媒体库，期间可以照常使用 Peach。" : "稍后在配置页开始扫描媒体库。"
+							children: e.restored ? "Connected to the existing data folder." : e.skip_media ? "Add media folders and start scanning under “Media libraries and import”." : e.scan_requested ? "The first scan is queued and organizes the media library in the background; you can use Peach as usual meanwhile." : "Start scanning the media library later on the settings page."
 						}), /* @__PURE__ */ (0, z.jsx)(Ym, {
-							summary: "运行信息",
+							summary: "Runtime info",
 							children: /* @__PURE__ */ (0, z.jsx)(qm, { children: e.facts.map((e) => /* @__PURE__ */ (0, z.jsxs)(Jm, {
 								term: e.term,
 								children: [e.value, e.download_url ? /* @__PURE__ */ (0, z.jsx)(Km, {
@@ -19787,7 +19787,7 @@ function ih({ done: e }) {
 					children: /* @__PURE__ */ (0, z.jsx)(zt, {
 						ref: t,
 						href: e.url,
-						children: e.history_guide ? "导入浏览器历史记录" : "进入 Peach"
+						children: e.history_guide ? "Import browser history" : "Enter Peach"
 					})
 				})
 			]
@@ -20884,11 +20884,11 @@ function h_({ index: e, cost: t, error: n, onChange: r }) {
 			/* @__PURE__ */ (0, z.jsx)(sm, {
 				elementType: "span",
 				"aria-hidden": !0,
-				children: "读取策略"
+				children: "Read policy"
 			}),
 			/* @__PURE__ */ (0, z.jsxs)(vh, {
-				"aria-label": `媒体读取策略 ${e + 1}`,
-				placeholder: "选择读取策略",
+				"aria-label": `Media read policy ${e + 1}`,
+				placeholder: "Choose read policy",
 				isRequired: !0,
 				validationBehavior: "aria",
 				isInvalid: !!n,
@@ -20898,10 +20898,10 @@ function h_({ index: e, cost: t, error: n, onChange: r }) {
 				},
 				children: [/* @__PURE__ */ (0, z.jsx)(yh, {
 					id: "free",
-					children: "正常读取"
+					children: "Normal reads"
 				}), /* @__PURE__ */ (0, z.jsx)(yh, {
 					id: "metered",
-					children: "代理保护"
+					children: "Proxy protection"
 				})]
 			}),
 			n ? /* @__PURE__ */ (0, z.jsx)(Gm, { children: n }) : null
@@ -20909,7 +20909,7 @@ function h_({ index: e, cost: t, error: n, onChange: r }) {
 	});
 }
 function g_() {
-	return /* @__PURE__ */ (0, z.jsx)(Wm, { children: "读取策略选「代理保护」时，会限制自动读取视频。" });
+	return /* @__PURE__ */ (0, z.jsx)(Wm, { children: "With the “Proxy protection” read policy, automatic video reads are limited." });
 }
 function __({ initial: e, blank: t, pickFolder: n, describe: r, focusAfterPick: i = !1 }) {
 	let [a, o] = (0, j.useState)(e), [s, c] = (0, j.useState)([]), [l, u] = (0, j.useState)(null), [d, f] = (0, j.useState)(null), p = (0, j.useRef)(!1), m = (0, j.useRef)([]);
@@ -20970,7 +20970,7 @@ function v_({ label: e, path: t, onPath: n, error: r, inputRef: i, picking: a, o
 				/* @__PURE__ */ (0, z.jsx)(pm, {
 					className: "min-w-0 flex-1",
 					"aria-label": e,
-					placeholder: "媒体目录路径",
+					placeholder: "Media folder path",
 					value: t,
 					onChange: n,
 					ref: (e) => {
@@ -20987,7 +20987,7 @@ function v_({ label: e, path: t, onPath: n, error: r, inputRef: i, picking: a, o
 				}) : null,
 				/* @__PURE__ */ (0, z.jsx)(oh, {
 					icon: l_,
-					"aria-label": "选择文件夹",
+					"aria-label": "Choose folder",
 					onClick: o,
 					...c_(a)
 				}),
@@ -20995,7 +20995,7 @@ function v_({ label: e, path: t, onPath: n, error: r, inputRef: i, picking: a, o
 					variant: "danger",
 					iconOnly: !0,
 					leadingIcon: em,
-					"aria-label": "移除这个文件夹",
+					"aria-label": "Remove this folder",
 					onClick: s
 				}) : null
 			]
@@ -21007,11 +21007,11 @@ function v_({ label: e, path: t, onPath: n, error: r, inputRef: i, picking: a, o
 }
 function y_({ index: e, value: t, onChange: n, options: r = u_ }) {
 	return /* @__PURE__ */ (0, z.jsx)(p_, {
-		label: "来源",
+		label: "Source",
 		className: "w-full @lg:w-60",
 		children: /* @__PURE__ */ (0, z.jsx)(vh, {
 			className: "w-full",
-			"aria-label": `媒体来源 ${e + 1}`,
+			"aria-label": `Media source ${e + 1}`,
 			selectedKey: t,
 			onSelectionChange: (e) => {
 				e !== null && n(String(e));
@@ -21026,52 +21026,52 @@ function y_({ index: e, value: t, onChange: n, options: r = u_ }) {
 }
 // src/react/settings/library-icon-picker.tsx
 var b_ = [
-	["", "自动识别"],
-	["hard-drive", "磁盘"],
-	["database", "资料库"],
-	["heart", "心动"],
-	["heart-hand", "亲密"],
-	["flame", "热情"],
-	["cherry", "樱桃"],
-	["lollipop", "甜心"],
-	["candy", "糖果"],
-	["banana", "香蕉"],
-	["droplets", "湿润"],
-	["venus", "女性"],
-	["mars", "男性"],
-	["venus-and-mars", "情侣"],
-	["gem", "精选"],
-	["crown", "女王"],
-	["ribbon", "丝带"],
-	["shirt", "制服"],
-	["graduation-cap", "学生"],
-	["stethoscope", "护士"],
-	["glasses", "眼镜"],
-	["footprints", "足迹"],
-	["hand", "手部"],
-	["flower", "花朵"],
-	["venetian-mask", "角色扮演"],
-	["rabbit", "兔女郎"],
-	["paw-print", "兽耳"],
-	["dumbbell", "健身"],
-	["bed-double", "卧室"],
-	["bath", "浴室"],
-	["key-round", "私密"],
-	["wine", "微醺"],
-	["cigarette", "烟"],
-	["moon", "夜色"],
-	["sparkles", "幻想"],
-	["camera", "写真"],
-	["video", "影片"],
-	["film", "电影"],
-	["image", "图集"],
-	["gamepad-2", "游戏"],
-	["star", "收藏"],
-	["tags", "主题"]
+	["", "Auto-detect"],
+	["hard-drive", "Disk"],
+	["database", "Archive"],
+	["heart", "Crush"],
+	["heart-hand", "Intimate"],
+	["flame", "Passion"],
+	["cherry", "Cherry"],
+	["lollipop", "Sweetheart"],
+	["candy", "Candy"],
+	["banana", "Banana"],
+	["droplets", "Wet"],
+	["venus", "Female"],
+	["mars", "Male"],
+	["venus-and-mars", "Couple"],
+	["gem", "Featured"],
+	["crown", "Queen"],
+	["ribbon", "Ribbon"],
+	["shirt", "Uniform"],
+	["graduation-cap", "Student"],
+	["stethoscope", "Nurse"],
+	["glasses", "Glasses"],
+	["footprints", "Footprints"],
+	["hand", "Hands"],
+	["flower", "Flower"],
+	["venetian-mask", "Role-play"],
+	["rabbit", "Bunny girl"],
+	["paw-print", "Animal ears"],
+	["dumbbell", "Fitness"],
+	["bed-double", "Bedroom"],
+	["bath", "Bathroom"],
+	["key-round", "Private"],
+	["wine", "Tipsy"],
+	["cigarette", "Smoke"],
+	["moon", "Night"],
+	["sparkles", "Fantasy"],
+	["camera", "Photo shoot"],
+	["video", "Video"],
+	["film", "Film"],
+	["image", "Gallery"],
+	["gamepad-2", "Game"],
+	["star", "Collection"],
+	["tags", "Theme"]
 ];
 function x_(e) {
 	let t = e === "local" ? "" : Rm[e];
-	return t ? [t, "自动识别"] : ["hard-drive", "默认"];
+	return t ? [t, "Auto-detect"] : ["hard-drive", "Default"];
 }
 var S_ = "auto";
 function C_({ value: e, label: t, kind: n = "local", onChange: r }) {
@@ -21099,16 +21099,16 @@ function C_({ value: e, label: t, kind: n = "local", onChange: r }) {
 		offset: 4,
 		className: uh,
 		children: /* @__PURE__ */ (0, z.jsxs)(fp, {
-			"aria-label": `${t}可选图标`,
+			"aria-label": `${t} icon options`,
 			className: "flex w-72 flex-col gap-3 outline-none",
 			children: [
 				/* @__PURE__ */ (0, z.jsx)(Qo, {
 					slot: "title",
 					className: "px-1 text-body-medium text-text-primary",
-					children: "选择媒体库图标"
+					children: "Choose media library icon"
 				}),
 				/* @__PURE__ */ (0, z.jsx)(Cp, {
-					"aria-label": "可选图标",
+					"aria-label": "Icon options",
 					value: s || S_,
 					onChange: (e) => c(e === S_ ? "" : e),
 					className: "inline-grid grid-cols-7 gap-1",
@@ -21124,13 +21124,13 @@ function C_({ value: e, label: t, kind: n = "local", onChange: r }) {
 					children: [/* @__PURE__ */ (0, z.jsx)(Rt, {
 						variant: "secondary",
 						onClick: () => o(!1),
-						children: "取消"
+						children: "Cancel"
 					}), /* @__PURE__ */ (0, z.jsx)(Rt, {
 						disabled: s === e,
 						onClick: () => {
 							r(s), o(!1);
 						},
-						children: "应用"
+						children: "Apply"
 					})]
 				})
 			]
@@ -21158,7 +21158,7 @@ function w_({ prefix: e, renderValue: t, size: n, ...r }) {
 var T_ = [
 	[
 		"ash",
-		"灰雾",
+		"Gray mist",
 		{
 			spot1: {
 				color: "#8f98a4",
@@ -21177,7 +21177,7 @@ var T_ = [
 	],
 	[
 		"amber",
-		"钨丝暖阁",
+		"Tungsten warmth",
 		{
 			spot1: {
 				color: "#e08a2f",
@@ -21196,7 +21196,7 @@ var T_ = [
 	],
 	[
 		"plum",
-		"夜樱",
+		"Night sakura",
 		{
 			spot1: {
 				color: "#b455a0",
@@ -21215,7 +21215,7 @@ var T_ = [
 	],
 	[
 		"pine",
-		"深林",
+		"Deep forest",
 		{
 			spot1: {
 				color: "#3f9e57",
@@ -21234,7 +21234,7 @@ var T_ = [
 	],
 	[
 		"iris",
-		"琉璃霞",
+		"Glazed sunset",
 		{
 			spot1: {
 				color: "#1e50a2",
@@ -21253,7 +21253,7 @@ var T_ = [
 	],
 	[
 		"opal",
-		"蛋白石",
+		"Opal",
 		{
 			spot1: {
 				color: "#9be0e8",
@@ -21272,7 +21272,7 @@ var T_ = [
 	],
 	[
 		"lagoon",
-		"潟湖",
+		"Lagoon",
 		{
 			spot1: {
 				color: "#5ce3e6",
@@ -21291,7 +21291,7 @@ var T_ = [
 	],
 	[
 		"jade",
-		"翡翠",
+		"Jade",
 		{
 			spot1: {
 				color: "#8fe3b0",
@@ -21310,7 +21310,7 @@ var T_ = [
 	],
 	[
 		"flare",
-		"耀斑",
+		"Flare",
 		{
 			spot1: {
 				color: "#ffc24b",
@@ -21329,7 +21329,7 @@ var T_ = [
 	],
 	[
 		"orchid",
-		"兰紫",
+		"Orchid",
 		{
 			spot1: {
 				color: "#e794c9",
@@ -21348,7 +21348,7 @@ var T_ = [
 	],
 	[
 		"peach",
-		"桃晕",
+		"Peach glow",
 		{
 			spot1: {
 				color: "#ffc9a3",
@@ -21367,7 +21367,7 @@ var T_ = [
 	],
 	[
 		"tide",
-		"电蓝",
+		"Electric blue",
 		{
 			spot1: {
 				color: "#6fd8f2",
@@ -21386,7 +21386,7 @@ var T_ = [
 	],
 	[
 		"sunset",
-		"落日",
+		"Sunset",
 		{
 			spot1: {
 				color: "#ffae3f",
@@ -21405,7 +21405,7 @@ var T_ = [
 	],
 	[
 		"mint",
-		"薄荷冰",
+		"Mint ice",
 		{
 			spot1: {
 				color: "#a8f0dc",
@@ -21424,7 +21424,7 @@ var T_ = [
 	],
 	[
 		"bloom",
-		"夜昙",
+		"Night bloom",
 		{
 			spot1: {
 				color: "#4c3894",
@@ -21443,7 +21443,7 @@ var T_ = [
 	],
 	[
 		"rosegold",
-		"玫瑰金",
+		"Rose gold",
 		{
 			spot1: {
 				color: "#fbc9ac",
@@ -21462,7 +21462,7 @@ var T_ = [
 	],
 	[
 		"native",
-		"玻璃原色",
+		"Glass primaries",
 		{
 			spot1: {
 				color: "#6686b8",
@@ -21482,18 +21482,18 @@ var T_ = [
 ];
 [...T_.map(([e, t]) => [e, t])];
 var E_ = (e) => structuredClone((T_.find(([t]) => t === e) || T_[0])[2]), D_ = [
-	["red", "红"],
-	["orange", "橙"],
-	["amber", "琥珀"],
-	["lime", "柠绿"],
-	["emerald", "翠绿"],
-	["teal", "青绿"],
-	["sky", "天蓝"],
-	["blue", "蓝"],
-	["indigo", "靛蓝"],
-	["violet", "紫罗兰"],
-	["fuchsia", "品红"],
-	["rose", "玫红"]
+	["red", "Red"],
+	["orange", "Orange"],
+	["amber", "Amber"],
+	["lime", "Lime"],
+	["emerald", "Emerald"],
+	["teal", "Teal"],
+	["sky", "Sky blue"],
+	["blue", "Blue"],
+	["indigo", "Indigo"],
+	["violet", "Violet"],
+	["fuchsia", "Magenta"],
+	["rose", "Rose"]
 ];
 ({ ...E_("ash") });
 // src/react/components/library-tint.ts
@@ -21538,11 +21538,11 @@ function F_(e) {
 }
 // src/react/settings/library-policy-settings.tsx
 var I_ = [
-	["probe", "读取视频信息"],
-	["metadata", "联网补资料"],
-	["cover", "联网补封面"],
-	["people", "联网补人物图片"],
-	["preview", "生成九宫格预览"]
+	["probe", "Read video info"],
+	["metadata", "Fetch metadata online"],
+	["cover", "Fetch covers online"],
+	["people", "Fetch people images online"],
+	["preview", "Generate contact sheet previews"]
 ], L_ = [
 	"probe",
 	"metadata",
@@ -21552,26 +21552,26 @@ var I_ = [
 ], R_ = [
 	[
 		"auto",
-		"自动补全",
-		"缺什么联网补什么"
+		"Auto-complete",
+		"Fetch whatever is missing online"
 	],
 	[
 		"local",
-		"仅使用本地资料",
-		"不联网，只用本地 NFO 和图片"
+		"Local metadata only",
+		"Offline, local NFO and images only"
 	],
 	[
 		"custom",
-		"自定义",
-		"逐项选择要做的步骤"
+		"Custom",
+		"Choose each step"
 	]
 ];
 function z_({ name: e, value: t, onChange: n }) {
 	return /* @__PURE__ */ (0, z.jsx)(w_, {
 		className: "w-full",
-		"aria-label": `${e} 处理方式`,
+		"aria-label": `${e} handling`,
 		selectedKey: t,
-		prefix: "处理方式",
+		prefix: "Handling",
 		renderValue: /* @__PURE__ */ (0, z.jsx)("span", {
 			className: "truncate",
 			children: R_.find(([e]) => e === t)?.[1]
@@ -21593,11 +21593,11 @@ function z_({ name: e, value: t, onChange: n }) {
 function B_({ name: e, value: t, onChange: n }) {
 	return /* @__PURE__ */ (0, z.jsx)(Ym, {
 		defaultOpen: !0,
-		summary: `${e} 的处理步骤（${t.length}/${I_.length}）`,
+		summary: `${e} processing steps (${t.length}/${I_.length})`,
 		children: /* @__PURE__ */ (0, z.jsx)("div", {
 			className: "flex flex-wrap gap-x-6 gap-y-2",
 			role: "group",
-			"aria-label": `${e} 处理步骤`,
+			"aria-label": `${e} processing steps`,
 			children: I_.map(([e, r]) => /* @__PURE__ */ (0, z.jsx)(Qp, {
 				isSelected: t.includes(e),
 				onChange: (r) => n(r ? [...t, e] : t.filter((t) => t !== e)),
@@ -21607,7 +21607,7 @@ function B_({ name: e, value: t, onChange: n }) {
 	});
 }
 function V_({ id: e, name: t, value: n, onChange: r }) {
-	let i = (0, j.useRef)(null), [a, o] = (0, j.useState)(!1), s = D_.find(([e]) => e === n)?.[1] || "无颜色", c = (t) => {
+	let i = (0, j.useRef)(null), [a, o] = (0, j.useState)(!1), s = D_.find(([e]) => e === n)?.[1] || "No color", c = (t) => {
 		r(t), N_(e, t), o(!1);
 	};
 	return /* @__PURE__ */ (0, z.jsxs)(z.Fragment, { children: [/* @__PURE__ */ (0, z.jsxs)("button", {
@@ -21618,14 +21618,14 @@ function V_({ id: e, name: t, value: n, onChange: r }) {
 		"data-library-color-trigger": "",
 		"aria-haspopup": "dialog",
 		"aria-expanded": a,
-		"aria-label": `${t || "未命名媒体库"} 来源色：${s}`,
+		"aria-label": `${t || "Untitled media library"} Source color: ${s}`,
 		title: s,
 		onClick: () => o(!0),
 		children: [
 			/* @__PURE__ */ (0, z.jsx)("span", {
 				"aria-hidden": !0,
 				className: "text-text-tertiary",
-				children: "来源色"
+				children: "Source color"
 			}),
 			n ? /* @__PURE__ */ (0, z.jsx)("span", {
 				"data-glow-ball": "",
@@ -21649,11 +21649,11 @@ function V_({ id: e, name: t, value: n, onChange: r }) {
 			containerPadding: 12,
 			className: uh,
 			children: /* @__PURE__ */ (0, z.jsxs)(fp, {
-				"aria-label": `${t || "未命名媒体库"} 来源色`,
+				"aria-label": `${t || "Untitled media library"} Source color`,
 				className: "outline-none",
 				children: [/* @__PURE__ */ (0, z.jsx)("p", {
 					className: "px-1 pb-2 text-body-medium text-text-primary",
-					children: "选择来源色"
+					children: "Choose source color"
 				}), /* @__PURE__ */ (0, z.jsxs)("div", {
 					"data-accent-grid": "",
 					"data-library-colors": "",
@@ -21662,8 +21662,8 @@ function V_({ id: e, name: t, value: n, onChange: r }) {
 						type: "button",
 						"data-glow-chip": "",
 						"aria-pressed": !n,
-						title: "无颜色",
-						"aria-label": "无颜色",
+						title: "No color",
+						"aria-label": "No color",
 						onClick: () => c(""),
 						children: /* @__PURE__ */ (0, z.jsx)("span", {
 							"data-glow-ball": "",
@@ -21706,7 +21706,7 @@ function H_({ label: e, password: t, confirmation: n, onPassword: r, onConfirmat
 	}), /* @__PURE__ */ (0, z.jsx)(pm, {
 		id: "access-confirm",
 		type: "password",
-		label: "确认访问密码",
+		label: "Confirm access password",
 		autoComplete: "new-password",
 		maxLength: 256,
 		value: n,
@@ -21720,13 +21720,13 @@ function H_({ label: e, password: t, confirmation: n, onPassword: r, onConfirmat
 }
 // src/react/settings/peach-proxy-fields.tsx
 var U_ = [
-	["environment", "跟随环境"],
-	["direct", "直连"],
-	["proxy", "自定义"]
+	["environment", "Follow environment"],
+	["direct", "Direct"],
+	["proxy", "Custom"]
 ];
 function W_({ mode: e, onChange: t, labelledBy: n }) {
 	return /* @__PURE__ */ (0, z.jsx)(vh, {
-		"aria-label": n ? void 0 : "连接方式",
+		"aria-label": n ? void 0 : "Connection method",
 		"aria-labelledby": n,
 		selectedKey: e,
 		onSelectionChange: (e) => {
@@ -21742,12 +21742,12 @@ function G_({ id: e, value: t, onChange: n, saved: r = !1, error: i }) {
 	return /* @__PURE__ */ (0, z.jsx)(pm, {
 		id: e,
 		type: "password",
-		label: "代理地址",
+		label: "Proxy address",
 		autoComplete: "off",
 		spellCheck: "false",
 		value: t,
 		onChange: n,
-		placeholder: r ? "已保存，留空保留" : "http://127.0.0.1:7890",
+		placeholder: r ? "Saved; leave empty to keep" : "http://127.0.0.1:7890",
 		validationBehavior: "aria",
 		isInvalid: !!i,
 		hint: i
@@ -21811,10 +21811,10 @@ function X_({ tone: e = "neutral", ...t }) {
 // src/react/settings/remote-reporting-settings.tsx
 function Z_({ value: e, onChange: t, busy: n = !1 }) {
 	return /* @__PURE__ */ (0, z.jsxs)(z.Fragment, { children: [/* @__PURE__ */ (0, z.jsx)(Hm, { children: /* @__PURE__ */ (0, z.jsx)(zm, {
-		label: "发送版本统计与错误诊断（推荐）",
-		description: "上传版本、系统信息、故障类型、代码位置与发生次数。",
+		label: "Send version stats and error diagnostics (recommended)",
+		description: "Uploads version, system info, error type, code location and occurrence count.",
 		children: /* @__PURE__ */ (0, z.jsx)(lh, {
-			"aria-label": "发送版本统计与错误诊断（推荐）",
+			"aria-label": "Send version stats and error diagnostics (recommended)",
 			isSelected: e.usage && e.errors,
 			onChange: (n) => t({
 				...e,
@@ -21827,7 +21827,7 @@ function Z_({ value: e, onChange: t, busy: n = !1 }) {
 		divided: !0,
 		children: /* @__PURE__ */ (0, z.jsx)("span", {
 			className: "self-start",
-			children: /* @__PURE__ */ (0, z.jsx)(X_, { children: "上传服务未配置" })
+			children: /* @__PURE__ */ (0, z.jsx)(X_, { children: "Upload service not configured" })
 		})
 	})] });
 }
@@ -21843,10 +21843,10 @@ function Q_(e) {
 	} : {};
 }
 function $_(e) {
-	if (e.library_policy === "local") return "仅使用本地资料";
-	if (e.library_policy !== "custom") return "自动补全";
+	if (e.library_policy === "local") return "Local metadata only";
+	if (e.library_policy !== "custom") return "Auto-complete";
 	let t = I_.filter(([t]) => e.library_stages?.split(",").includes(t)).map(([, e]) => e);
-	return t.length ? `自定义：${t.join("、")}` : "自定义：只读取本地 NFO 和图片";
+	return t.length ? `Custom: ${t.join(", ")}` : "Custom: read local NFO and images only";
 }
 // src/react/pages/setup/setup-form.tsx
 var ev = ["port", "mdns_name"];
@@ -21863,7 +21863,7 @@ function tv(e, t) {
 	};
 }
 function nv(e) {
-	return e.length ? `完成设置后扫描 ${e.length} 个文件夹` : "完成设置后扫描媒体目录";
+	return e.length ? `Scan ${e.length} folders after setup` : "Scan media folders after setup";
 }
 var rv = (e) => Array.isArray(e) ? e.filter(Boolean).join(" ") : e ?? "";
 function iv({ setup: e, onDone: t, onRestore: n }) {
@@ -21875,7 +21875,7 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 	}, [r]);
 	let u = e.questions.find((e) => e.input === "folders"), d = e.questions.find((e) => e.input === "folder"), f = e.questions.filter((e) => e.input !== "folders"), p = f.find((e) => e.key === "host"), m = f.filter((e) => e.input !== "folder" && e.key !== "host"), h = e.media_sources.map(({ value: e, label: t }) => [e, t]), g = (0, j.useRef)({
 		library_id: bh(),
-		library: "我的媒体库",
+		library: "My media library",
 		library_icon: "",
 		library_color: "",
 		library_policy: "auto"
@@ -21918,7 +21918,7 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 		let a = {
 			media_dir: ne ? [] : v.rows.map((e) => ({
 				...e,
-				library: e.library?.trim() || "未命名媒体库"
+				library: e.library?.trim() || "Untitled media library"
 			})),
 			skip_media: ne,
 			access_enabled: T,
@@ -22002,7 +22002,7 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 					children: [/* @__PURE__ */ (0, z.jsx)("div", {
 						"data-setup-progress": "",
 						role: "img",
-						"aria-label": `首次设置，第 ${r + 1} 步，共 4 步`,
+						"aria-label": `First-time setup, step ${r + 1} of 4`,
 						children: [
 							0,
 							1,
@@ -22014,7 +22014,7 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 						}, e))
 					}), /* @__PURE__ */ (0, z.jsx)("span", {
 						className: "text-body-2-regular text-text-secondary",
-						children: "首次设置"
+						children: "First-time setup"
 					})]
 				}),
 				/* @__PURE__ */ (0, z.jsx)("div", {
@@ -22032,11 +22032,11 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 									ref: s,
 									tabIndex: -1,
 									className: "text-title-1-semibold text-text-primary",
-									children: r === 0 ? "欢迎使用 Peach" : r === 1 ? "你的媒体，放在哪里？" : r === 2 ? "在哪里使用 Peach？" : "准备好开始了"
+									children: r === 0 ? "Welcome to Peach" : r === 1 ? "Where is your media?" : r === 2 ? "Where will you use Peach?" : "Ready to start"
 								}), /* @__PURE__ */ (0, z.jsx)("p", {
 									"data-copy-key": `setup.description.${r}`,
 									className: "text-body-regular text-text-secondary",
-									children: r === 0 ? "花一点时间，让 Peach 更适合你。" : r === 1 ? "连接已有文件夹，或先进入界面看看。" : r === 2 ? "选择访问范围，也可以为馆藏设置密码。" : "确认这些选择，剩下的交给 Peach。"
+									children: r === 0 ? "Take a moment to make Peach yours." : r === 1 ? "Connect existing folders, or look around the interface first." : r === 2 ? "Choose the access scope; you can also set a password for the library." : "Confirm these choices and leave the rest to Peach."
 								})]
 							}, r),
 							/* @__PURE__ */ (0, z.jsx)("div", {
@@ -22048,30 +22048,30 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 											"data-setup-welcome-copy": "",
 											children: [/* @__PURE__ */ (0, z.jsx)("strong", {
 												className: "text-body-medium",
-												children: "连接你的媒体库"
+												children: "Connect your media library"
 											}), /* @__PURE__ */ (0, z.jsx)("p", {
 												className: "text-body-2-regular text-text-secondary",
-												children: "本地文件夹与已挂载的网盘，都可以整理。"
+												children: "Local folders and mounted cloud drives can both be organized."
 											})]
 										})] }),
 										/* @__PURE__ */ (0, z.jsxs)("li", { children: [/* @__PURE__ */ (0, z.jsx)(om, {}), /* @__PURE__ */ (0, z.jsxs)("div", {
 											"data-setup-welcome-copy": "",
 											children: [/* @__PURE__ */ (0, z.jsx)("strong", {
 												className: "text-body-medium",
-												children: "更快找到想看的"
+												children: "Find what you want faster"
 											}), /* @__PURE__ */ (0, z.jsx)("p", {
 												className: "text-body-2-regular text-text-secondary",
-												children: "用搜索、标签和收藏浏览馆藏。"
+												children: "Browse the library with search, tags and favorites."
 											})]
 										})] }),
 										/* @__PURE__ */ (0, z.jsxs)("li", { children: [/* @__PURE__ */ (0, z.jsx)(im, {}), /* @__PURE__ */ (0, z.jsxs)("div", {
 											"data-setup-welcome-copy": "",
 											children: [/* @__PURE__ */ (0, z.jsx)("strong", {
 												className: "text-body-medium",
-												children: "按你的习惯播放"
+												children: "Play your way"
 											}), /* @__PURE__ */ (0, z.jsx)("p", {
 												className: "text-body-2-regular text-text-secondary",
-												children: "播放与外观偏好，可以随时在设置里调整。"
+												children: "Playback and appearance preferences can be adjusted in settings any time."
 											})]
 										})] })
 									]
@@ -22090,9 +22090,9 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 										/* @__PURE__ */ (0, z.jsx)(Qp, {
 											isSelected: ne,
 											onChange: re,
-											children: "稍后添加媒体库"
+											children: "Add media library later"
 										}),
-										ne ? /* @__PURE__ */ (0, z.jsx)(Wm, { children: "完成设置后，可在「媒体库与入库」添加自己的媒体目录。" }) : /* @__PURE__ */ (0, z.jsxs)(z.Fragment, { children: [
+										ne ? /* @__PURE__ */ (0, z.jsx)(Wm, { children: "After setup, you can add your own media folders under “Media libraries and import”." }) : /* @__PURE__ */ (0, z.jsxs)(z.Fragment, { children: [
 											de ? /* @__PURE__ */ (0, z.jsx)(Gm, { children: de }, xe) : null,
 											/* @__PURE__ */ (0, z.jsx)("div", {
 												role: "group",
@@ -22106,29 +22106,29 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 															"data-library-head": "",
 															children: [
 																/* @__PURE__ */ (0, z.jsx)(C_, {
-																	label: `${e.library || "未命名媒体库"} 图标`,
+																	label: `${e.library || "Untitled media library"} Icon`,
 																	value: e.library_icon || "",
 																	kind: e.location,
 																	onChange: (t) => Ne(e, { library_icon: t })
 																}),
 																/* @__PURE__ */ (0, z.jsx)(pm, {
 																	className: "w-full",
-																	"aria-label": `${e.library || "未命名媒体库"} 名称`,
-																	placeholder: "媒体库名称",
+																	"aria-label": `${e.library || "Untitled media library"} Name`,
+																	placeholder: "Media library name",
 																	maxLength: 80,
 																	value: e.library || "",
 																	onChange: (t) => Ne(e, { library: t })
 																}),
 																/* @__PURE__ */ (0, z.jsx)(V_, {
 																	id: e.library_id || "",
-																	name: e.library || "未命名媒体库",
+																	name: e.library || "Untitled media library",
 																	value: e.library_color || "",
 																	onChange: (t) => Ne(e, { library_color: t })
 																}),
 																/* @__PURE__ */ (0, z.jsx)("div", {
 																	"data-setup-library-policy": "",
 																	children: /* @__PURE__ */ (0, z.jsx)(z_, {
-																		name: e.library || "未命名媒体库",
+																		name: e.library || "Untitled media library",
 																		value: e.library_policy || "auto",
 																		onChange: (t) => Ne(e, {
 																			library_policy: t,
@@ -22139,14 +22139,14 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 															]
 														}),
 														e.library_policy === "custom" ? /* @__PURE__ */ (0, z.jsx)(B_, {
-															name: e.library || "未命名媒体库",
+															name: e.library || "Untitled media library",
 															value: e.library_stages?.split(",").filter(Boolean) ?? L_,
 															onChange: (t) => Ne(e, { library_stages: t.join(",") })
 														}) : null,
 														/* @__PURE__ */ (0, z.jsxs)("div", {
 															"data-library-folders": "",
 															role: "group",
-															"aria-label": `${e.library || "未命名媒体库"} 的文件夹`,
+															"aria-label": `${e.library || "Untitled media library"} folders`,
 															children: [v.rows.map((t, n) => t.library_id === e.library_id ? /* @__PURE__ */ (0, z.jsx)(v_, {
 																label: `${u.label} ${n + 1}`,
 																path: t.path,
@@ -22171,21 +22171,21 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 																	/* @__PURE__ */ (0, z.jsx)(h_, {
 																		index: n,
 																		cost: t.cost ?? "",
-																		error: _e && !t.cost ? "请选择媒体读取策略" : void 0,
+																		error: _e && !t.cost ? "Choose a media read policy" : void 0,
 																		onChange: (e) => v.edit(n, { cost: e })
 																	}),
 																	Me.length > 1 ? /* @__PURE__ */ (0, z.jsx)(p_, {
-																		label: "移到媒体库",
+																		label: "Move to media library",
 																		className: "w-full @lg:w-60",
 																		children: /* @__PURE__ */ (0, z.jsx)(vh, {
 																			className: "w-full",
-																			"aria-label": `目录所属媒体库 ${n + 1}`,
+																			"aria-label": `Media library for folder ${n + 1}`,
 																			selectedKey: t.library_id,
 																			renderValue: /* @__PURE__ */ (0, z.jsxs)("span", {
 																				className: "flex min-w-0 items-center gap-2",
 																				children: [/* @__PURE__ */ (0, z.jsx)(Zm, { mark: t.library_icon || x_(t.location)[0] }), /* @__PURE__ */ (0, z.jsx)("span", {
 																					className: "truncate",
-																					children: t.library || "未命名媒体库"
+																					children: t.library || "Untitled media library"
 																				})]
 																			}),
 																			onSelectionChange: (e) => {
@@ -22194,7 +22194,7 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 																			},
 																			children: [...new Map(v.rows.map((e) => [e.library_id, e])).values()].map((e) => /* @__PURE__ */ (0, z.jsx)(yh, {
 																				id: e.library_id,
-																				children: e.library || "未命名媒体库"
+																				children: e.library || "Untitled media library"
 																			}, e.library_id))
 																		})
 																	}) : null
@@ -22204,7 +22204,7 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 																children: /* @__PURE__ */ (0, z.jsx)(Rt, {
 																	variant: "secondary",
 																	"data-copy-interact": !0,
-																	"aria-label": `给 ${e.library || "未命名媒体库"} 添加文件夹`,
+																	"aria-label": `Add a folder to ${e.library || "Untitled media library"}`,
 																	onClick: () => {
 																		v.add(), v.edit(v.rows.length, {
 																			...Q_(e),
@@ -22212,7 +22212,7 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 																			cost: e.cost
 																		});
 																	},
-																	children: "添加文件夹"
+																	children: "Add folder"
 																})
 															})]
 														})
@@ -22227,14 +22227,14 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 												onClick: () => {
 													v.add(), v.edit(v.rows.length, {
 														library_id: bh(),
-														library: `媒体库 ${Me.length + 1}`,
+														library: `Media library ${Me.length + 1}`,
 														library_icon: "",
 														library_color: "",
 														library_policy: "auto",
 														library_stages: void 0
 													});
 												},
-												children: "添加媒体库"
+												children: "Add media library"
 											}),
 											je ? /* @__PURE__ */ (0, z.jsxs)(z.Fragment, { children: [
 												/* @__PURE__ */ (0, z.jsx)(g_, {}),
@@ -22277,7 +22277,7 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 												hint: Ce(ke)
 											}), /* @__PURE__ */ (0, z.jsx)(oh, {
 												icon: l_,
-												"aria-label": "选择数据目录",
+												"aria-label": "Choose data folder",
 												onClick: () => void Oe(),
 												...c_(x)
 											})]
@@ -22301,11 +22301,11 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 													children: [/* @__PURE__ */ (0, z.jsx)(sm, {
 														id: "setup-password-title",
 														elementType: "span",
-														children: "访问密码"
+														children: "Access password"
 													}), /* @__PURE__ */ (0, z.jsx)("p", {
 														id: "setup-access-description",
 														className: "text-body-2-regular text-text-secondary",
-														children: "开启后，访问 Peach 需要先登录。"
+														children: "When on, Peach requires signing in."
 													})]
 												}), /* @__PURE__ */ (0, z.jsx)(lh, {
 													"aria-labelledby": "setup-password-title",
@@ -22314,15 +22314,15 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 													onChange: E
 												})]
 											}),
-											/* @__PURE__ */ (0, z.jsx)(Wm, { children: Pe ? "局域网访问推荐设置密码。未设置时，同一网络中能连接 Peach 的设备可直接进入。" : "只有这台电脑可以访问；设置密码后，打开 Peach 仍需登录。" }),
+											/* @__PURE__ */ (0, z.jsx)(Wm, { children: Pe ? "A password is recommended for LAN access. Without one, any device on the same network that can reach Peach gets straight in." : "Only this computer can access Peach; with a password set, opening Peach still requires signing in." }),
 											T ? /* @__PURE__ */ (0, z.jsx)(H_, {
-												label: "访问密码",
+												label: "Access password",
 												password: D,
 												confirmation: k,
 												onPassword: O,
 												onConfirmation: ee,
 												passwordError: Ce(rv(le.access_password)),
-												passwordHint: "请输入 8–256 个字符。",
+												passwordHint: "Enter 8–256 characters.",
 												confirmationInvalid: !!le.access_password
 											}) : null
 										]
@@ -22332,15 +22332,15 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 										children: [
 											/* @__PURE__ */ (0, z.jsx)(Ht, {
 												id: "setup-proxy-title",
-												children: "Peach 代理"
+												children: "Peach proxy"
 											}),
-											/* @__PURE__ */ (0, z.jsx)(Wm, { children: "用于资料采集、封面和工具下载，可在配置页修改。" }),
+											/* @__PURE__ */ (0, z.jsx)(Wm, { children: "Used for metadata scraping, covers and tool downloads; can be changed on the settings page." }),
 											/* @__PURE__ */ (0, z.jsxs)("div", {
 												className: "flex flex-col items-start gap-1.5",
 												children: [/* @__PURE__ */ (0, z.jsx)(sm, {
 													elementType: "span",
 													id: "setup-proxy-mode-label",
-													children: "连接方式"
+													children: "Connection method"
 												}), /* @__PURE__ */ (0, z.jsx)(W_, {
 													mode: ae,
 													onChange: oe,
@@ -22356,18 +22356,18 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 											}) : le.peach_proxy ? /* @__PURE__ */ (0, z.jsx)(Gm, { children: rv(le.peach_proxy) }, xe) : null,
 											e.docker && ae === "proxy" && K_(se) ? /* @__PURE__ */ (0, z.jsx)(hm, {
 												tone: "warning",
-												title: "请填写容器可访问的代理地址",
-												children: "回环地址指向容器自身；宿主机代理需使用容器可访问的宿主机地址。"
+												title: "Enter a proxy address the container can reach",
+												children: "Loopback addresses point to the container itself; for a host proxy, use a host address the container can reach."
 											}) : null,
 											e.peach_proxy?.needs_selection ? /* @__PURE__ */ (0, z.jsx)(hm, {
 												tone: "warning",
-												title: "需要选择连接方式",
-												children: "已有来源的代理地址不同，请选择公共连接方式。"
+												title: "Choose a connection method",
+												children: "Existing sources use different proxy addresses; choose a shared connection method."
 											}) : null
 										]
 									}),
 									/* @__PURE__ */ (0, z.jsxs)(Vt, { children: [/* @__PURE__ */ (0, z.jsx)(Ym, {
-										summary: "高级设置",
+										summary: "Advanced settings",
 										defaultOpen: P > 0,
 										children: /* @__PURE__ */ (0, z.jsx)("div", {
 											className: "flex flex-col gap-4",
@@ -22375,7 +22375,7 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 										})
 									}, P), /* @__PURE__ */ (0, z.jsx)(Wm, { children: /* @__PURE__ */ (0, z.jsxs)("span", {
 										className: "break-all",
-										children: ["访问地址：", Fe]
+										children: ["Access address: ", Fe]
 									}) })] })
 								]
 							}),
@@ -22387,60 +22387,60 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 										labelledBy: "setup-options-title",
 										children: [/* @__PURE__ */ (0, z.jsx)(Ht, {
 											id: "setup-options-title",
-											children: "首次扫描"
-										}), ne ? /* @__PURE__ */ (0, z.jsx)(Wm, { children: "添加媒体目录后，再选择处理方式并开始扫描。" }) : /* @__PURE__ */ (0, z.jsxs)(z.Fragment, { children: [/* @__PURE__ */ (0, z.jsxs)("div", {
+											children: "First scan"
+										}), ne ? /* @__PURE__ */ (0, z.jsx)(Wm, { children: "After adding media folders, choose a handling option and start scanning." }) : /* @__PURE__ */ (0, z.jsxs)(z.Fragment, { children: [/* @__PURE__ */ (0, z.jsxs)("div", {
 											className: "flex flex-col gap-1.5",
 											children: [/* @__PURE__ */ (0, z.jsx)(Qp, {
 												isSelected: A,
 												onChange: te,
 												children: nv(Ae)
-											}), /* @__PURE__ */ (0, z.jsx)(Wm, { children: A ? "扫描会在后台开始，期间可以进入 Peach。" : "先保存处理方式，稍后在「媒体库与入库」开始扫描。" })]
-										}), v.rows.some((e) => e.cost === "metered") ? /* @__PURE__ */ (0, z.jsx)(Wm, { children: "开启代理保护的目录不会自动读取视频信息或生成预览；播放时会读取视频。" }) : null] })]
+											}), /* @__PURE__ */ (0, z.jsx)(Wm, { children: A ? "The scan starts in the background, and you can use Peach meanwhile." : "Save the handling option first, then start scanning later under “Media libraries and import”." })]
+										}), v.rows.some((e) => e.cost === "metered") ? /* @__PURE__ */ (0, z.jsx)(Wm, { children: "Folders with proxy protection don't read video info or generate previews automatically; videos are read when played." }) : null] })]
 									}),
 									pe ? /* @__PURE__ */ (0, z.jsx)(Gm, { children: pe }) : null,
 									M ? /* @__PURE__ */ (0, z.jsxs)(Vt, { children: [
-										/* @__PURE__ */ (0, z.jsx)(Ht, { children: "版本统计与错误诊断" }),
+										/* @__PURE__ */ (0, z.jsx)(Ht, { children: "Version stats and error diagnostics" }),
 										/* @__PURE__ */ (0, z.jsx)(Z_, {
 											value: M,
 											onChange: ie
 										}),
-										/* @__PURE__ */ (0, z.jsx)(Wm, { children: "馆藏与口味明细上传默认关闭，可在「应用与维护」查看并选择。" })
+										/* @__PURE__ */ (0, z.jsx)(Wm, { children: "Library and taste detail uploads are off by default; review and choose under “App and maintenance”." })
 									] }) : null,
 									/* @__PURE__ */ (0, z.jsxs)(Vt, {
 										labelledBy: "setup-summary-title",
 										children: [/* @__PURE__ */ (0, z.jsx)(Ht, {
 											id: "setup-summary-title",
-											children: "确认设置"
+											children: "Confirm settings"
 										}), /* @__PURE__ */ (0, z.jsxs)(qm, { children: [
 											/* @__PURE__ */ (0, z.jsx)(Jm, {
-												term: "媒体目录",
-												children: ne ? "稍后添加" : Ae.length ? `${Ae.length} 个文件夹 · ${Me.length} 个媒体库` : "尚未填写"
+												term: "Media folders",
+												children: ne ? "Add later" : Ae.length ? `${Ae.length} folders · ${Me.length} media libraries` : "Not filled in yet"
 											}),
 											/* @__PURE__ */ (0, z.jsx)(Jm, {
-												term: "数据目录",
+												term: "Data folder",
 												children: /* @__PURE__ */ (0, z.jsx)("span", {
 													className: "break-all",
-													children: d ? y[d.key] || "尚未填写" : "未取得"
+													children: d ? y[d.key] || "Not filled in yet" : "Not obtained"
 												})
 											}),
 											/* @__PURE__ */ (0, z.jsxs)(Jm, {
-												term: "访问范围",
+												term: "Access scope",
 												children: [
-													Pe ? "同一局域网的设备" : "只有这台电脑",
+													Pe ? "Devices on the same LAN" : "Only this computer",
 													" · ",
-													T ? "使用访问密码" : "未设置访问密码"
+													T ? "Use access password" : "No access password set"
 												]
 											}),
 											/* @__PURE__ */ (0, z.jsx)(Jm, {
-												term: "首次扫描",
-												children: !ne && A ? "完成设置后开始" : "稍后手动开始"
+												term: "First scan",
+												children: !ne && A ? "Start after setup" : "Start manually later"
 											}),
 											M ? /* @__PURE__ */ (0, z.jsx)(Jm, {
-												term: "诊断反馈",
-												children: M.usage || M.errors ? "已开启，可在上方调整" : "已关闭"
+												term: "Diagnostic feedback",
+												children: M.usage || M.errors ? "On; adjust above" : "Off"
 											}) : null,
 											ne ? null : Me.map((e) => /* @__PURE__ */ (0, z.jsx)(Jm, {
-												term: e.library || "未命名媒体库",
+												term: e.library || "Untitled media library",
 												children: $_(e)
 											}, e.library_id))
 										] })]
@@ -22459,15 +22459,15 @@ function iv({ setup: e, onDone: t, onRestore: n }) {
 							he || l(r - 1);
 						},
 						"aria-disabled": he || void 0,
-						children: "返回"
+						children: "Back"
 					}) : /* @__PURE__ */ (0, z.jsx)(Rt, {
 						variant: "ghost",
 						onClick: n,
-						children: "使用已有数据"
+						children: "Use existing data"
 					}), /* @__PURE__ */ (0, z.jsx)(Rt, {
 						type: "submit",
 						...c_(he),
-						children: r === 0 ? "开始设置" : r === 3 ? "完成设置" : "继续"
+						children: r === 0 ? "Start setup" : r === 3 ? "Finish setup" : "Continue"
 					})]
 				}, r)
 			]
@@ -22503,7 +22503,7 @@ function av({ onDone: e, onBack: t }) {
 					"data-setup-top": "",
 					children: /* @__PURE__ */ (0, z.jsx)("span", {
 						className: "text-body-2-regular text-text-secondary",
-						children: "连接已有数据"
+						children: "Connect existing data"
 					})
 				}),
 				/* @__PURE__ */ (0, z.jsx)("div", {
@@ -22517,13 +22517,13 @@ function av({ onDone: e, onBack: t }) {
 								ref: c,
 								tabIndex: -1,
 								className: "text-title-1-semibold text-text-primary",
-								children: "使用已有数据"
+								children: "Use existing data"
 							}), /* @__PURE__ */ (0, z.jsx)("p", {
 								className: "text-body-regular text-text-secondary",
-								children: "连接 Peach 数据目录，继续使用原来的配置与馆藏。"
+								children: "Connect a Peach data folder to keep using your existing settings and library."
 							})]
 						}), /* @__PURE__ */ (0, z.jsx)("div", { children: /* @__PURE__ */ (0, z.jsx)(pm, {
-							label: "已有数据目录",
+							label: "Existing data folder",
 							value: n,
 							onChange: r,
 							isRequired: !0,
@@ -22534,7 +22534,7 @@ function av({ onDone: e, onBack: t }) {
 							hint: i ? /* @__PURE__ */ (0, z.jsx)("span", {
 								role: "alert",
 								children: i
-							}) : "选择包含 config.toml 和 database 文件夹的数据目录。"
+							}) : "Choose the data folder containing config.toml and the database folder."
 						}) })]
 					})
 				}),
@@ -22547,11 +22547,11 @@ function av({ onDone: e, onBack: t }) {
 							o || t();
 						},
 						"aria-disabled": o || void 0,
-						children: "返回首次设置"
+						children: "Back to first-time setup"
 					}), /* @__PURE__ */ (0, z.jsx)(Rt, {
 						type: "submit",
 						...c_(o),
-						children: o ? "正在连接数据目录…" : "使用此目录"
+						children: o ? "Connecting data folder…" : "Use this folder"
 					})]
 				})
 			]
@@ -22595,7 +22595,7 @@ function ov() {
 				"data-setup-top": "",
 				children: /* @__PURE__ */ (0, z.jsx)("span", {
 					className: "text-body-2-regular text-text-secondary",
-					children: "首次设置"
+					children: "First-time setup"
 				})
 			}), /* @__PURE__ */ (0, z.jsx)("div", {
 				"data-setup-step-scroll": "",
@@ -22607,17 +22607,17 @@ function ov() {
 							children: [/* @__PURE__ */ (0, z.jsx)("h1", {
 								id: "auth-card-title",
 								className: "text-title-1-semibold text-text-primary",
-								children: "欢迎使用 Peach"
+								children: "Welcome to Peach"
 							}), /* @__PURE__ */ (0, z.jsx)("p", {
 								className: "text-body-regular text-text-secondary",
-								children: "花一点时间，让 Peach 更适合你。"
+								children: "Take a moment to make Peach yours."
 							})]
 						}),
 						e.kind === "loading" ? /* @__PURE__ */ (0, z.jsxs)("div", {
 							"data-setup-loading": "",
 							"data-skeleton": "",
 							role: "status",
-							"aria-label": "正在读取设置",
+							"aria-label": "Loading settings",
 							children: [
 								/* @__PURE__ */ (0, z.jsx)("span", {}),
 								/* @__PURE__ */ (0, z.jsx)("span", {}),
@@ -22626,7 +22626,7 @@ function ov() {
 						}) : null,
 						e.kind === "denied" ? /* @__PURE__ */ (0, z.jsx)(hm, {
 							tone: "error",
-							children: "请在运行 Peach 的这台电脑上打开设置。"
+							children: "Open setup on the computer running Peach."
 						}) : null,
 						e.kind === "failed" ? /* @__PURE__ */ (0, z.jsx)(hm, {
 							tone: "error",
@@ -22635,7 +22635,7 @@ function ov() {
 								onClick: () => {
 									t({ kind: "loading" }), r((e) => e + 1);
 								},
-								children: "立即重试"
+								children: "Retry now"
 							}),
 							children: e.message
 						}) : null
@@ -22655,4 +22655,4 @@ E();
 var cv = document.getElementById("peach-page"), lv = cv ? sv[cv.dataset.page ?? ""] : void 0;
 cv && lv && (0, M.createRoot)(cv).render(/* @__PURE__ */ (0, z.jsx)(lv, { data: { ...cv.dataset } }));
 
-//# debugId=e0055ad0-274c-46a6-a955-4d9fcf067df8
+//# debugId=a0d841e2-6efc-4bff-bdaf-ec05b46f7d9c

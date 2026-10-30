@@ -1,7 +1,7 @@
 (function() {
 	try {
 		var e = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, t = new e.Error().stack;
-		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "41e202a0-1aa4-46b4-a38d-149b68ebacdd", e._sentryDebugIdIdentifier = "sentry-dbid-41e202a0-1aa4-46b4-a38d-149b68ebacdd");
+		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "064eab0e-81f4-4f37-9b4f-e0ad3430acdc", e._sentryDebugIdIdentifier = "sentry-dbid-064eab0e-81f4-4f37-9b4f-e0ad3430acdc");
 	} catch {}
 })();
 import { Button as e, __toESM as t, cardClass as n, cx as r, require_jsx_runtime as i, require_react as a, useOverlayScrollbar as o } from "./peach-app.js";
@@ -14,9 +14,9 @@ function l({ code: t, language: i, label: a, maxCharacters: l, bounded: u = !0, 
 	}, [t]);
 	let v = l !== void 0 && t.length > l, y = async () => {
 		try {
-			await navigator.clipboard.writeText(t), _(!1), h("已复制"), f?.();
+			await navigator.clipboard.writeText(t), _(!1), h("Copied"), f?.();
 		} catch {
-			_(!0), h("复制失败，请选中文本复制。");
+			_(!0), h("Copy failed; select the text and copy it.");
 		}
 	};
 	return /* @__PURE__ */ (0, c.jsxs)("div", {
@@ -36,7 +36,7 @@ function l({ code: t, language: i, label: a, maxCharacters: l, bounded: u = !0, 
 					variant: "secondary",
 					size: "small",
 					onClick: () => void y(),
-					children: d || (v ? "复制完整内容" : "复制代码")
+					children: d || (v ? "Copy full content" : "Copy code")
 				})]
 			}),
 			/* @__PURE__ */ (0, c.jsx)("div", {
@@ -59,4 +59,4 @@ function l({ code: t, language: i, label: a, maxCharacters: l, bounded: u = !0, 
 }
 export { l as CodeBlock };
 
-//# debugId=41e202a0-1aa4-46b4-a38d-149b68ebacdd
+//# debugId=064eab0e-81f4-4f37-9b4f-e0ad3430acdc

@@ -1,7 +1,7 @@
 (function() {
 	try {
 		var e = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, t = new e.Error().stack;
-		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "88012f02-3fa8-41e5-a124-c10c692bbb15", e._sentryDebugIdIdentifier = "sentry-dbid-88012f02-3fa8-41e5-a124-c10c692bbb15");
+		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "d7f576b2-f022-4ae0-838f-31e0f5298fc2", e._sentryDebugIdIdentifier = "sentry-dbid-d7f576b2-f022-4ae0-838f-31e0f5298fc2");
 	} catch {}
 })();
 import { Button as e, Chip as t, Wt as n, __toESM as r, authorAvatar as i, authorInitial as a, errorHeadline as o, isBroken as s, require_jsx_runtime as c, require_react as l, sourceIconUrl as u, statusText as d } from "./peach-app.js";
@@ -23,7 +23,7 @@ function g({ group: e, name: t }) {
 		onError: () => s(o + 1),
 		className: "size-8 shrink-0 rounded-full bg-background-tertiary-default object-cover"
 	}) : /* @__PURE__ */ (0, m.jsx)("span", {
-		title: "没有可用头像",
+		title: "No avatar available",
 		className: "inline-grid size-8 shrink-0 place-items-center rounded-full bg-background-tertiary-default text-caption-1-semibold text-text-secondary",
 		children: a(t)
 	});
@@ -41,7 +41,7 @@ function v({ source: e }) {
 		href: e.url,
 		target: "_blank",
 		rel: "noopener noreferrer",
-		title: "打开原来源",
+		title: "Open original source",
 		className: "max-w-full min-w-0 self-start text-body-medium wrap-anywhere text-text-primary underline-offset-2 hover:underline",
 		children: [e.label, /* @__PURE__ */ (0, m.jsx)(n, {
 			"aria-hidden": !0,
@@ -75,10 +75,10 @@ function y({ text: t, prefix: n = "", tone: r = "error" }) {
 			"aria-expanded": a,
 			className: "-ml-2",
 			onClick: () => s(!a),
-			children: a ? "收起详情" : "查看详情"
+			children: a ? "Hide details" : "Show details"
 		}) : null]
 	});
 }
 export { g as AuthorAvatar, y as ErrorLine, h as SourceIcon, v as SourceLink, _ as StatusBadge };
 
-//# debugId=88012f02-3fa8-41e5-a124-c10c692bbb15
+//# debugId=d7f576b2-f022-4ae0-838f-31e0f5298fc2

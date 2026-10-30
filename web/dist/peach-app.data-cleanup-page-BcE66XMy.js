@@ -1,18 +1,18 @@
 (function() {
 	try {
 		var e = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, t = new e.Error().stack;
-		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "8131dcd7-9c56-43a9-9b29-2edfcbadf1af", e._sentryDebugIdIdentifier = "sentry-dbid-8131dcd7-9c56-43a9-9b29-2edfcbadf1af");
+		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "6e39a022-48e6-48c5-9ad7-3a20a0021345", e._sentryDebugIdIdentifier = "sentry-dbid-6e39a022-48e6-48c5-9ad7-3a20a0021345");
 	} catch {}
 })();
 import { Button as e, Chip as t, DIRECTORY_TEMPLATE_ERROR as n, DUPLICATES_KEY as r, Fieldset as i, FieldsetTitle as a, IDLE_REPAIR as o, IconButton as s, Input as c, JUNK_KEY as l, LINKS_KEY as u, LINK_CHECK_KEY as d, LINK_KINDS as f, LINK_PRUNE_KEY as p, LOC as m, LibraryProcessingCard as h, MEDIA_REPAIR_KEY as g, MEDIA_REPAIR_URL as _, MEDIA_SOURCES_KEY as v, MEDIA_SOURCE_ICONS as y, Note as b, ORGANIZE_KEY as x, ORPHAN_RECORDS_KEY as S, Progress as C, QUALITY_GOALS_KEY as w, REPAIR_CARD_TEXT as T, REPAIR_LIBRARIES_KEY as E, RESOURCE_APPLY_KEY as D, RESOURCE_SCAN_KEY as O, RESULT_PANEL as ee, RESULT_SECTION as k, REVIEW_COUNTS_KEY as A, SOURCE_LABELS as j, Select as te, SelectItem as ne, SourceMark as M, StatusLabel as N, TRASH_KEY as re, TaskProgress as P, Wt as F, __toESM as ie, apiSend as ae, applyConfirmText as I, applyLeftovers as L, applyPlanText as R, applyText as oe, attachOrphan as se, baseName as z, busyProps as B, candidateText as ce, checkLine as le, confirmModal as V, entityFaceImg as ue, entityPath as de, errorMessage as H, esc as fe, fetchDuplicates as pe, fetchJunkSummary as me, fetchLinkCheck as U, fetchLinkPrune as he, fetchLinkStats as W, fetchMediaRepair as ge, fetchMediaSources as _e, fetchOrganize as ve, fetchOrganizeExample as ye, fetchOrphanRecords as be, fetchQualityGoals as xe, fetchRepairLibraries as Se, fetchResourceApply as Ce, fetchResourceScan as we, fetchReviewCounts as Te, fetchTrashSummary as Ee, firstGrapheme as De, fmtSize as Oe, hasChanges as ke, hasResourceRoots as Ae, junkBreakdown as je, missingToolText as Me, organizeOutcome as Ne, pickOrganizeFolder as Pe, planSummary as Fe, previewOrganize as Ie, pruneText as Le, purgeCount as Re, purgeOrphan as ze, queryClient as G, recordsText as Be, rememberTemplates as Ve, require_jsx_runtime as He, require_react as Ue, reviewSummary as We, scanLine as Ge, sourceMeta as Ke, spriteGlyph as K, startLinkCheck as qe, startLinkPrune as Je, startOrganize as Ye, startResourceApply as Xe, startResourceScan as Ze, statusLine as Qe, useAction as $e, useBackgroundJob as q, useMutation as et, useQuery as J, withOrganizeJob as tt } from "./peach-app.js";
 import { Page as nt } from "./peach-app.page-QAncjzM1.js";
-import { ErrorExcerpt as rt } from "./peach-app.error-excerpt-B8v2xEIP.js";
+import { ErrorExcerpt as rt } from "./peach-app.error-excerpt-CprIeeZk.js";
 import { PLAIN_STAT_STRIP as it, PlainStat as Y, plainStatClass as X } from "./peach-app.stat-card-DsNmy_0F.js";
-import { DataTable as at } from "./peach-app.data-table-BUBc51R4.js";
+import { DataTable as at } from "./peach-app.data-table-NP6EzYBN.js";
 import { SiteMark as ot } from "./peach-app.site-mark-D_VlIyJz.js";
 import { LEGACY_AVATAR_IMG as st } from "./peach-app.legacy-avatar-NSITxLRS.js";
-import { FolderSearchIcon as ct } from "./peach-app.folder-rows-BWBfTyUD.js";
-import { ConnectionStatus as lt } from "./peach-app.connection-status-DI6kgn3i.js";
+import { FolderSearchIcon as ct } from "./peach-app.folder-rows-BfIgmIL8.js";
+import { ConnectionStatus as lt } from "./peach-app.connection-status-B0tSnjj0.js";
 // src/react/media-repair/media-repair-card.tsx
 var Z = /* @__PURE__ */ ie(Ue(), 1), Q = He(), ut = (e) => y[e] || e, dt = (e) => G.setQueryData(g, e);
 function ft({ toast: t = () => {} }) {
@@ -24,29 +24,29 @@ function ft({ toast: t = () => {} }) {
 			restart: !0
 		}),
 		onFinish: (e) => {
-			e.status === "complete" && !e.failed && !e.missing_tool && t(e.repaired ? `已修复 ${e.repaired.toLocaleString()} 部视频` : "已检查媒体库，没有需要修复的视频");
+			e.status === "complete" && !e.failed && !e.missing_tool && t(e.repaired ? `Repaired ${e.repaired.toLocaleString()} videos` : "Media library checked; no videos need repair");
 		}
 	}), r = J({
 		queryKey: E,
 		queryFn: ({ signal: e }) => Se(e)
 	}), [s, c] = (0, Z.useState)(""), l = $e(), u = n.job ?? o, d = r.data ?? [], f = u.status === "running", p = d.find((e) => e.id === (f ? u.library : s)) ?? d.find((e) => e.id === u.library) ?? d[0], m = () => {
 		p && V({
-			title: `修复媒体库「${p.name}」`,
-			body: "缺时间戳表的片子另存一份修好的头，原文件不动；缺索引的片子重建后替换原文件，坏原件改名成同目录的隐藏文件（.文件名.peach-original）留着。" + (p.metered ? "这个库在计费来源上，每修一部都要把片子完整拉一遍。" : ""),
-			confirmLabel: "修复媒体库",
+			title: `Repair media library “${p.name}”`,
+			body: "Videos missing a timestamp table get a separate repaired header and the original file is left alone; videos missing an index are rebuilt and replace the original,with the broken original renamed to a hidden file in the same folder (.filename.peach-original) and kept." + (p.metered ? "This library is on a billed source; each repair downloads the whole video." : ""),
+			confirmLabel: "Repair media library",
 			onConfirm: async () => {
 				await n.start.mutateAsync(p.id);
 			}
 		});
-	}, h = () => void l.run("stop", (e) => ae(_, { stop: !0 }, "POST", e), dt), v = n.outcome, y = Qe(f ? u : v ?? o), x = l.error || v?.error || (n.query.error ? "读不到媒体修复的状态" : "");
+	}, h = () => void l.run("stop", (e) => ae(_, { stop: !0 }, "POST", e), dt), v = n.outcome, y = Qe(f ? u : v ?? o), x = l.error || v?.error || (n.query.error ? "Can't read media repair status" : "");
 	return /* @__PURE__ */ (0, Q.jsxs)("div", {
 		className: "flex flex-col gap-4",
 		children: [/* @__PURE__ */ (0, Q.jsx)(i, {
 			layout: "split",
-			label: "媒体修复",
+			label: "Media repair",
 			footer: /* @__PURE__ */ (0, Q.jsxs)(Q.Fragment, { children: [/* @__PURE__ */ (0, Q.jsx)(te, {
-				"aria-label": "媒体库",
-				prefix: "媒体库",
+				"aria-label": "Media library",
+				prefix: "Media library",
 				className: "w-48",
 				selectedKey: p?.id ?? null,
 				isDisabled: f || !d.length,
@@ -61,22 +61,22 @@ function ft({ toast: t = () => {} }) {
 			}), f ? /* @__PURE__ */ (0, Q.jsx)(e, {
 				onClick: h,
 				...B(l.busy === "stop"),
-				children: "停止"
+				children: "Stop"
 			}) : /* @__PURE__ */ (0, Q.jsx)(e, {
 				onClick: m,
 				disabled: !p,
-				children: "开始修复"
+				children: "Start repair"
 			})] }),
 			children: /* @__PURE__ */ (0, Q.jsxs)("div", {
 				className: "flex flex-col gap-2",
 				children: [
-					/* @__PURE__ */ (0, Q.jsx)(a, { children: "媒体修复" }),
+					/* @__PURE__ */ (0, Q.jsx)(a, { children: "Media repair" }),
 					/* @__PURE__ */ (0, Q.jsx)("p", {
 						className: "text-body-2-regular text-text-secondary",
 						children: T
 					}),
 					f && u.total ? /* @__PURE__ */ (0, Q.jsx)(C, {
-						label: "修复进度",
+						label: "Repair progress",
 						value: u.checked,
 						max: u.total
 					}) : null,
@@ -92,12 +92,12 @@ function ft({ toast: t = () => {} }) {
 			className: "flex flex-col gap-4 empty:hidden",
 			children: [v?.status === "complete" && v.missing_tool ? /* @__PURE__ */ (0, Q.jsx)(b, {
 				tone: "warning",
-				title: "缺少 untrunc",
+				title: "untrunc missing",
 				action: /* @__PURE__ */ (0, Q.jsx)(e, {
 					variant: "ghost",
 					size: "small",
 					onClick: n.dismiss,
-					children: "关闭提示"
+					children: "Close notification"
 				}),
 				children: Me(v)
 			}) : null, x ? /* @__PURE__ */ (0, Q.jsx)(b, {
@@ -135,7 +135,7 @@ function pt({ className: e }) {
 	});
 }
 // src/react/data-cleanup/link-manager.tsx
-var mt = K("rotate-cw"), ht = "站点返回 404 或 410，确认这个地址不存在。", gt = "站点拒绝程序访问或一次临时故障都会落在这里。链接保留，可勾选后单独重试。", _t = "删除前会逐条重验一次；此操作不可撤销。", vt = "暂时无法读取进度，正在重新连接…", yt = (e) => Number(e || 0).toLocaleString();
+var mt = K("rotate-cw"), ht = "The site returned 404 or 410, confirming this address doesn't exist.", gt = "Sites that refuse automated access and one-off temporary failures both end up here. The links are kept; select them to retry individually.", _t = "Each link is rechecked once before deletion; this can't be undone.", vt = "Can't read progress right now, reconnecting…", yt = (e) => Number(e || 0).toLocaleString();
 function bt({ label: e, value: t, note: n }) {
 	return /* @__PURE__ */ (0, Q.jsxs)("div", {
 		className: "flex min-w-0 flex-col gap-0.5",
@@ -165,7 +165,7 @@ function xt({ title: e, items: t, hint: n, picked: r, onPick: i, children: a, fo
 			columns: [
 				{
 					id: "entity",
-					label: "Peach 资料",
+					label: "Peach profile",
 					width: 180,
 					min: 128,
 					value: (e) => e.entity,
@@ -194,14 +194,14 @@ function xt({ title: e, items: t, hint: n, picked: r, onPick: i, children: a, fo
 				},
 				{
 					id: "kind",
-					label: "类型",
+					label: "Type",
 					width: 128,
 					value: (e) => f[e.link_kind] || e.link_kind,
 					render: (e) => f[e.link_kind] || e.link_kind
 				},
 				{
 					id: "label",
-					label: "链接名称",
+					label: "Link name",
 					min: 128,
 					value: (e) => e.label || "",
 					render: (e) => /* @__PURE__ */ (0, Q.jsx)("span", {
@@ -215,7 +215,7 @@ function xt({ title: e, items: t, hint: n, picked: r, onPick: i, children: a, fo
 				},
 				{
 					id: "note",
-					label: "结果",
+					label: "Result",
 					width: 320,
 					min: 192,
 					value: (e) => e.note,
@@ -230,7 +230,7 @@ function xt({ title: e, items: t, hint: n, picked: r, onPick: i, children: a, fo
 							className: "flex flex-col items-start gap-1",
 							children: [/* @__PURE__ */ (0, Q.jsx)(N, {
 								tone: s ? "error" : "warning",
-								children: s ? "地址已失效" : "未取得结论"
+								children: s ? "Address dead" : "No conclusion"
 							}), /* @__PURE__ */ (0, Q.jsx)(rt, {
 								text: e.note,
 								className: "tabular-nums text-text-secondary"
@@ -240,7 +240,7 @@ function xt({ title: e, items: t, hint: n, picked: r, onPick: i, children: a, fo
 				},
 				{
 					id: "url",
-					label: "地址",
+					label: "Address",
 					width: 360,
 					min: 180,
 					value: (e) => e.url,
@@ -268,10 +268,10 @@ function xt({ title: e, items: t, hint: n, picked: r, onPick: i, children: a, fo
 			],
 			rowId: (e) => String(e.id),
 			description: n,
-			unit: "条链接",
+			unit: "links",
 			panel: !1,
 			footerActions: o,
-			rowLabel: (e) => `${e.entity} 的${e.label || e.url}`,
+			rowLabel: (e) => `${e.entity}: ${e.label || e.url}`,
 			selected: r.map(String),
 			onSelected: (e) => i(e.map(Number)),
 			actions: () => a
@@ -313,9 +313,9 @@ function St() {
 		} : {});
 	}, A = (e) => {
 		!v && x.length && V({
-			title: "删除失效链接",
-			body: `将删除 ${e?.length ?? x.length} 条失效链接。删除前会再次检查，删除后无法恢复。`,
-			confirmLabel: "删除失效链接",
+			title: "Delete dead links",
+			body: `This will delete ${e?.length ?? x.length} dead links. They are checked again before deletion and can't be recovered afterward.`,
+			confirmLabel: "Delete dead links",
 			danger: !0,
 			onConfirm: () => l.start.mutateAsync({
 				checkId: g,
@@ -325,28 +325,28 @@ function St() {
 	}, j = l.outcome, te = m.start.error ?? l.start.error, ne = null, M = null;
 	if (j?.status === "failed") M = /* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "error",
-		title: "链接清理未完成",
-		children: j.error || "请查看任务记录，核对已处理的链接。"
+		title: "Link cleanup didn't finish",
+		children: j.error || "Check the task log to verify the processed links."
 	});
 	else if (j && !x.length && !S.length) M = /* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "success",
-		title: "完成",
+		title: "Done",
 		children: Le(j)
 	});
 	else if (te) M = /* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "error",
-		title: "检查失败",
+		title: "Check failed",
 		children: H(te)
 	});
 	else if (m.query.isError && h) M = /* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "neutral",
-		title: "任务状态",
+		title: "Task status",
 		children: vt
 	});
 	else if (h?.status === "failed") M = /* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "error",
-		title: "检查失败",
-		children: h.error || "检查失败"
+		title: "Check failed",
+		children: h.error || "Check failed"
 	});
 	else if (h && h.status !== "idle") {
 		ne = /* @__PURE__ */ (0, Q.jsxs)(Q.Fragment, { children: [h.status === "running" ? /* @__PURE__ */ (0, Q.jsx)(P, {
@@ -356,21 +356,21 @@ function St() {
 			total: h.total
 		}) : null, v ? /* @__PURE__ */ (0, Q.jsx)(P, {
 			embedded: !0,
-			label: l.job?.message || "正在重验并删除失效链接",
+			label: l.job?.message || "Rechecking and deleting dead links",
 			value: Math.min(l.job?.checked || 0, l.job?.total || 0),
 			total: l.job?.total
 		}) : null] });
-		let t = `立即重试所选（${T.length}）`;
+		let t = `Retry selected now (${T.length})`;
 		M = y || x.length || S.length ? /* @__PURE__ */ (0, Q.jsxs)("div", {
 			className: ee,
 			children: [
 				j?.status === "complete" ? /* @__PURE__ */ (0, Q.jsx)(b, {
 					tone: "success",
-					title: "完成",
+					title: "Done",
 					children: Le(j)
 				}) : null,
 				/* @__PURE__ */ (0, Q.jsx)(xt, {
-					title: "地址已失效",
+					title: "Address dead",
 					items: x,
 					hint: ht,
 					picked: s,
@@ -383,7 +383,7 @@ function St() {
 						variant: "danger",
 						...B(v),
 						onClick: () => A(),
-						children: `删除 ${x.length} 条失效链接`
+						children: `Delete ${x.length} dead links`
 					})] }) : null,
 					children: /* @__PURE__ */ (0, Q.jsx)(e, {
 						variant: "danger",
@@ -391,11 +391,11 @@ function St() {
 						disabled: !y || !w.length,
 						...B(v),
 						onClick: () => A(w),
-						children: `删除所选（${w.length}）`
+						children: `Delete selected (${w.length})`
 					})
 				}),
 				/* @__PURE__ */ (0, Q.jsx)(xt, {
-					title: "本次未访问成功",
+					title: "Not reached this time",
 					items: S,
 					hint: gt,
 					picked: r,
@@ -405,7 +405,7 @@ function St() {
 						leadingIcon: mt,
 						...B(_),
 						onClick: () => O(C.map((e) => e.id)),
-						children: `立即重试全部（${C.length}）`
+						children: `Retry all now (${C.length})`
 					}) : null,
 					children: C.length ? /* @__PURE__ */ (0, Q.jsx)(Q.Fragment, { children: /* @__PURE__ */ (0, Q.jsx)(e, {
 						variant: "secondary",
@@ -418,7 +418,7 @@ function St() {
 				}),
 				y && !x.length && !S.length ? /* @__PURE__ */ (0, Q.jsx)("p", {
 					className: `${k} text-body-regular text-notification-success-foreground`,
-					children: "全部链接均可访问。"
+					children: "All links are reachable."
 				}) : null
 			]
 		}) : null;
@@ -435,24 +435,24 @@ function St() {
 				leadingIcon: pt,
 				...B(_),
 				onClick: () => O(),
-				children: _ ? "检查中" : y ? "重新检查" : "检查死链"
+				children: _ ? "Checking" : y ? "Check again" : "Check dead links"
 			}),
 			children: [
 				/* @__PURE__ */ (0, Q.jsx)(a, {
 					id: "link-manager-title",
 					gap: "small",
-					children: "链接管理"
+					children: "Link management"
 				}),
 				n.isError ? /* @__PURE__ */ (0, Q.jsx)(b, {
 					tone: "error",
-					title: "链接统计读取失败",
+					title: "Couldn't load link stats",
 					children: H(n.error)
 				}) : E ? /* @__PURE__ */ (0, Q.jsxs)(Q.Fragment, { children: [/* @__PURE__ */ (0, Q.jsxs)("div", {
 					className: "link-stat-grid mt-4 gap-x-8 gap-y-3",
 					children: [/* @__PURE__ */ (0, Q.jsx)(bt, {
-						label: "链接总数",
+						label: "Total links",
 						value: yt(E.total),
-						note: `分布在 ${yt(E.entities)} 个女优、厂牌与系列`
+						note: `Across ${yt(E.entities)} actresses, studios and series`
 					}), Object.entries(E.by_kind ?? {}).map(([e, t]) => /* @__PURE__ */ (0, Q.jsx)(bt, {
 						label: f[e] || e,
 						value: yt(t)
@@ -461,7 +461,7 @@ function St() {
 					className: "mt-4 flex min-w-0 flex-col gap-0.5",
 					children: [/* @__PURE__ */ (0, Q.jsx)("span", {
 						className: "text-caption-1-regular text-text-secondary",
-						children: "主要站点"
+						children: "Main sites"
 					}), /* @__PURE__ */ (0, Q.jsx)("div", {
 						className: "flex min-w-0 flex-wrap gap-x-5 gap-y-2",
 						children: D.map(([e, n]) => /* @__PURE__ */ (0, Q.jsxs)("span", {
@@ -508,7 +508,7 @@ function St() {
 	});
 }
 // src/react/data-cleanup/organize-card.tsx
-var Ct = (e, t) => `将整理「${e}」${t ? `的「${t}」及其子目录` : "上的文件名与目录"}，清理特殊符号与乱码，并按已填模板改名或移动。目标已存在的行会整行跳过。这一批可以从「回滚上一批」整批退回。`, wt = "将把上一批整理动过的文件退回整理前的名字与位置，数据库路径跟着退回。退回后这一批不再出现在这里。", Tt = 8;
+var Ct = (e, t) => `This will organize “${e}”${t ? ` at “${t}” and its subfolders` : " file names and folders"}, cleaning special characters and garbled text, and renaming or moving per the templates you filled in. Rows whose target already exists are skipped entirely.This batch can be undone as a whole with “Roll back last batch”.`, wt = "Files moved by the last organize batch will return to their previous names and locations, and database paths follow.Once rolled back, this batch no longer appears here.", Tt = 8;
 function Et({ plan: e }) {
 	return /* @__PURE__ */ (0, Q.jsxs)(Q.Fragment, { children: [/* @__PURE__ */ (0, Q.jsx)("ol", {
 		className: "mt-2 flex min-w-0 flex-col gap-1",
@@ -535,7 +535,7 @@ function Et({ plan: e }) {
 		}, e.current_path))
 	}), e.truncated || e.rows.length > Tt ? /* @__PURE__ */ (0, Q.jsx)("p", {
 		className: "text-caption-1-regular text-text-secondary",
-		children: "只列出前 8 行，完整计划在计划 CSV 里。"
+		children: "Only the first 8 rows are listed; the full plan is in the plan CSV."
 	}) : null] });
 }
 function Dt({ toast: t, failure: r }) {
@@ -610,7 +610,7 @@ function Dt({ toast: t, failure: r }) {
 				exact: !0
 			}), e.status !== "complete") return;
 			let { text: n, failed: i } = Ne(e);
-			i ? r("整理文件", /* @__PURE__ */ Error(`${i} 行未能处理`)) : t(n.replace(/。$/, ""));
+			i ? r("Organize files", /* @__PURE__ */ Error(`${i} rows couldn't be processed`)) : t(n.replace(/。$/, ""));
 		}
 	}), oe = R.running || R.start.isPending, se = JSON.stringify(I.variables) === JSON.stringify(ae()), z = se ? I.data : void 0, ce = Number(z?.counts?.change || 0), le = m[p] || p, ue = (e) => {
 		S(e), O(null), I.reset();
@@ -625,9 +625,9 @@ function Dt({ toast: t, failure: r }) {
 	}, pe = () => {
 		let e = I.variables;
 		e && z && ce && V({
-			title: "整理文件",
+			title: "Organize files",
 			body: Ct(le, e.path),
-			confirmLabel: "整理文件",
+			confirmLabel: "Organize files",
 			onConfirm: async () => {
 				await R.start.mutateAsync({
 					kind: "apply",
@@ -642,13 +642,13 @@ function Dt({ toast: t, failure: r }) {
 			}
 		});
 	}, me = () => void V({
-		title: "回滚上一批整理",
+		title: "Roll back last organize batch",
 		body: wt,
-		confirmLabel: "回滚整理",
+		confirmLabel: "Roll back organize",
 		onConfirm: () => R.start.mutateAsync({ kind: "rollback" })
 	}), U = null, he = !!ce && !oe && !R.outcome, W = R.job, ge = R.outcome;
 	if (W?.status === "running") {
-		let e = W.message || W.stage || "正在整理文件";
+		let e = W.message || W.stage || "Organizing files";
 		U = /* @__PURE__ */ (0, Q.jsx)(P, {
 			embedded: !0,
 			label: e,
@@ -657,30 +657,30 @@ function Dt({ toast: t, failure: r }) {
 		});
 	} else if (ge?.status === "failed") U = /* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "error",
-		title: "文件整理未完成",
-		children: ge.error || "请查看任务记录，核对已处理的文件。"
+		title: "File organizing didn't finish",
+		children: ge.error || "Check the task log to verify the processed files."
 	});
 	else if (ge) {
 		let { text: e, failed: t } = Ne(ge);
 		U = /* @__PURE__ */ (0, Q.jsx)(b, {
 			tone: t ? "warning" : "success",
-			title: t ? "部分完成" : "整理结果",
+			title: t ? "Partially done" : "Organize results",
 			children: e
 		});
 	} else R.start.isError ? U = /* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "error",
-		title: "整理失败",
+		title: "Organize failed",
 		children: H(R.start.error)
 	}) : I.isPending ? U = /* @__PURE__ */ (0, Q.jsx)(P, {
 		embedded: !0,
-		label: "正在核对整理计划"
+		label: "Checking organize plan"
 	}) : I.isError && se ? U = /* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "error",
-		title: "整理预览失败",
+		title: "Organize preview failed",
 		children: H(I.error)
 	}) : z && (U = /* @__PURE__ */ (0, Q.jsxs)(Q.Fragment, { children: [/* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "neutral",
-		title: "预览结果",
+		title: "Preview results",
 		children: Fe(z)
 	}), ce ? /* @__PURE__ */ (0, Q.jsx)(Et, { plan: z }) : null] }));
 	return /* @__PURE__ */ (0, Q.jsxs)(i, {
@@ -693,36 +693,36 @@ function Dt({ toast: t, failure: r }) {
 				variant: "secondary",
 				...B(oe),
 				onClick: me,
-				children: "回滚上一批"
+				children: "Roll back last batch"
 			}) : null,
 			/* @__PURE__ */ (0, Q.jsx)(e, {
 				variant: he ? "secondary" : "primary",
 				disabled: !u.length || oe,
 				...B(I.isPending),
 				onClick: fe,
-				children: "预览"
+				children: "Preview"
 			}),
 			he ? /* @__PURE__ */ (0, Q.jsx)(e, {
 				variant: "primary",
 				onClick: pe,
-				children: "执行整理"
+				children: "Run organize"
 			}) : null
 		] }),
 		children: [
 			/* @__PURE__ */ (0, Q.jsx)(a, {
 				id: "cleanup-organize-title",
 				gap: "medium",
-				children: "整理"
+				children: "Organize"
 			}),
 			/* @__PURE__ */ (0, Q.jsx)("p", {
 				className: "text-body-regular text-text-secondary",
-				children: "清理文件名中的特殊符号与乱码，也可按模板改名并归入目录。先预览，确认后执行；执行过的一批可以整批退回。"
+				children: "Clean special characters and garbled text from file names, or rename by template and move into folders. Preview first, then run; each run can be undone as a batch."
 			}),
 			o.isError ? /* @__PURE__ */ (0, Q.jsx)("div", {
 				className: "mt-3",
 				children: /* @__PURE__ */ (0, Q.jsx)(b, {
 					tone: "error",
-					title: "整理配置读取失败",
+					title: "Couldn't load organize settings",
 					children: H(o.error)
 				})
 			}) : null,
@@ -733,8 +733,8 @@ function Dt({ toast: t, failure: r }) {
 						"data-organize-scope": !0,
 						className: "flex min-w-0 flex-wrap items-start gap-2",
 						children: [u.length ? /* @__PURE__ */ (0, Q.jsx)(te, {
-							"aria-label": "整理哪个来源",
-							prefix: "来源",
+							"aria-label": "Source to organize",
+							prefix: "Source",
 							className: "w-fit min-w-25",
 							selectedKey: p || null,
 							onSelectionChange: (e) => {
@@ -751,9 +751,9 @@ function Dt({ toast: t, failure: r }) {
 						}) : null, /* @__PURE__ */ (0, Q.jsxs)("div", {
 							className: "flex min-w-0 basis-64 flex-1 items-start gap-2",
 							children: [/* @__PURE__ */ (0, Q.jsx)(c, {
-								"aria-label": "整理路径",
+								"aria-label": "Organize path",
 								className: "min-w-0 flex-1",
-								placeholder: "留空整理整个来源",
+								placeholder: "Leave empty to organize the whole source",
 								name: "organize-path",
 								autoComplete: "off",
 								spellCheck: "false",
@@ -768,7 +768,7 @@ function Dt({ toast: t, failure: r }) {
 								}
 							}), /* @__PURE__ */ (0, Q.jsx)(s, {
 								icon: ct,
-								"aria-label": "选择整理路径",
+								"aria-label": "Choose organize path",
 								...B(L.isPending),
 								onClick: () => L.mutate({
 									initial: T || u.find((e) => e.location === p)?.roots[0] || "",
@@ -780,15 +780,15 @@ function Dt({ toast: t, failure: r }) {
 					}),
 					/* @__PURE__ */ (0, Q.jsx)("p", {
 						className: "text-caption-1-regular text-text-secondary",
-						children: "指定路径时包含子目录，目录模板以该路径为起点。模板均留空时只清理文件名。"
+						children: "A chosen path includes subfolders, and the folder template starts from that path. With both templates empty, only file names are cleaned."
 					}),
 					L.isError ? /* @__PURE__ */ (0, Q.jsxs)(b, {
 						tone: "error",
-						title: "目录选择失败",
-						children: [H(L.error), "；也可直接输入路径。"]
+						title: "Folder picker failed",
+						children: [H(L.error), "; you can also type a path."]
 					}) : null,
 					/* @__PURE__ */ (0, Q.jsx)(c, {
-						label: "文件名模板",
+						label: "File name template",
 						placeholder: "{code}[ {title}]",
 						value: v.file,
 						ref: ee,
@@ -800,8 +800,8 @@ function Dt({ toast: t, failure: r }) {
 						onChange: (e) => ue({ file: e })
 					}),
 					/* @__PURE__ */ (0, Q.jsx)(c, {
-						label: "目录模板",
-						placeholder: "留空表示原地改名",
+						label: "Folder template",
+						placeholder: "Leave empty to rename in place",
 						value: v.dir,
 						ref: k,
 						spellCheck: "false",
@@ -814,10 +814,10 @@ function Dt({ toast: t, failure: r }) {
 					l?.presets?.length ? /* @__PURE__ */ (0, Q.jsxs)("div", {
 						className: "flex flex-col gap-2",
 						role: "group",
-						"aria-label": "套用模板",
+						"aria-label": "Apply template",
 						children: [/* @__PURE__ */ (0, Q.jsx)("p", {
 							className: "text-caption-1-medium text-text-secondary",
-							children: "套用模板"
+							children: "Apply template"
 						}), /* @__PURE__ */ (0, Q.jsx)("div", {
 							className: "flex flex-wrap gap-2",
 							children: l.presets.map((t) => /* @__PURE__ */ (0, Q.jsx)(e, {
@@ -843,26 +843,26 @@ function Dt({ toast: t, failure: r }) {
 						"aria-busy": j.isFetching,
 						"data-organize-example": "",
 						className: "text-caption-1-regular text-text-secondary",
-						children: ["路径示例：", /* @__PURE__ */ (0, Q.jsx)("code", {
+						children: ["Path example:", /* @__PURE__ */ (0, Q.jsx)("code", {
 							className: "wrap-anywhere",
-							children: j.data?.example || j.data?.error || (j.isError ? H(j.error) : "正在预览…")
+							children: j.data?.example || j.data?.error || (j.isError ? H(j.error) : "Previewing…")
 						})]
 					}),
 					l?.placeholders?.length ? /* @__PURE__ */ (0, Q.jsxs)("div", {
 						className: "flex flex-col gap-2",
 						role: "group",
-						"aria-label": "插入参数",
+						"aria-label": "Insert parameter",
 						children: [/* @__PURE__ */ (0, Q.jsxs)("p", {
 							className: "text-caption-1-regular text-text-secondary",
 							"aria-live": "polite",
 							children: [
 								/* @__PURE__ */ (0, Q.jsx)("strong", {
 									className: "text-caption-1-semibold text-text-primary",
-									children: "插入参数"
+									children: "Insert parameter"
 								}),
-								"（到",
-								N === "file" ? "文件名模板" : "目录模板",
-								"）"
+								"(into ",
+								N === "file" ? "File name template" : "Folder template",
+								")"
 							]
 						}), /* @__PURE__ */ (0, Q.jsx)("div", {
 							className: "flex flex-wrap gap-1",
@@ -883,7 +883,7 @@ function Dt({ toast: t, failure: r }) {
 					}) : null,
 					/* @__PURE__ */ (0, Q.jsx)("p", {
 						className: "text-caption-1-regular leading-4.5 text-text-secondary",
-						children: "点击参数插入光标处，选中文字可替换。方括号里的内容在字段为空时整段省略。"
+						children: "Click a parameter to insert it at the cursor; select text to replace it. Content in square brackets is omitted entirely when the field is empty."
 					})
 				]
 			}),
@@ -905,19 +905,19 @@ function At({ item: t, toast: n }) {
 		mutationFn: () => se(t.id, Number(r)),
 		onSuccess: () => {
 			let e = t.candidates.find((e) => e.id === r);
-			n(`已将「${t.name}」的个人记录转移到「${e?.name ?? "所选文件"}」`), kt();
+			n(`Moved the personal records of “${t.name}” to “${e?.name ?? "the selected file"}”`), kt();
 		},
 		onError: (e) => n(H(e))
 	}), o = et({
 		mutationFn: () => ze(t.id),
 		onSuccess: (e) => {
-			n(e.blocked.length ? `「${t.name}」的文件已恢复，记录未删除；下次扫描后恢复为在库状态` : `已删除「${t.name}」的作品记录及个人记录`), kt();
+			n(e.blocked.length ? `The file for “${t.name}” is back, so the record wasn't deleted; it returns to in-library status after the next scan` : `Deleted the title record and personal records of “${t.name}”`), kt();
 		}
 	}), s = () => {
 		V({
-			title: "删除记录",
-			body: `将删除「${t.name}」的作品记录${Be(t.records) ? `及其个人记录（${Be(t.records)}）` : ""}。此操作不可撤销。`,
-			confirmLabel: "删除记录",
+			title: "Delete record",
+			body: `This will delete the title record of “${t.name}” ${Be(t.records) ? ` and its personal records (${Be(t.records)})` : ""}. This can't be undone.`,
+			confirmLabel: "Delete record",
 			danger: !0,
 			onConfirm: () => o.mutateAsync()
 		});
@@ -930,11 +930,11 @@ function At({ item: t, toast: n }) {
 				size: "small",
 				...B(c),
 				onClick: s,
-				children: "删除记录"
+				children: "Delete record"
 			}),
 			t.candidates.length ? /* @__PURE__ */ (0, Q.jsx)(te, {
-				"aria-label": `选择接收 ${t.name} 个人记录的文件`,
-				prefix: "接收",
+				"aria-label": `Choose the file to receive ${t.name}'s personal records`,
+				prefix: "Receive",
 				className: "w-52",
 				selectedKey: r,
 				onSelectionChange: (e) => {
@@ -952,7 +952,7 @@ function At({ item: t, toast: n }) {
 				disabled: r === null,
 				...B(c),
 				onClick: () => a.mutate(),
-				children: "转移记录"
+				children: "Transfer records"
 			}) : null
 		]
 	});
@@ -992,19 +992,19 @@ function Mt({ toast: t }) {
 	}), s = o.data?.items ?? [], c = et({
 		mutationFn: (e) => ze(e),
 		onSuccess: (e) => {
-			t(`已删除 ${e.purged} 条作品记录及其个人记录${e.blocked.length ? `；${e.blocked.length} 条文件已恢复，记录未删除` : ""}`), r([]), kt();
+			t(`Deleted ${e.purged} title records and their personal records ${e.blocked.length ? `; ${e.blocked.length} files are back, so their records weren't deleted` : ""}`), r([]), kt();
 		}
 	}), l = (e) => void V({
-		title: "删除所选记录",
-		body: `将删除以下 ${e.length} 条作品记录及其全部个人记录。此操作不可撤销。`,
+		title: "Delete selected records",
+		body: `This will delete the following ${e.length} title records and all their personal records. This can't be undone.`,
 		items: e.map((e) => e.name),
-		confirmLabel: "删除所选记录",
+		confirmLabel: "Delete selected records",
 		danger: !0,
 		onConfirm: () => c.mutateAsync(e.map((e) => e.id))
 	}), u = [
 		{
 			id: "item",
-			label: "作品",
+			label: "Works",
 			width: 480,
 			min: 320,
 			value: (e) => e.name,
@@ -1012,18 +1012,18 @@ function Mt({ toast: t }) {
 		},
 		{
 			id: "records",
-			label: "个人记录",
+			label: "Personal records",
 			width: 176,
 			min: 144,
 			value: (e) => Be(e.records),
 			render: (e) => /* @__PURE__ */ (0, Q.jsx)("span", {
 				className: "block min-w-0 whitespace-normal wrap-anywhere",
-				children: Be(e.records) || "无"
+				children: Be(e.records) || "None"
 			})
 		},
 		{
 			id: "target",
-			label: "操作",
+			label: "Actions",
 			width: s.some((e) => e.candidates.length) ? 360 : 128,
 			min: 128,
 			value: (e) => e.candidates.length,
@@ -1042,20 +1042,20 @@ function Mt({ toast: t }) {
 			labelledBy: "orphan-records-title",
 			children: [/* @__PURE__ */ (0, Q.jsx)(a, {
 				id: "orphan-records-title",
-				children: "文件已丢失的记录"
+				children: "Records with missing files"
 			}), /* @__PURE__ */ (0, Q.jsx)(b, {
 				tone: "error",
-				title: "读取文件已丢失的记录失败",
+				title: "Couldn't load records with missing files",
 				children: H(o.error)
 			})]
 		}) : /* @__PURE__ */ (0, Q.jsx)(at, {
-			label: "文件已消失的作品",
+			label: "Titles whose files are gone",
 			items: s,
 			columns: u,
-			title: "文件已丢失的记录",
+			title: "Records with missing files",
 			titleId: "orphan-records-title",
-			unit: "条作品",
-			description: "这些作品的源文件已删除，喜欢、稍后看、播放列表与观看历史仍保留。选择替代文件后，这些记录会转移到该文件，旧作品记录随之删除。",
+			unit: "titles",
+			description: "The source files of these titles were deleted, but likes, Watch later, playlists and watch history are kept. After you choose a replacement file, the records move to it and the old title record is deleted.",
 			rowId: (e) => String(e.id),
 			rowLabel: (e) => e.name,
 			selected: n,
@@ -1066,13 +1066,13 @@ function Mt({ toast: t }) {
 				disabled: !t.length,
 				...B(c.isPending),
 				onClick: () => l(t),
-				children: `删除所选记录（${t.length}）`
+				children: `Delete selected records (${t.length})`
 			})
 		})
 	});
 }
 // src/react/data-cleanup/resource-sync-card.tsx
-var Nt = K("git-compare"), Pt = K("rotate-cw"), Ft = "暂时无法读取进度，正在重新连接…", It = "清理失效条目", Lt = "inline-grid w-full grid-flow-col auto-cols-fr gap-4 max-plain-stat-pair:grid-flow-row max-plain-stat-pair:grid-cols-2 max-plain-stat-single:grid-cols-1", $ = (e) => Number(e || 0).toLocaleString();
+var Nt = K("git-compare"), Pt = K("rotate-cw"), Ft = "Can't read progress right now, reconnecting…", It = "Clean up stale entries", Lt = "inline-grid w-full grid-flow-col auto-cols-fr gap-4 max-plain-stat-pair:grid-flow-row max-plain-stat-pair:grid-cols-2 max-plain-stat-single:grid-cols-1", $ = (e) => Number(e || 0).toLocaleString();
 function Rt({ scan: e, partial: t = !1 }) {
 	let n = e.cache ?? {
 		files: 0,
@@ -1083,20 +1083,20 @@ function Rt({ scan: e, partial: t = !1 }) {
 		children: (e.sources ?? []).map((e) => /* @__PURE__ */ (0, Q.jsxs)("article", {
 			className: X(),
 			children: [/* @__PURE__ */ (0, Q.jsx)(Y, {
-				label: j[e.location] || "媒体来源",
+				label: j[e.location] || "Media sources",
 				mark: /* @__PURE__ */ (0, Q.jsx)(M, { mark: y[e.location] ?? "database" }),
 				aside: /* @__PURE__ */ (0, Q.jsx)(lt, {
 					online: e.online,
-					children: e.online ? "可访问" : "离线"
+					children: e.online ? "Accessible" : "Offline"
 				}),
-				figure: e.online ? `${$(e.missing)} 项` : "—",
-				meta: e.online ? Ke(e) : `${Ke(e)} · 本次已跳过`,
+				figure: e.online ? `${$(e.missing)} items` : "—",
+				meta: e.online ? Ke(e) : `${Ke(e)} · skipped this time`,
 				wrapMeta: !0
 			}), e.online && e.unreadable > 0 ? /* @__PURE__ */ (0, Q.jsx)("span", {
 				className: "self-start",
 				children: /* @__PURE__ */ (0, Q.jsxs)(N, {
 					tone: "warning",
-					children: [$(e.unreadable), " 个目录未读取"]
+					children: [$(e.unreadable), " folders not read"]
 				})
 			}) : null]
 		}, e.location))
@@ -1106,32 +1106,32 @@ function Rt({ scan: e, partial: t = !1 }) {
 			/* @__PURE__ */ (0, Q.jsx)("article", {
 				className: X(),
 				children: /* @__PURE__ */ (0, Q.jsx)(Y, {
-					label: "待永久删除",
-					figure: `${$(Re(e))} 项`,
-					meta: "文件已不在盘上，含回收站"
+					label: "To be permanently deleted",
+					figure: `${$(Re(e))} items`,
+					meta: "Files no longer on disk, including the trash"
 				})
 			}),
 			/* @__PURE__ */ (0, Q.jsx)("article", {
 				className: X(),
 				children: /* @__PURE__ */ (0, Q.jsx)(Y, {
-					label: "将标为已消失",
-					figure: `${$(e.vanish)} 项`,
-					meta: "带个人记录，记录留着"
+					label: "Will be marked missing",
+					figure: `${$(e.vanish)} items`,
+					meta: "Has personal records, which are kept"
 				})
 			}),
 			/* @__PURE__ */ (0, Q.jsx)("article", {
 				className: X(),
 				children: /* @__PURE__ */ (0, Q.jsx)(Y, {
-					label: "空文件夹",
-					figure: `${$(e.empty)} 个`,
-					meta: "保留来源根目录"
+					label: "Empty folders",
+					figure: `${$(e.empty)}`,
+					meta: "Source root folders are kept"
 				})
 			}),
 			/* @__PURE__ */ (0, Q.jsx)("article", {
 				className: X(),
 				children: /* @__PURE__ */ (0, Q.jsx)(Y, {
-					label: "可清理的缓存",
-					figure: `${$(n.files)} 个`,
+					label: "Clearable cache",
+					figure: `${$(n.files)}`,
 					meta: n.files ? Oe(n.bytes) : ""
 				})
 			})
@@ -1152,14 +1152,14 @@ function zt({ toast: t }) {
 				exact: !0
 			}), e.status !== "complete") return;
 			let { done: n, left: r } = L(e);
-			r ? t(`已完成 ${$(n)} 项，${$(r)} 项没有处理`, { warning: !0 }) : t("已清理失效条目");
+			r ? t(`${$(n)} items done, ${$(r)} items not processed`, { warning: !0 }) : t("Stale entries cleaned up");
 		}
 	}), r = q({
 		queryKey: O,
 		queryFn: ({ signal: e }) => we(e),
 		start: Ze,
 		onStarted: () => n.dismiss()
-	}), o = r.job, s = r.running || r.start.isPending, c = n.running || n.start.isPending, l = o?.status === "complete" || o?.status === "failed", u = s ? "扫描中" : l ? "重新扫描" : "检查文件", d = (e) => void V({
+	}), o = r.job, s = r.running || r.start.isPending, c = n.running || n.start.isPending, l = o?.status === "complete" || o?.status === "failed", u = s ? "Scanning" : l ? "Rescan" : "Check files", d = (e) => void V({
 		title: It,
 		body: I(e),
 		confirmLabel: It,
@@ -1169,28 +1169,28 @@ function zt({ toast: t }) {
 		let t = L(e).left > 0;
 		return /* @__PURE__ */ (0, Q.jsx)(b, {
 			tone: t ? "warning" : "success",
-			title: t ? "部分完成" : "清理结果",
+			title: t ? "Partially done" : "Cleanup results",
 			children: oe(e, Oe)
 		});
 	}, m = null, h = null;
 	if (f?.status === "failed") h = /* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "error",
-		title: "资源清理未完成",
-		children: f.error || "请查看任务记录，核对已处理的文件。"
+		title: "Resource cleanup didn't finish",
+		children: f.error || "Check the task log to verify the processed files."
 	});
 	else if (f) h = p(f);
 	else if (n.running) m = /* @__PURE__ */ (0, Q.jsx)(P, {
 		embedded: !0,
-		label: n.job?.message || "正在复核并清理失效条目"
+		label: n.job?.message || "Rechecking and cleaning up stale entries"
 	});
 	else if (r.start.isError) h = /* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "error",
-		title: "扫描失败",
+		title: "Scan failed",
 		children: H(r.start.error)
 	});
 	else if (r.query.isError && o) h = /* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "neutral",
-		title: "任务状态",
+		title: "Task status",
 		children: Ft
 	});
 	else if (o?.status === "running") {
@@ -1209,34 +1209,34 @@ function zt({ toast: t }) {
 		partial: !0
 	}) : null, /* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "error",
-		title: "扫描失败",
-		children: o.error || "后台扫描失败"
+		title: "Scan failed",
+		children: o.error || "Background scan failed"
 	})] });
 	else if (o?.status === "complete" && o.applied) h = n.job?.status === "complete" ? p(n.job) : /* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "neutral",
-		title: "清理结果",
-		children: "这次检查的结果已经清理，重新扫描可再核对。"
+		title: "Cleanup results",
+		children: "The results of this check were cleaned up; rescan to check again."
 	});
 	else if (o?.status === "complete") {
 		let t = ke(o);
 		h = /* @__PURE__ */ (0, Q.jsxs)(Q.Fragment, { children: [/* @__PURE__ */ (0, Q.jsx)(Rt, { scan: o }), t ? /* @__PURE__ */ (0, Q.jsx)(b, {
 			tone: "neutral",
-			title: "清理内容",
+			title: "Clean up",
 			action: /* @__PURE__ */ (0, Q.jsx)(e, {
 				variant: "danger",
 				...B(c),
 				onClick: () => d(o),
-				children: c ? "正在复核并清理…" : It
+				children: c ? "Rechecking and cleaning up…" : It
 			}),
 			children: R(o)
 		}) : /* @__PURE__ */ (0, Q.jsx)("p", {
 			className: "mr-auto text-body-regular text-notification-success-foreground",
-			children: "已检查可访问的来源，没有待清理的记录、空文件夹或缓存。"
+			children: "Accessible sources were checked; there are no records, empty folders or caches to clean up."
 		})] });
 	}
 	return n.start.isError && !f && (h = /* @__PURE__ */ (0, Q.jsxs)(Q.Fragment, { children: [h, /* @__PURE__ */ (0, Q.jsx)(b, {
 		tone: "error",
-		title: "清理失败",
+		title: "Cleanup failed",
 		children: H(n.start.error)
 	})] })), /* @__PURE__ */ (0, Q.jsxs)("section", {
 		id: "resource-sync",
@@ -1258,11 +1258,11 @@ function zt({ toast: t }) {
 				/* @__PURE__ */ (0, Q.jsx)(a, {
 					id: "resource-sync-title",
 					gap: "small",
-					children: "资源同步"
+					children: "Resource sync"
 				}),
 				/* @__PURE__ */ (0, Q.jsx)("p", {
 					className: "max-w-190 text-body-2-regular leading-5 text-text-secondary",
-					children: "按馆藏记录逐条查找本地磁盘与网盘上的文件，列出文件已不存在的记录、空文件夹，以及不再被引用的缓存。"
+					children: "Looks up each library record's file on local disks and cloud drives, and lists records whose files no longer exist, empty folders and caches nothing references anymore."
 				}),
 				/* @__PURE__ */ (0, Q.jsx)("div", {
 					"aria-live": "polite",
@@ -1279,7 +1279,7 @@ function zt({ toast: t }) {
 }
 // src/react/data-cleanup/data-cleanup-page.tsx
 function Bt(e, t) {
-	return e.data === void 0 ? { figure: e.isError ? "读取失败" : "—" } : t(e.data);
+	return e.data === void 0 ? { figure: e.isError ? "Load failed" : "—" } : t(e.data);
 }
 function Vt({ section: e, label: t, icon: n, value: r, open: i }) {
 	return /* @__PURE__ */ (0, Q.jsx)("button", {
@@ -1331,46 +1331,46 @@ function Yt({ toast: e, failure: t, open: n }) {
 			children: [
 				/* @__PURE__ */ (0, Q.jsx)(Vt, {
 					section: "review",
-					label: "人工复核",
+					label: "Manual review",
 					icon: Ht,
 					open: n,
 					value: Bt(i, We)
 				}),
 				/* @__PURE__ */ (0, Q.jsx)(Vt, {
 					section: "quality",
-					label: "高清版",
+					label: "HD versions",
 					icon: Ut,
 					open: n,
-					value: Bt(a, (e) => ({ figure: `${Number(e.total || 0).toLocaleString()} 个待升级` }))
+					value: Bt(a, (e) => ({ figure: `${Number(e.total || 0).toLocaleString()} upgradable` }))
 				}),
 				/* @__PURE__ */ (0, Q.jsx)(Vt, {
 					section: "duplicates",
-					label: "重复文件",
+					label: "Duplicate files",
 					icon: Wt,
 					open: n,
 					value: Bt(o, (e) => Number(e.total || 0) ? {
-						figure: `${Number(e.total).toLocaleString()} 组 · ${Number(e.files || 0).toLocaleString()} 个文件`,
-						meta: `可回收 ${Oe(e.reclaimable || 0)}`
-					} : { figure: "没有重复内容" })
+						figure: `${Number(e.total).toLocaleString()} groups · ${Number(e.files || 0).toLocaleString()} files`,
+						meta: `${Oe(e.reclaimable || 0)} reclaimable`
+					} : { figure: "No duplicates" })
 				}),
 				/* @__PURE__ */ (0, Q.jsx)(Vt, {
 					section: "ads",
-					label: "垃圾文件",
+					label: "Junk files",
 					icon: Gt,
 					open: n,
 					value: Bt(s, (e) => ({
-						figure: `${Number(e.pending_total || 0).toLocaleString()} 个待判断`,
+						figure: `${Number(e.pending_total || 0).toLocaleString()} pending`,
 						meta: je(e)
 					}))
 				}),
 				/* @__PURE__ */ (0, Q.jsx)(Vt, {
 					section: "trash",
-					label: "回收站",
+					label: "Trash",
 					icon: Kt,
 					open: n,
 					value: Bt(c, (e) => ({
-						figure: `${Number(e.total || 0).toLocaleString()} 项在回收站`,
-						meta: e.total ? `占用 ${Oe(e.bytes || 0)}` : ""
+						figure: `${Number(e.total || 0).toLocaleString()} items in trash`,
+						meta: e.total ? `${Oe(e.bytes || 0)} used` : ""
 					}))
 				})
 			]
@@ -1404,4 +1404,4 @@ function Yt({ toast: e, failure: t, open: n }) {
 }
 export { Yt as DataCleanupPage };
 
-//# debugId=8131dcd7-9c56-43a9-9b29-2edfcbadf1af
+//# debugId=6e39a022-48e6-48c5-9ad7-3a20a0021345

@@ -1,7 +1,7 @@
 (function() {
 	try {
 		var e = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, t = new e.Error().stack;
-		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "069a9a10-4505-4904-b9b8-cb3f31361563", e._sentryDebugIdIdentifier = "sentry-dbid-069a9a10-4505-4904-b9b8-cb3f31361563");
+		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "d961d61a-a1cb-4210-90e6-177febe7bc46", e._sentryDebugIdIdentifier = "sentry-dbid-d961d61a-a1cb-4210-90e6-177febe7bc46");
 	} catch {}
 })();
 import { Button as e, CLOUD_LOCATIONS as t, ErrorText as n, Help as r, IconButton as i, Input as a, Label as o, M6 as s, MEDIA_SOURCE_ICONS as c, MEDIA_SOURCE_OPTIONS as l, Select$1 as u, SelectItem as d, SourceMark as f, __toESM as p, busyProps as m, cx as h, require_jsx_runtime as g, require_react as _ } from "./peach-app.js";
@@ -45,11 +45,11 @@ function E({ index: e, cost: t, error: r, onChange: i }) {
 			/* @__PURE__ */ (0, y.jsx)(o, {
 				elementType: "span",
 				"aria-hidden": !0,
-				children: "读取策略"
+				children: "Read policy"
 			}),
 			/* @__PURE__ */ (0, y.jsxs)(u, {
-				"aria-label": `媒体读取策略 ${e + 1}`,
-				placeholder: "选择读取策略",
+				"aria-label": `Media read policy ${e + 1}`,
+				placeholder: "Choose read policy",
 				isRequired: !0,
 				validationBehavior: "aria",
 				isInvalid: !!r,
@@ -59,10 +59,10 @@ function E({ index: e, cost: t, error: r, onChange: i }) {
 				},
 				children: [/* @__PURE__ */ (0, y.jsx)(d, {
 					id: "free",
-					children: "正常读取"
+					children: "Normal reads"
 				}), /* @__PURE__ */ (0, y.jsx)(d, {
 					id: "metered",
-					children: "代理保护"
+					children: "Proxy protection"
 				})]
 			}),
 			r ? /* @__PURE__ */ (0, y.jsx)(n, { children: r }) : null
@@ -70,7 +70,7 @@ function E({ index: e, cost: t, error: r, onChange: i }) {
 	});
 }
 function D() {
-	return /* @__PURE__ */ (0, y.jsx)(r, { children: "读取策略选「代理保护」时，会限制自动读取视频。" });
+	return /* @__PURE__ */ (0, y.jsx)(r, { children: "With the “Proxy protection” read policy, automatic video reads are limited." });
 }
 function O({ initial: e, blank: t, pickFolder: n, describe: r, focusAfterPick: i = !1 }) {
 	let [a, o] = (0, v.useState)(e), [s, c] = (0, v.useState)([]), [l, u] = (0, v.useState)(null), [d, f] = (0, v.useState)(null), p = (0, v.useRef)(!1), m = (0, v.useRef)([]);
@@ -131,7 +131,7 @@ function k({ label: t, path: n, onPath: r, error: o, inputRef: c, picking: l, on
 				/* @__PURE__ */ (0, y.jsx)(a, {
 					className: "min-w-0 flex-1",
 					"aria-label": t,
-					placeholder: "媒体目录路径",
+					placeholder: "Media folder path",
 					value: n,
 					onChange: r,
 					ref: (e) => {
@@ -148,7 +148,7 @@ function k({ label: t, path: n, onPath: r, error: o, inputRef: c, picking: l, on
 				}) : null,
 				/* @__PURE__ */ (0, y.jsx)(i, {
 					icon: b,
-					"aria-label": "选择文件夹",
+					"aria-label": "Choose folder",
 					onClick: u,
 					...m(l)
 				}),
@@ -156,7 +156,7 @@ function k({ label: t, path: n, onPath: r, error: o, inputRef: c, picking: l, on
 					variant: "danger",
 					iconOnly: !0,
 					leadingIcon: s,
-					"aria-label": "移除这个文件夹",
+					"aria-label": "Remove this folder",
 					onClick: d
 				}) : null
 			]
@@ -168,11 +168,11 @@ function k({ label: t, path: n, onPath: r, error: o, inputRef: c, picking: l, on
 }
 function A({ index: e, value: t, onChange: n, options: r = x }) {
 	return /* @__PURE__ */ (0, y.jsx)(w, {
-		label: "来源",
+		label: "Source",
 		className: "w-full @lg:w-60",
 		children: /* @__PURE__ */ (0, y.jsx)(u, {
 			className: "w-full",
-			"aria-label": `媒体来源 ${e + 1}`,
+			"aria-label": `Media source ${e + 1}`,
 			selectedKey: t,
 			onSelectionChange: (e) => {
 				e !== null && n(String(e));
@@ -187,4 +187,4 @@ function A({ index: e, value: t, onChange: n, options: r = x }) {
 }
 export { w as FolderField, T as FolderFieldLine, k as FolderRow, b as FolderSearchIcon, x as MEDIA_SOURCES, E as MediaReadPolicy, D as MediaReadPolicyHelp, A as SourceSelect, C as isCloudSource, S as sourceMark, O as useFolderRows };
 
-//# debugId=069a9a10-4505-4904-b9b8-cb3f31361563
+//# debugId=d961d61a-a1cb-4210-90e6-177febe7bc46

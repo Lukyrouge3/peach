@@ -1,7 +1,7 @@
 (function() {
 	try {
 		var e = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, t = new e.Error().stack;
-		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "1dee972c-0a89-403e-9840-4585425e5988", e._sentryDebugIdIdentifier = "sentry-dbid-1dee972c-0a89-403e-9840-4585425e5988");
+		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "a9ba4f8f-97a9-483b-8257-acb4b9450c6a", e._sentryDebugIdIdentifier = "sentry-dbid-a9ba4f8f-97a9-483b-8257-acb4b9450c6a");
 	} catch {}
 })();
 import { $b4f18e3395fe64d7$export$3d96ec278d3efce4 as e, $b4f18e3395fe64d7$export$3e41faf802a29e71 as t, $b4f18e3395fe64d7$export$b2539bed5023c21c as n, $ea3928288112382f$export$439d29a4e110a164 as r, $fe21c36db05242bb$export$a98f0dcb43a68a25 as i, $fe21c36db05242bb$export$d7b12c4107be0d61 as a, Button as o, ButtonLink as s, Checkbox as c, CheckboxGlyph as l, Chip as u, CollapseChevron as d, CollapseRegion as f, DEFAULT_CATEGORY as p, ENTITY_REVIEW_KINDS as m, Ea as h, EmptyState as ee, ExternalLink as g, FIELDSET_FOOT as _, FilterGlassRows as v, Gg as y, InputBase as b, LinkButton as te, Note as ne, REVIEW_CATEGORIES as x, REVIEW_DECISION_LABELS as re, REVIEW_KEY as S, REVIEW_LABELS as C, REVIEW_QUEUES as w, REVIEW_QUEUE_LABELS as T, Select as E, SelectItem as D, SelectionActions as O, SelectionDock as k, TextField as A, Wt as j, __toESM as M, avatarInner as N, busyProps as P, canApprove as ie, cardClass as F, commonReviewSources as I, currentReviewRow as ae, cx as L, decisionPayload as oe, decisionReceipt as se, defaultChoice as ce, errorMessage as le, fetchReview as ue, filterReviewRows as de, groupReviewRows as fe, isReviewCategory as pe, l7 as me, m7 as he, mirrorText as ge, paginationRange as R, pendingGenres as _e, recordGenre as ve, reloadReview as ye, require_jsx_runtime as be, require_react as xe, reviewGroupingOptions as Se, reviewQueueData as Ce, reviewQueueOf as we, reviewWindow as Te, rowEvidence as Ee, rowFieldName as z, rowSubject as De, rowTags as Oe, rowTitle as ke, selectReviewRange as Ae, settleReviewRows as je, spinnerHtml as B, submitDecision as Me, useMutation as Ne, useOverlayScrollbar as V, useQuery as Pe, useViewGlide as Fe } from "./peach-app.js";
@@ -11,7 +11,7 @@ import { PillAriaTabList as Re } from "./peach-app.pill-aria-tab-list-BMY1ZEv1.j
 // src/react/review/bulk-toolbar.tsx
 var H = /* @__PURE__ */ M(xe(), 1), U = be();
 function ze(e) {
-	let { groupOptions: t, groupBy: n, onGroupBy: r, groups: i, filter: a, onFilter: s, pageKeys: c, selected: l, onSelected: u, selectedRows: d, metadata: f, approvable: p, busy: m, feedback: h, onUnifySource: ee, onRun: g, queueView: _ = "pending", queueCounts: y, onQueueChange: b, locked: te, fields: ne, fieldFilter: x, onFieldFilter: re } = e, S = c.filter((e) => l.has(e)), C = S.length > 0 && S.length === c.length, O = I(d), A = f && d.some((e) => (e.candidates?.length || 0) > 1), j = O.length ? "统一选择来源" : "所选项目无共同来源", M = (0, H.useRef)(null), N = (0, H.useRef)(null), P = (0, H.useRef)(null), [ie, F] = (0, H.useState)(!1), ae = Fe(M, N, "[data-entity-state][aria-pressed=\"true\"]", _);
+	let { groupOptions: t, groupBy: n, onGroupBy: r, groups: i, filter: a, onFilter: s, pageKeys: c, selected: l, onSelected: u, selectedRows: d, metadata: f, approvable: p, busy: m, feedback: h, onUnifySource: ee, onRun: g, queueView: _ = "pending", queueCounts: y, onQueueChange: b, locked: te, fields: ne, fieldFilter: x, onFieldFilter: re } = e, S = c.filter((e) => l.has(e)), C = S.length > 0 && S.length === c.length, O = I(d), A = f && d.some((e) => (e.candidates?.length || 0) > 1), j = O.length ? "Choose source for all" : "Selected items have no common source", M = (0, H.useRef)(null), N = (0, H.useRef)(null), P = (0, H.useRef)(null), [ie, F] = (0, H.useState)(!1), ae = Fe(M, N, "[data-entity-state][aria-pressed=\"true\"]", _);
 	return (0, H.useLayoutEffect)(() => {
 		let e = N.current, t = P.current, n = e?.parentElement, r = e?.closest("[data-review-filter]");
 		if (!e || !t || !n || !r) return;
@@ -23,8 +23,8 @@ function ze(e) {
 		]) a.observe(n);
 		return i(), () => a.disconnect();
 	}, []), /* @__PURE__ */ (0, U.jsxs)(U.Fragment, { children: [/* @__PURE__ */ (0, U.jsx)(v, {
-		label: "复核筛选",
-		topLabel: "处理状态",
+		label: "Review filters",
+		topLabel: "Handling status",
 		attrs: { "data-review-filter": "" },
 		className: "mb-0 flex-row flex-wrap",
 		topClassName: "max-w-full flex-none",
@@ -38,7 +38,7 @@ function ze(e) {
 		top: /* @__PURE__ */ (0, U.jsxs)("div", {
 			ref: N,
 			role: "group",
-			"aria-label": "复核状态",
+			"aria-label": "Review status",
 			"data-entity-states": "",
 			onPointerLeave: ae.leave,
 			children: [w.map((e) => /* @__PURE__ */ (0, U.jsxs)("button", {
@@ -70,12 +70,12 @@ function ze(e) {
 		}),
 		bottom: c.length ? /* @__PURE__ */ (0, U.jsxs)(U.Fragment, { children: [
 			f && ne.length ? /* @__PURE__ */ (0, U.jsxs)(E, {
-				"aria-label": "筛选资料字段",
+				"aria-label": "Filter metadata fields",
 				size: "sm",
 				prefix: /* @__PURE__ */ (0, U.jsx)("span", {
 					"data-copy-key": "review.filter.field",
 					className: "pointer-events-auto",
-					children: "字段"
+					children: "Field"
 				}),
 				selectedKey: x || "*",
 				isDisabled: m,
@@ -84,14 +84,14 @@ function ze(e) {
 				},
 				children: [/* @__PURE__ */ (0, U.jsx)(D, {
 					id: "*",
-					children: "全部"
+					children: "All"
 				}), ne.map((e) => /* @__PURE__ */ (0, U.jsx)(D, {
 					id: e.key,
 					children: `${e.title} · ${e.rows.length}`
 				}, e.key))]
 			}) : null,
 			/* @__PURE__ */ (0, U.jsx)(E, {
-				"aria-label": "筛选分组方式",
+				"aria-label": "Filter grouping",
 				size: "sm",
 				selectedKey: n,
 				onSelectionChange: (e) => {
@@ -103,16 +103,16 @@ function ze(e) {
 				}, e))
 			}),
 			i.length > 1 ? /* @__PURE__ */ (0, U.jsxs)(E, {
-				"aria-label": n === "field" ? "筛选字段分类" : "筛选当前分类",
+				"aria-label": n === "field" ? "Filter field category" : "Filter current category",
 				size: "sm",
-				prefix: "分类",
+				prefix: "Category",
 				selectedKey: a || "*",
 				onSelectionChange: (e) => {
 					e !== null && s(String(e) === "*" ? "" : String(e));
 				},
 				children: [/* @__PURE__ */ (0, U.jsx)(D, {
 					id: "*",
-					children: "全部"
+					children: "All"
 				}), i.map((e) => /* @__PURE__ */ (0, U.jsx)(D, {
 					id: e.key,
 					children: `${e.title} · ${e.rows.length}`
@@ -129,16 +129,16 @@ function ze(e) {
 					for (let t of c) C ? e.delete(t) : e.add(t);
 					u(e);
 				},
-				children: C ? "清空当前选择" : a ? "全选当前分类" : "全选本页"
+				children: C ? "Clear current selection" : a ? "Select all in current category" : "Select page"
 			})
 		] }) : null
 	}), /* @__PURE__ */ (0, U.jsxs)(k, {
-		label: "复核所选项目",
+		label: "Review selected items",
 		visible: !te && l.size > 0,
-		count: `已选 ${l.size} 项`,
+		count: `${l.size} selected`,
 		children: [
 			A && _ !== "ignored" ? /* @__PURE__ */ (0, U.jsxs)(E, {
-				"aria-label": "统一选择来源",
+				"aria-label": "Choose source for all",
 				size: "sm",
 				selectedKey: "",
 				isDisabled: m || !O.length,
@@ -158,34 +158,34 @@ function ze(e) {
 				size: "small",
 				disabled: m || !l.size,
 				onClick: () => g("rejected"),
-				children: "忽略所选"
+				children: "Ignore selected"
 			}),
 			_ === "pending" ? /* @__PURE__ */ (0, U.jsx)(o, {
 				variant: "secondary",
 				size: "small",
 				disabled: m || !l.size,
 				onClick: () => g("skipped"),
-				children: "稍后处理所选"
+				children: "Later for selected"
 			}) : /* @__PURE__ */ (0, U.jsx)(o, {
 				variant: _ === "ignored" ? "primary" : "secondary",
 				size: "small",
 				disabled: m || !l.size,
 				onClick: () => g("restore"),
-				children: "恢复所选"
+				children: "Restore selected"
 			}),
 			_ === "ignored" ? null : /* @__PURE__ */ (0, U.jsx)(o, {
 				variant: "primary",
 				size: "small",
 				disabled: m || !l.size || !p,
 				onClick: () => g("approved"),
-				children: "通过所选"
+				children: "Approve selected"
 			}),
 			/* @__PURE__ */ (0, U.jsx)(o, {
 				variant: "ghost",
 				size: "small",
 				disabled: m,
 				onClick: () => u(/* @__PURE__ */ new Set()),
-				children: "取消选择"
+				children: "Clear selection"
 			}),
 			h ? /* @__PURE__ */ (0, U.jsx)("p", {
 				role: "status",
@@ -633,15 +633,15 @@ function tt({ value: e, reference: t }) {
 }
 // src/react/review/candidate-form.tsx
 var nt = {
-	title: "标题",
-	original_title: "原标题",
-	runtime: "来源时长",
-	director: "导演",
+	title: "Title",
+	original_title: "Original title",
+	runtime: "Source duration",
+	director: "Director",
 	label: "Label",
-	poster_url: "海报",
-	cover_url: "封面",
-	screenshot_urls: "截图",
-	trailer_url: "预告片"
+	poster_url: "Poster",
+	cover_url: "Cover",
+	screenshot_urls: "Screenshots",
+	trailer_url: "Trailer"
 }, rt = "reviewgenretags";
 function it({ tags: e }) {
 	return e.length ? /* @__PURE__ */ (0, U.jsx)("datalist", {
@@ -659,11 +659,11 @@ function at({ candidate: e, row: t }) {
 			leadingIcon: d,
 			"aria-expanded": n,
 			"aria-controls": i,
-			"aria-label": `${n ? "收起" : "展开"} ${e.source || "该来源"} 的来源依据`,
+			"aria-label": `${n ? "Collapse" : "Expand"} ${e.source || "this source"} source evidence`,
 			onClick: () => r(!n),
 			children: [/* @__PURE__ */ (0, U.jsx)("span", {
 				"data-copy-key": "review.card.source_evidence",
-				children: "来源依据"
+				children: "Source evidence"
 			}), ` · ${a.length}`]
 		}), /* @__PURE__ */ (0, U.jsx)(f, {
 			id: i,
@@ -696,7 +696,7 @@ function at({ candidate: e, row: t }) {
 }
 function ot(e) {
 	let t = e.content_id || e.provider_id;
-	return `${e.source || "未标注来源"}${e.official ? " · 官方优先" : ""}${t ? ` · ID ${t}` : ""}`;
+	return `${e.source || "Source not labeled"}${e.official ? " · official first" : ""}${t ? ` · ID ${t}` : ""}`;
 }
 function st({ candidate: e, reference: t }) {
 	return /* @__PURE__ */ (0, U.jsxs)("span", {
@@ -731,7 +731,7 @@ function ct({ row: e, fieldName: t, value: n, onChange: r, locked: i }) {
 			row: e
 		})]
 	}) : /* @__PURE__ */ (0, U.jsx)(Ve, {
-		"aria-label": `${t || "资料"}的来源`,
+		"aria-label": `${t || "profiles"} sources of`,
 		value: n,
 		isDisabled: i,
 		onChange: r,
@@ -762,12 +762,12 @@ function lt({ genre: e, tags: t, locked: n, toast: r }) {
 	let [i, a] = (0, H.useState)(""), [s, c] = (0, H.useState)(""), l = Ne({
 		mutationFn: (t) => ve(e, t),
 		onSuccess: async (t, n) => {
-			t.ok ? (r(n ? `已把「${e}」收录为标签「${n}」` : `已把「${e}」判为非内容标签`), await ye()) : c(t.error || "服务端拒绝了这次收录");
+			t.ok ? (r(n ? `Added “${e}” as tag “${n}”` : `Marked “${e}” as not a content tag`), await ye()) : c(t.error || "The server rejected this addition");
 		},
 		onError: (e) => c(le(e))
 	}), u = () => {
 		let e = i.trim();
-		e ? (c(""), l.mutate(e)) : c("先给它一个中文标签");
+		e ? (c(""), l.mutate(e)) : c("Give it a Chinese tag first");
 	};
 	return /* @__PURE__ */ (0, U.jsxs)("div", {
 		className: "flex flex-wrap items-center gap-2",
@@ -778,7 +778,7 @@ function lt({ genre: e, tags: t, locked: n, toast: r }) {
 				children: e
 			}),
 			/* @__PURE__ */ (0, U.jsx)(A, {
-				"aria-label": `「${e}」收录成的中文标签`,
+				"aria-label": `Chinese tag for “${e}”`,
 				value: i,
 				onChange: a,
 				maxLength: 40,
@@ -788,7 +788,7 @@ function lt({ genre: e, tags: t, locked: n, toast: r }) {
 					size: "small",
 					list: t.length ? rt : void 0,
 					autoComplete: "off",
-					placeholder: "中文标签",
+					placeholder: "Chinese tag",
 					onKeyDown: (e) => {
 						e.key !== "Enter" || e.nativeEvent.isComposing || (e.preventDefault(), u());
 					}
@@ -799,7 +799,7 @@ function lt({ genre: e, tags: t, locked: n, toast: r }) {
 				size: "small",
 				disabled: n || l.isPending,
 				onClick: u,
-				children: "收录"
+				children: "Add"
 			}),
 			/* @__PURE__ */ (0, U.jsx)(o, {
 				variant: "secondary",
@@ -808,7 +808,7 @@ function lt({ genre: e, tags: t, locked: n, toast: r }) {
 				onClick: () => {
 					c(""), l.mutate("");
 				},
-				children: "不是内容"
+				children: "Not content"
 			}),
 			s ? /* @__PURE__ */ (0, U.jsx)("p", {
 				role: "status",
@@ -822,11 +822,11 @@ function ut({ row: e, tags: t, locked: n, toast: r }) {
 	let i = _e(e);
 	return i.length ? /* @__PURE__ */ (0, U.jsxs)("div", {
 		role: "group",
-		"aria-label": "未收录 genre",
+		"aria-label": "Unmapped genres",
 		className: "flex flex-col gap-2 border-t border-separator-border pt-4",
 		children: [/* @__PURE__ */ (0, U.jsx)("h5", {
 			className: "text-body-2-medium text-text-secondary",
-			children: `未收录 genre · ${i.length}`
+			children: `Unmapped genres · ${i.length}`
 		}), /* @__PURE__ */ (0, U.jsx)("div", {
 			role: "list",
 			className: "flex flex-col",
@@ -860,10 +860,10 @@ function mt({ source: e }) {
 		children: [t === "loading" ? /* @__PURE__ */ (0, U.jsxs)("span", {
 			role: "status",
 			className: "absolute flex items-center gap-2 text-body-2-regular text-text-secondary",
-			children: [/* @__PURE__ */ (0, U.jsx)("span", { dangerouslySetInnerHTML: { __html: B("正在加载图片") } }), "正在加载图片"]
+			children: [/* @__PURE__ */ (0, U.jsx)("span", { dangerouslySetInnerHTML: { __html: B("Loading image") } }), "Loading image"]
 		}) : null, e && (t === "loading" || t === "ready") ? /* @__PURE__ */ (0, U.jsx)("img", {
 			src: e,
-			alt: "来源提供的备选图片",
+			alt: "Candidate images from the source",
 			referrerPolicy: "no-referrer",
 			decoding: "async",
 			className: `size-full object-contain ${t === "loading" ? "invisible" : ""}`,
@@ -873,17 +873,17 @@ function mt({ source: e }) {
 			className: "flex flex-col items-center gap-2",
 			children: [t === "failed" ? /* @__PURE__ */ (0, U.jsx)("span", {
 				className: "text-body-2-regular text-text-secondary",
-				children: "未取得来源图片"
+				children: "Source images not obtained"
 			}) : null, /* @__PURE__ */ (0, U.jsx)(o, {
 				variant: "secondary",
 				size: "small",
-				"aria-label": t === "failed" ? "立即重试加载来源图片" : void 0,
+				"aria-label": t === "failed" ? "Retry loading source images now" : void 0,
 				onClick: () => n("loading"),
-				children: t === "failed" ? "立即重试" : "查看来源图片"
+				children: t === "failed" ? "Retry now" : "View source images"
 			})]
 		}) : /* @__PURE__ */ (0, U.jsx)("span", {
 			className: "text-body-2-regular text-text-secondary",
-			children: "未取得来源图片"
+			children: "Source images not obtained"
 		})]
 	});
 }
@@ -902,20 +902,20 @@ function ht({ asset: e, openItem: t }) {
 				className: "size-full object-cover"
 			}) : /* @__PURE__ */ (0, U.jsx)("span", {
 				className: "text-caption-1-regular text-text-secondary",
-				children: "无封面"
-			}), /* @__PURE__ */ (0, U.jsx)(r, { children: `打开原视频 ${n}` })]
+				children: "No cover"
+			}), /* @__PURE__ */ (0, U.jsx)(r, { children: `Open original video ${n}` })]
 		}), /* @__PURE__ */ (0, U.jsxs)("div", {
 			className: "flex min-w-0 flex-col items-start gap-1",
 			children: [/* @__PURE__ */ (0, U.jsx)("b", {
 				title: n,
 				className: "w-full truncate text-body-medium text-text-primary",
-				children: e.code || n || "原视频"
+				children: e.code || n || "Original video"
 			}), /* @__PURE__ */ (0, U.jsx)(o, {
 				variant: "secondary",
 				size: "small",
 				leadingIcon: y,
 				onClick: () => t(e.id),
-				children: "打开原视频"
+				children: "Open original video"
 			})]
 		})]
 	});
@@ -925,7 +925,7 @@ function gt({ kind: e, name: t, works: n, avatar: r, openEntity: i }) {
 		className: "flex min-w-0 items-center gap-3",
 		children: [/* @__PURE__ */ (0, U.jsx)("button", {
 			type: "button",
-			"aria-label": `打开创作者页：${t}`,
+			"aria-label": `Open creator page: ${t}`,
 			onClick: () => i(e, t),
 			className: `relative inline-grid size-11 shrink-0 cursor-pointer place-items-center overflow-hidden rounded-full bg-background-secondary-default text-caption-1-medium text-text-secondary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring ${Le}`,
 			dangerouslySetInnerHTML: { __html: r }
@@ -938,7 +938,7 @@ function gt({ kind: e, name: t, works: n, avatar: r, openEntity: i }) {
 				children: t
 			}), n ? /* @__PURE__ */ (0, U.jsx)("small", {
 				className: "tabular-nums text-body-2-regular text-text-secondary",
-				children: `${n.toLocaleString()} 部作品`
+				children: `${n.toLocaleString()} titles`
 			}) : null]
 		})]
 	});
@@ -950,7 +950,7 @@ function _t({ row: e, openItem: t, openEntity: n, onReveal: r, revealing: i, not
 		children: [
 			/* @__PURE__ */ (0, U.jsx)("h5", {
 				className: "text-body-medium text-text-primary",
-				children: `待确认人物：${e.babepedia_name || "未标注"}`
+				children: `Person to confirm: ${e.babepedia_name || "Not labeled"}`
 			}),
 			/* @__PURE__ */ (0, U.jsxs)("div", {
 				className: "flex flex-wrap items-center gap-2",
@@ -961,22 +961,22 @@ function _t({ row: e, openItem: t, openEntity: n, onReveal: r, revealing: i, not
 					href: c,
 					target: "_blank",
 					rel: "noopener noreferrer",
-					children: "来源资料"
+					children: "Source profile"
 				}) : null, /* @__PURE__ */ (0, U.jsx)(o, {
 					variant: "secondary",
 					size: "small",
 					onClick: () => n("creator", e.creator || ""),
-					children: `查看全部 ${u.toLocaleString()} 部作品`
+					children: `View all ${u.toLocaleString()} titles`
 				})]
 			}),
 			/* @__PURE__ */ (0, U.jsx)(pt, { url: e.preview_url }),
 			/* @__PURE__ */ (0, U.jsx)("p", {
 				className: "text-body-2-regular text-text-secondary",
-				children: "通过后记录身份判断。"
+				children: "Approving records the identity decision."
 			}),
 			l.length ? /* @__PURE__ */ (0, U.jsxs)(U.Fragment, { children: [/* @__PURE__ */ (0, U.jsx)("h5", {
 				className: "text-body-medium text-text-primary",
-				children: "本地作品样本"
+				children: "Local title samples"
 			}), /* @__PURE__ */ (0, U.jsx)("ul", {
 				className: "flex flex-col gap-1",
 				children: l.map((e) => /* @__PURE__ */ (0, U.jsxs)("li", {
@@ -994,15 +994,15 @@ function _t({ row: e, openItem: t, openEntity: n, onReveal: r, revealing: i, not
 					}), /* @__PURE__ */ (0, U.jsx)(o, {
 						variant: "ghost",
 						size: "small",
-						"aria-label": `打开 ${e.name} 的文件位置`,
+						"aria-label": `Open the file location of ${e.name}`,
 						...P(i === e.id),
 						onClick: () => r(e.id),
-						children: "文件位置"
+						children: "File location"
 					})]
 				}, e.id))
 			})] }) : /* @__PURE__ */ (0, U.jsx)("p", {
 				className: "text-body-2-regular text-text-secondary",
-				children: "暂无本地作品样本，打开全部作品核对。"
+				children: "No local title samples; open all titles to check."
 			}),
 			a ? /* @__PURE__ */ (0, U.jsx)("p", {
 				role: "status",
@@ -1030,14 +1030,14 @@ function vt({ assets: e, picked: t, onPicked: n, locked: i }) {
 		children: [/* @__PURE__ */ (0, U.jsx)(O, {
 			prefix: /* @__PURE__ */ (0, U.jsx)("span", {
 				className: "tabular-nums text-body-2-regular text-text-secondary",
-				children: `已选 ${s.size} / ${e.length}`
+				children: `${s.size} / ${e.length} selected`
 			}),
 			actions: [{
-				label: "全选",
+				label: "Select all",
 				disabled: i,
 				onPress: () => n(e.map((e) => e.id))
 			}, {
-				label: "清空",
+				label: "Clear",
 				disabled: i,
 				onPress: () => n([])
 			}]
@@ -1071,7 +1071,7 @@ function vt({ assets: e, picked: t, onPicked: n, locked: i }) {
 								}
 							})
 						}),
-						/* @__PURE__ */ (0, U.jsx)(r, { children: `${n ? "已选" : "未选"} ${e.name || e.id}` })
+						/* @__PURE__ */ (0, U.jsx)(r, { children: `${n ? "Selected" : "Not selected"} ${e.name || e.id}` })
 					]
 				}, e.id);
 			})
@@ -1093,7 +1093,7 @@ function Ct(e) {
 			openItem: v.openItem
 		}, e.id)), j.length > xt ? /* @__PURE__ */ (0, U.jsx)("p", {
 			className: "text-body-2-regular text-text-secondary",
-			children: `另有 ${(j.length - xt).toLocaleString()} 部对照作品`
+			children: `${(j.length - xt).toLocaleString()} more comparison titles`
 		}) : null]
 	}) : w ? /* @__PURE__ */ (0, U.jsx)(gt, {
 		kind: S,
@@ -1134,8 +1134,8 @@ function Ct(e) {
 	}) : /* @__PURE__ */ (0, U.jsx)(ee, {
 		size: "compact",
 		icon: h,
-		title: "这批作品尚未抽帧",
-		children: `${n.video_count || ""} 条作品还没有可用预览；批准后仍会按所选资料写入标签。`
+		title: "Frames not sampled for these titles yet",
+		children: `${n.video_count || ""} titles have no usable preview yet; after approval, tags are still written from the chosen metadata.`
 	}) : t === "fc2_similarity" ? null : t === "western_identity" ? /* @__PURE__ */ (0, U.jsx)(_t, {
 		row: n,
 		openItem: v.openItem,
@@ -1184,7 +1184,7 @@ function Ct(e) {
 						},
 						children: /* @__PURE__ */ (0, U.jsx)(c, {
 							isSelected: a,
-							"aria-label": `选择 ${T}`,
+							"aria-label": `Select ${T}`,
 							onChange: (e) => s(b.current, e)
 						})
 					}),
@@ -1207,16 +1207,16 @@ function Ct(e) {
 					children: [
 						n.source_name ? /* @__PURE__ */ (0, U.jsx)("p", {
 							className: "text-body-2-regular text-text-secondary",
-							children: `来源写法：${n.source_name}`
+							children: `Source spelling: ${n.source_name}`
 						}) : null,
 						!w && (n.board || n.assets) ? /* @__PURE__ */ (0, U.jsx)("p", {
 							className: "text-body-2-regular text-text-secondary",
-							children: `对照文件：${Number(n.video_count || n.assets || 0).toLocaleString()}`
+							children: `Comparison files: ${Number(n.video_count || n.assets || 0).toLocaleString()}`
 						}) : null,
 						!w && I ? I : null,
 						x && (O || n.current_value !== void 0) ? /* @__PURE__ */ (0, U.jsxs)("div", {
 							role: "region",
-							"aria-label": "当前信息",
+							"aria-label": "Current info",
 							className: "flex min-w-0 flex-col gap-1 border-b border-separator-border pb-4",
 							children: [
 								/* @__PURE__ */ (0, U.jsxs)("div", {
@@ -1224,11 +1224,11 @@ function Ct(e) {
 									children: [/* @__PURE__ */ (0, U.jsx)("h5", {
 										"data-copy-key": "review.card.current_value",
 										className: "text-caption-1-medium text-text-secondary",
-										children: "当前值"
+										children: "Current value"
 									}), n.current_owner?.startsWith("user:") || n.current_owner?.startsWith("review:") ? /* @__PURE__ */ (0, U.jsx)(u, {
 										variant: "caption",
 										color: "neutral",
-										children: "人工确认"
+										children: "Manual confirmation"
 									}) : null]
 								}),
 								/* @__PURE__ */ (0, U.jsx)("p", {
@@ -1236,11 +1236,11 @@ function Ct(e) {
 									children: n.current_value === void 0 ? O : n.current_value ? /* @__PURE__ */ (0, U.jsx)(tt, {
 										value: n.current_value,
 										reference: (n.candidates?.find((e) => e.candidate_key === r.candidateKey) || n.candidates?.[0])?.display_value
-									}) : "尚无资料"
+									}) : "No metadata yet"
 								}),
 								n.videos === void 0 ? null : /* @__PURE__ */ (0, U.jsx)("p", {
 									className: "text-caption-1-regular text-text-secondary",
-									children: `${Number(n.videos).toLocaleString()} 个${n.asset_path ? "匹配文件" : "同番号文件"}`
+									children: `${Number(n.videos).toLocaleString()} items ${n.asset_path ? "Matched files" : "Files with the same code"}`
 								})
 							]
 						}) : null,
@@ -1252,7 +1252,7 @@ function Ct(e) {
 								children: e
 							}, e)) : /* @__PURE__ */ (0, U.jsx)("small", {
 								className: "text-body-2-regular text-text-secondary",
-								children: "暂无待确认标签"
+								children: "No tags awaiting confirmation"
 							})
 						}) : null,
 						x ? /* @__PURE__ */ (0, U.jsxs)("div", {
@@ -1261,12 +1261,12 @@ function Ct(e) {
 								className: "text-caption-1-medium text-text-secondary",
 								children: [/* @__PURE__ */ (0, U.jsx)("span", {
 									"data-copy-key": "review.card.candidate_sources",
-									children: "候选来源"
+									children: "Candidate sources"
 								}), ` · ${n.candidates?.length || 0}`]
 							}), n.current_value || (n.candidates?.length || 0) > 1 ? /* @__PURE__ */ (0, U.jsx)("span", {
 								"data-copy-key": n.current_value ? "review.card.compare_current" : "review.card.compare_sources",
 								className: "text-caption-1-regular text-text-tertiary",
-								children: n.current_value ? "与当前值比较" : "来源间差异"
+								children: n.current_value ? "Compared with current value" : "Differences between sources"
 							}) : null]
 						}) : null,
 						ae,
@@ -1293,7 +1293,7 @@ function Ct(e) {
 						disabled: l,
 						...P(d),
 						onClick: () => g("rejected"),
-						children: "忽略"
+						children: "Ignore"
 					}),
 					y === "pending" ? /* @__PURE__ */ (0, U.jsx)(o, {
 						variant: "secondary",
@@ -1301,23 +1301,23 @@ function Ct(e) {
 						disabled: l,
 						...P(d),
 						onClick: () => g("skipped"),
-						children: "稍后处理"
+						children: "Later"
 					}) : /* @__PURE__ */ (0, U.jsx)(o, {
 						variant: y === "ignored" ? "primary" : "secondary",
 						size: "small",
 						disabled: l,
 						...P(d),
 						onClick: () => g("restore"),
-						children: "恢复待处理"
+						children: "Restore to pending"
 					}),
 					y === "ignored" ? null : /* @__PURE__ */ (0, U.jsx)(o, {
 						variant: "primary",
 						size: "small",
 						disabled: l || !A,
 						...P(d),
-						title: A ? void 0 : "没有可采用的资料，可先保留或忽略",
+						title: A ? void 0 : "No usable metadata; keep or ignore it for now",
 						onClick: () => g("approved"),
-						children: A ? "通过" : "不可通过"
+						children: A ? "Approve" : "Can't approve"
 					}),
 					f ? /* @__PURE__ */ (0, U.jsx)("p", {
 						role: "status",
@@ -1333,7 +1333,7 @@ function Ct(e) {
 var wt = "flex cursor-pointer items-center justify-between gap-2";
 function Tt({ page: e, pages: t, onPage: n }) {
 	return t <= 1 ? null : /* @__PURE__ */ (0, U.jsxs)("nav", {
-		"aria-label": "复核分页",
+		"aria-label": "Review pages",
 		"data-pagination-layout": "",
 		className: "inline-grid w-full min-w-0 items-center gap-2",
 		children: [
@@ -1342,7 +1342,7 @@ function Tt({ page: e, pages: t, onPage: n }) {
 				size: "small",
 				disabled: e <= 1,
 				onClick: () => n(e - 1),
-				children: "上一页"
+				children: "Previous"
 			}),
 			/* @__PURE__ */ (0, U.jsx)("ul", {
 				className: "flex min-w-0 flex-wrap items-center justify-center gap-1",
@@ -1353,7 +1353,7 @@ function Tt({ page: e, pages: t, onPage: n }) {
 				}) : /* @__PURE__ */ (0, U.jsx)(o, {
 					variant: t === e ? "secondary" : "ghost",
 					size: "small",
-					"aria-label": `第 ${t} 页`,
+					"aria-label": `Page ${t}`,
 					"aria-current": t === e ? "page" : void 0,
 					onClick: () => n(Number(t)),
 					children: t
@@ -1364,7 +1364,7 @@ function Tt({ page: e, pages: t, onPage: n }) {
 				size: "small",
 				disabled: e >= t,
 				onClick: () => n(e + 1),
-				children: "下一页"
+				children: "Next"
 			})
 		]
 	});
@@ -1439,7 +1439,7 @@ function Et(r) {
 	}, Q = Ne({
 		mutationFn: ({ row: e, status: t, category: n }) => Me(oe(n, ae(n, e), t, Y(e))),
 		onSuccess: (e, { row: t, status: n, category: r }) => {
-			e.ok ? (je(r, [t.item_key], n), Z([t.item_key]), d(se(n))) : Ge(t.item_key, e.error || "服务端拒绝了这次判定");
+			e.ok ? (je(r, [t.item_key], n), Z([t.item_key]), d(se(n))) : Ge(t.item_key, e.error || "The server rejected this decision");
 		},
 		onError: (e, { row: t }) => Ge(t.item_key, le(e))
 	}), $ = Ne({
@@ -1447,10 +1447,10 @@ function Et(r) {
 			let r = [], i = [];
 			for (let [a, o] of n.entries()) {
 				if (!Ee.current) break;
-				R(`正在处理 ${a} / ${n.length}`);
+				R(`Processing ${a} / ${n.length}`);
 				try {
 					let n = await Me(oe(t, ae(t, o), e, Y(o)));
-					if (!n.ok) throw Error(n.error || "服务端未采用该项");
+					if (!n.ok) throw Error(n.error || "The server didn't accept this item");
 					r.push(o.item_key);
 				} catch (e) {
 					i.push([o.item_key, le(e)]);
@@ -1466,18 +1466,18 @@ function Et(r) {
 		onSuccess: ({ status: e, category: t, done: n, failures: r }) => {
 			je(t, n, e), Z(n), r.forEach(([e, t]) => Ge(e, t)), R("");
 			let i = {
-				approved: "通过",
-				rejected: "忽略",
-				skipped: "移至稍后处理",
-				restore: "恢复待处理"
+				approved: "Approve",
+				rejected: "Ignore",
+				skipped: "Move to later",
+				restore: "Restore to pending"
 			}[e];
-			d(`已${i} ${n.length} 项` + (r.length ? `，${r.length} 项未完成` : ""));
+			d(`${i}: ${n.length} items` + (r.length ? `, ${r.length} items not done` : ""));
 		},
 		onError: (e) => {
 			R(le(e));
 		}
 	}), Ye = (e) => {
-		!$.isPending && X.length && (e === "approved" && V && X.some((e) => !Y(e).candidateKey) ? R("请先为所选资料选择要采用的来源。") : (R(""), $.mutate({
+		!$.isPending && X.length && (e === "approved" && V && X.some((e) => !Y(e).candidateKey) ? R("Choose the source to use for the selected items first.") : (R(""), $.mutate({
 			status: e,
 			category: _,
 			rows: X
@@ -1493,7 +1493,7 @@ function Et(r) {
 				});
 			}
 			return n;
-		}), R(`已选择 ${e}，点击通过所选采用。`);
+		}), R(`${e} selected; click Approve selected to use it.`);
 	}, Ze = async (e) => {
 		if (ve) return;
 		ye(e), xe("");
@@ -1512,12 +1512,12 @@ function Et(r) {
 		children: [
 			Fe ? /* @__PURE__ */ (0, U.jsx)(ne, {
 				tone: "warning",
-				title: "本机只能浏览",
+				title: "Browse-only on this device",
 				extra: h ? /* @__PURE__ */ (0, U.jsx)("p", {
 					className: "text-body-2-regular",
 					children: /* @__PURE__ */ (0, U.jsx)(g, {
 						href: h,
-						children: "前往写入端复核"
+						children: "Review on the writer"
 					})
 				}) : void 0,
 				children: Qe
@@ -1536,7 +1536,7 @@ function Et(r) {
 					className: "w-full min-w-0 review-split:sticky review-split:top-topbar review-split:w-review-tabs review-split:shrink-0",
 					children: [/* @__PURE__ */ (0, U.jsx)("h2", {
 						id: "reviewcategories",
-						children: "复核分类"
+						children: "Review categories"
 					}), /* @__PURE__ */ (0, U.jsx)(Re, {
 						scrollable: i,
 						"aria-labelledby": "reviewcategories",
@@ -1607,7 +1607,7 @@ function Et(r) {
 										for (let e of t) n ? r.delete(e) : r.add(e);
 										N(r);
 									},
-									children: e.rows.every((e) => M.has(e.item_key)) ? "清空本组" : "全选本组"
+									children: e.rows.every((e) => M.has(e.item_key)) ? "Clear this group" : "Select this group"
 								})]
 							}) : null, /* @__PURE__ */ (0, U.jsx)("div", {
 								className: "review-grid gap-5",
@@ -1638,27 +1638,27 @@ function Et(r) {
 							})]
 						}, e.key)) : z.isError && !z.data ? /* @__PURE__ */ (0, U.jsx)(ne, {
 							tone: "error",
-							title: "复核队列读取失败",
+							title: "Couldn't load the review queue",
 							action: /* @__PURE__ */ (0, U.jsx)(o, {
 								variant: "secondary",
 								size: "small",
 								disabled: z.isFetching,
 								onClick: () => void z.refetch(),
-								children: "立即重试"
+								children: "Retry now"
 							}),
 							children: le(z.error)
 						}) : /* @__PURE__ */ (0, U.jsx)(ee, {
 							icon: he,
-							title: `此分类没有${T[y]}项目`,
+							title: `No ${T[y]} items in this category`,
 							actions: x.some((e) => e !== _ && Number(Oe.counts[e] || 0) > 0) ? /* @__PURE__ */ (0, U.jsx)(o, {
 								size: "small",
 								onClick: () => {
 									let e = x.find((e) => e !== _ && Number(Oe.counts[e] || 0) > 0);
 									e && qe(e);
 								},
-								children: "查看其他分类"
+								children: "View other categories"
 							}) : void 0,
-							children: y === "pending" ? "可切换分类查看其他待确认资料。" : `${T[y]}的资料会保留在这里，可恢复到待处理。`
+							children: y === "pending" ? "Switch categories to see other items awaiting confirmation." : `${T[y]} items stay here and can be restored to pending.`
 						}),
 						/* @__PURE__ */ (0, U.jsx)(Tt, {
 							page: q.page,
@@ -1673,4 +1673,4 @@ function Et(r) {
 }
 export { Et as ReviewPage };
 
-//# debugId=1dee972c-0a89-403e-9840-4585425e5988
+//# debugId=a9ba4f8f-97a9-483b-8257-acb4b9450c6a
