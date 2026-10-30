@@ -17,15 +17,15 @@ export function CodeBlock({ code, language, label, maxCharacters, bounded = true
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(code);
-      setFailed(false); setStatus('已复制'); onCopy?.();
+      setFailed(false); setStatus('Copied'); onCopy?.();
     } catch {
-      setFailed(true); setStatus('复制失败，请选中文本复制。');
+      setFailed(true); setStatus('Copy failed; select the text and copy it.');
     }
   };
   return <div className={cx(cardClass({ bordered: 'soft', radius: 'plain', padding: 'none' }), 'overflow-hidden bg-background-tertiary-default')} data-code-block>
     <div className="flex min-w-0 items-center justify-between gap-3 border-b border-separator-border px-3 py-2">
       <span className="text-caption-1-medium text-text-secondary">{language.toUpperCase()}</span>
-      <Button variant="secondary" size="small" onClick={() => void copy()}>{copyLabel || (truncated ? '复制完整内容' : '复制代码')}</Button>
+      <Button variant="secondary" size="small" onClick={() => void copy()}>{copyLabel || (truncated ? 'Copy full content' : 'Copy code')}</Button>
     </div>
     <div className="relative min-w-0">
       <pre ref={scroll} tabIndex={0} aria-label={label}

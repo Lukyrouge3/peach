@@ -47,7 +47,7 @@ export class SubtitleSession {
   }
   private failed(error: unknown) {
     if (this.cleanup.signal.aborted) return;
-    this.error = error instanceof Error ? error.message : '字幕记忆未保存，请重试';
+    this.error = error instanceof Error ? error.message : 'Subtitle preference not saved; try again';
     this.changed();
   }
   private save(value: { selected: string | null; track?: SavedTrack }) {
@@ -69,7 +69,7 @@ export class SubtitleSession {
         try {
           if (this.has(track.key)) continue;
           const response = await fetch(track.src, { signal });
-          if (!response.ok) throw new Error(`字幕未恢复：${track.name}`);
+          if (!response.ok) throw new Error(`Subtitles not restored: ${track.name}`);
           await this.attach(await response.text(), track.name, track.key, signal);
         } catch (error) { failure = error }
       }
@@ -99,18 +99,18 @@ export class SubtitleSession {
     const node = document.createElement('track'); node.id = key; node.kind = 'subtitles'; node.label = name; node.src = url;
     try {
       await new Promise<void>((resolve, reject) => {
-        const timer = setTimeout(() => finish(new Error('字幕加载超时，请重试')), 15_000);
+        const timer = setTimeout(() => finish(new Error('Subtitle loading timed out; try again')), 15_000);
         const finish = (error?: Error) => {
           clearTimeout(timer); node.removeEventListener('load', loaded); node.removeEventListener('error', failed); signal.removeEventListener('abort', aborted);
           if (error) reject(error); else resolve();
         };
-        const loaded = () => finish(), failed = () => finish(new Error(`字幕时间轴无法读取：${name}`));
-        const aborted = () => finish(new DOMException('字幕加载已取消', 'AbortError'));
+        const loaded = () => finish(), failed = () => finish(new Error(`Can't read the subtitle timeline: ${name}`));
+        const aborted = () => finish(new DOMException('Subtitle loading canceled', 'AbortError'));
         node.addEventListener('load', loaded); node.addEventListener('error', failed); signal.addEventListener('abort', aborted, { once: true });
         if (signal.aborted) { aborted(); return }
         this.video.append(node); node.track.mode = 'hidden';
       });
-      if (signal.aborted || this.player.isDisposed()) throw new DOMException('字幕加载已取消', 'AbortError');
+      if (signal.aborted || this.player.isDisposed()) throw new DOMException('Subtitle loading canceled', 'AbortError');
       this.imported.set(key, { node, url }); this.apply(); this.changed();
     } catch (error) { node.remove(); URL.revokeObjectURL(url); throw error }
   }

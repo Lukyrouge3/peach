@@ -43,7 +43,7 @@ export function discoveryArtwork(item: Discovery, layout: 'big' | 'small', javIm
   const remote = esc(remoteCoverUrl(item));
   return coverImage(item, layout).replace(/ src="[^"]*"/,
     ` src="${remote}" data-jav-image="${item.id}" data-jav-cover="${remote}" data-jav-thumb="" data-jav-image-layout="${layout}"${layout === 'big' ? ' data-panel-prior="1"' : ''}`)
-    .replace('data-drop="self"', 'data-drop="initial" data-initial="封面未取得" data-drop-class="media-nopic"');
+    .replace('data-drop="self"', 'data-drop="initial" data-initial="Cover not obtained" data-drop-class="media-nopic"');
 }
 
 export async function prefetchJav(tab: string, signal: AbortSignal) {

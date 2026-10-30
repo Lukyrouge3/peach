@@ -11,7 +11,7 @@ export interface ActivityCounts {
 /** 热力图里的一格。`share` 是这一格相对最忙那一格的浓度，0 到 1。 */
 export interface HeatCell { key: string; label: string; count: number; share: number }
 
-export const WEEKDAYS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+export const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 /** 有计数的格子至少留一成浓度：一次和一次都没有必须看得出差别。 */
 const shareOf = (count: number, max: number) => (count ? Math.max(0.12, count / max) : 0);

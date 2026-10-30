@@ -161,23 +161,23 @@ export async function mountDetailPlayer(
     const speedText = speed ? `${(speed / 1e6).toFixed(1)} Mbps` : '—';
     const byteScale = segmented || meter.bitrate > 0;
     const loadedRow: [string, string, string] = segmented
-      ? ['网络活动', `${bytes ? fmtSize(bytes) : '—'} · ${resources.length} 请求`,
-        `最近一秒网络活动 ${activity ? fmtSize(activity) : '0 B'}`]
-      : ['已下载', byteScale ? `${fmtSize(loaded)}${mediaSize > 0 ? ` / ${fmtSize(mediaSize)}` : ''}` : `${loaded.toFixed(0)} 秒`,
-        byteScale ? `最近一秒下载 ${activity ? fmtSize(activity) : '0 B'}` : `最近一秒下载 ${activity.toFixed(1)} 秒`];
+      ? ['Network activity', `${bytes ? fmtSize(bytes) : '—'} · ${resources.length} requests`,
+        `Network activity in the last second: ${activity ? fmtSize(activity) : '0 B'}`]
+      : ['Downloaded', byteScale ? `${fmtSize(loaded)}${mediaSize > 0 ? ` / ${fmtSize(mediaSize)}` : ''}` : `${loaded.toFixed(0)} s`,
+        byteScale ? `Downloaded in the last second: ${activity ? fmtSize(activity) : '0 B'}` : `Downloaded in the last second: ${activity.toFixed(1)} s`];
     const rows: [string, string, string?][] = [
-      ['视频 ID / 会话', stream && !options.source ? `${item.id} / ${stream.slice(0, 8)}` : `${item.id}`],
-      ['视口 / 帧', `${Math.round(rect.width)}×${Math.round(rect.height)} / ${quality ? `${quality.totalVideoFrames - quality.droppedVideoFrames} of ${quality.totalVideoFrames}` : '—'}`],
-      ['当前 / 最佳分辨率', `${current} / ${item.width || video.videoWidth || '?'}×${item.height || video.videoHeight || '?'}`],
-      ['编码 / 传输', `${container} / ${segmented ? 'HLS' : 'HTTP Range'}`],
-      ['连接速度', speedText,
-        playerStatsPlot(statsHistory.speed, 'speed', Math.max(10e6, ...statsHistory.speed), `连接速度 ${speedText === '—' ? '暂无数据' : speedText}`)],
+      ['Video ID / session', stream && !options.source ? `${item.id} / ${stream.slice(0, 8)}` : `${item.id}`],
+      ['Viewport / frames', `${Math.round(rect.width)}×${Math.round(rect.height)} / ${quality ? `${quality.totalVideoFrames - quality.droppedVideoFrames} of ${quality.totalVideoFrames}` : '—'}`],
+      ['Current / optimal resolution', `${current} / ${item.width || video.videoWidth || '?'}×${item.height || video.videoHeight || '?'}`],
+      ['Codec / transport', `${container} / ${segmented ? 'HLS' : 'HTTP Range'}`],
+      ['Connection speed', speedText,
+        playerStatsPlot(statsHistory.speed, 'speed', Math.max(10e6, ...statsHistory.speed), `Connection speed ${speedText === '—' ? 'No data' : speedText}`)],
       [loadedRow[0], loadedRow[1],
         playerStatsPlot(statsHistory.activity, 'activity', Math.max(1, ...statsHistory.activity), loadedRow[2])],
-      ['缓冲健康', `${buffer.toFixed(1)} 秒`,
-        playerStatsPlot(statsHistory.buffer, 'buffer', 30, `当前可连续播放 ${buffer.toFixed(1)} 秒`)],
-      ['播放时间', `${fmtClock(video.currentTime)} / ${fmtClock(expected || player.duration())}`],
-      ['日期', new Date().toLocaleString()],
+      ['Buffer health', `${buffer.toFixed(1)} s`,
+        playerStatsPlot(statsHistory.buffer, 'buffer', 30, `${buffer.toFixed(1)} s can play continuously now`)],
+      ['Playback time', `${fmtClock(video.currentTime)} / ${fmtClock(expected || player.duration())}`],
+      ['Date', new Date().toLocaleString()],
     ];
     statsPanel.innerHTML = `<dl>${rows.map(([key, value, plot]) =>
       `<dt>${esc(key)}</dt><dd${plot ? ' data-player-stats-metric=""' : ''}>${plot || ''}<span>${esc(value)}</span></dd>`).join('')}</dl>`;
@@ -191,7 +191,7 @@ export async function mountDetailPlayer(
     if (!segmented) meter.sample(video);
     const bits = playerSpeedBits(player, item.id, detailStreamSession(), segmented ? null : meter);
     const rate = segmented ? fmtSpeed(bits) : fmtLoadRate(bits, bufferedAhead(video));
-    netBadge.innerHTML = `${icon('gauge')}<span class="sr-only">加载速度</span><span>${esc(rate)}</span>`;
+    netBadge.innerHTML = `${icon('gauge')}<span class="sr-only">Load speed</span><span>${esc(rate)}</span>`;
   };
   const showNet = () => {
     const netBadge = session.chrome?.netBadge;
@@ -219,7 +219,7 @@ export async function mountDetailPlayer(
     if (options.checkSourceStatus === false) return;
     void host.loadSourceStatus().then((status) => {
       if (status[String(item.root_id || item.location)] !== false || player.isDisposed()) return;
-      player.error({ code: 2, message: `媒体目录无法访问 · ${host.offlineReason(String(item.root_id || item.location))}` });
+      player.error({ code: 2, message: `Media folder inaccessible · ${host.offlineReason(String(item.root_id || item.location))}` });
     });
   });
   player.ready(() => {

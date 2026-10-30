@@ -26,7 +26,7 @@ type Field = 'strength' | 'noise' | 'speed' | 'soften' | 'size';
 type Spot = 'spot1' | 'spot2' | 'spot3';
 
 const FIELDS: readonly [Field, string, number][] = [
-  ['strength', '强度', 100], ['noise', '颗粒', 60], ['speed', '漂移速度', 300], ['soften', '柔化', 100], ['size', '大小', 100],
+  ['strength', 'Intensity', 100], ['noise', 'Grain', 60], ['speed', 'Drift speed', 300], ['soften', 'Softness', 100], ['size', 'Size', 100],
 ];
 
 
@@ -63,14 +63,14 @@ function StopRow({ host, spot, index, glow }: { host: SettingsPanelHost; spot: S
         <Icon name="chevron-down" />
       </button>
       <div className="popmenu" data-glow-stop-pop="" popover="manual" hidden ref={pop}>
-        <div data-glow-pills="" role="group" aria-label="色系">
+        <div data-glow-pills="" role="group" aria-label="Color family">
           {GLOW_SWATCH_FAMILIES.map(([key, name]) => (
             <button type="button" key={key} data-glow-pill={key} aria-pressed={key === family}
               onClick={() => setFamily(key)}>{name}</button>
           ))}
         </div>
         <div data-glow-palette-frame="">
-        <div ref={palette} data-glow-palette="" role="radiogroup" aria-label={`${label}颜色`}>
+        <div ref={palette} data-glow-palette="" role="radiogroup" aria-label={`${label} color`}>
           {GLOW_SWATCHES.map(([swatchFamily, name, hex]) => (
             <button type="button" key={hex} role="radio" aria-checked={hex === color} data-glow-swatch={hex}
               data-glow-family={swatchFamily} style={{ '--glow-swatch': hex } as CSSProperties}
@@ -88,12 +88,12 @@ export function GlowSettings({ host }: { host: SettingsPanelHost }) {
   const glow = host.store.value.homeGlow;
   const native = isNativeGlass(glow.preset);
   return (
-    <section data-glow-setting="" id="homeGlowControls" aria-label="侧栏光晕参数" hidden={!glow.on}>
-      <section data-glow-group=""><h4 data-settings-subheading="">光晕配色</h4>
+    <section data-glow-setting="" id="homeGlowControls" aria-label="Sidebar glow parameters" hidden={!glow.on}>
+      <section data-glow-group=""><h4 data-settings-subheading="">Glow colors</h4>
         <div data-setting-card="" data-glow-card="">
-        <p data-glow-current="">当前配色<b data-glow-preset-name="">{glowPresetName(glow.preset)}</b></p>
-        <GlowPresetGrid store={host.store} label="光晕配色" />
-        <p data-glow-native-note="" hidden={!native}>这一档用每块玻璃自带的反光，颜色跟着明暗主题走。</p>
+        <p data-glow-current="">Current colors<b data-glow-preset-name="">{glowPresetName(glow.preset)}</b></p>
+        <GlowPresetGrid store={host.store} label="Glow colors" />
+        <p data-glow-native-note="" hidden={!native}>This option uses each glass panel's own reflection, and the color follows the light/dark theme.</p>
         <div data-glow-fields="">
           {/* 拖动中只改参数、只排一帧重画；落盘留给松手那一下。其余玻璃面跟着走的只有速度，
               而它那两枚变量只能写在根上，所以拖动期间只有侧栏那一层在变，松手才铺到整页。 */}
@@ -105,11 +105,11 @@ export function GlowSettings({ host }: { host: SettingsPanelHost }) {
         </div>
         <div data-glow-actions="">
           <button type="button" className="geist-button" data-glow-reset=""
-            onClick={() => { host.store.value.homeGlow = normalizeHomeGlow(null); host.store.save(); host.changed('glow') }}>恢复默认</button>
+            onClick={() => { host.store.value.homeGlow = normalizeHomeGlow(null); host.store.save(); host.changed('glow') }}>Restore defaults</button>
         </div>
         </div>
       </section>
-      <section data-glow-group="" data-glow-colours="" hidden={native}><h4 data-settings-subheading="">自定义颜色</h4>
+      <section data-glow-group="" data-glow-colours="" hidden={native}><h4 data-settings-subheading="">Custom colors</h4>
         <div data-setting-card="" data-glow-colour-card=""><div data-glow-stops="">
           {HOME_GLOW_SPOTS.map((spot, index) => <StopRow key={spot} host={host} spot={spot as Spot} index={index} glow={glow} />)}
         </div></div>

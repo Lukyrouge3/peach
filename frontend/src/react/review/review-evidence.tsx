@@ -35,19 +35,19 @@ function RequestedSourceImage({ source }: { source: string }) {
   return (
     <div className="relative flex h-review-image items-center justify-center overflow-hidden rounded-surface bg-background-secondary-default">
       {status === 'loading' ? <span role="status" className="absolute flex items-center gap-2 text-body-2-regular text-text-secondary">
-        <span dangerouslySetInnerHTML={{ __html: spinnerHtml('正在加载图片') }} />正在加载图片
+        <span dangerouslySetInnerHTML={{ __html: spinnerHtml('Loading image') }} />Loading image
       </span> : null}
       {source && (status === 'loading' || status === 'ready')
-        ? <img src={source} alt="来源提供的备选图片" referrerPolicy="no-referrer" decoding="async"
+        ? <img src={source} alt="Candidate images from the source" referrerPolicy="no-referrer" decoding="async"
             className={`size-full object-contain ${status === 'loading' ? 'invisible' : ''}`} onLoad={() => setStatus('ready')}
             onError={() => setStatus('failed')} />
         : source ? <div className="flex flex-col items-center gap-2">
-            {status === 'failed' ? <span className="text-body-2-regular text-text-secondary">未取得来源图片</span> : null}
-            <Button variant="secondary" size="small" aria-label={status === 'failed' ? '立即重试加载来源图片' : undefined}
+            {status === 'failed' ? <span className="text-body-2-regular text-text-secondary">Source images not obtained</span> : null}
+            <Button variant="secondary" size="small" aria-label={status === 'failed' ? 'Retry loading source images now' : undefined}
               onClick={() => setStatus('loading')}>
-              {status === 'failed' ? '立即重试' : '查看来源图片'}
+              {status === 'failed' ? 'Retry now' : 'View source images'}
             </Button>
-          </div> : <span className="text-body-2-regular text-text-secondary">未取得来源图片</span>}
+          </div> : <span className="text-body-2-regular text-text-secondary">Source images not obtained</span>}
     </div>
   );
 }
@@ -63,15 +63,15 @@ export function OriginAsset(
         className="flex aspect-card-cover w-20 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-2lg bg-background-tertiary-default outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring">
         {asset.preview_url
           ? <img src={asset.preview_url} alt="" loading="lazy" className="size-full object-cover" />
-          : <span className="text-caption-1-regular text-text-secondary">无封面</span>}
-        <VisuallyHidden>{`打开原视频 ${name}`}</VisuallyHidden>
+          : <span className="text-caption-1-regular text-text-secondary">No cover</span>}
+        <VisuallyHidden>{`Open original video ${name}`}</VisuallyHidden>
       </button>
       <div className="flex min-w-0 flex-col items-start gap-1">
         <b title={name} className="w-full truncate text-body-medium text-text-primary">
-          {asset.code || name || '原视频'}
+          {asset.code || name || 'Original video'}
         </b>
         <Button variant="secondary" size="small" leadingIcon={RiPlayLine}
-          onClick={() => openItem(asset.id)}>打开原视频</Button>
+          onClick={() => openItem(asset.id)}>Open original video</Button>
       </div>
     </div>
   );
@@ -91,7 +91,7 @@ export function EntityHead(
   return (
     <div className="flex min-w-0 items-center gap-3">
       {/* `card-art` 的 `avatarInner` 是唯一那份「有图走图、没图退首字母」的实现，页面不重画一遍。 */}
-      <button type="button" aria-label={`打开创作者页：${name}`} onClick={() => openEntity(kind, name)}
+      <button type="button" aria-label={`Open creator page: ${name}`} onClick={() => openEntity(kind, name)}
         className={`relative inline-grid size-11 shrink-0 cursor-pointer place-items-center overflow-hidden rounded-full bg-background-secondary-default text-caption-1-medium text-text-secondary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring ${LEGACY_AVATAR_IMG}`}
         dangerouslySetInnerHTML={{ __html: avatar }} />
       <div className="flex min-w-0 flex-col items-start">
@@ -100,7 +100,7 @@ export function EntityHead(
           {name}
         </button>
         {works
-          ? <small className="tabular-nums text-body-2-regular text-text-secondary">{`${works.toLocaleString()} 部作品`}</small>
+          ? <small className="tabular-nums text-body-2-regular text-text-secondary">{`${works.toLocaleString()} titles`}</small>
           : null}
       </div>
     </div>
@@ -123,21 +123,21 @@ export function IdentityEvidence(
   const works = Math.max(0, Number(row.video_count || row.videos || 0));
   return (
     <section className="flex flex-col gap-3">
-      <h5 className="text-body-medium text-text-primary">{`待确认人物：${row.babepedia_name || '未标注'}`}</h5>
+      <h5 className="text-body-medium text-text-primary">{`Person to confirm: ${row.babepedia_name || 'Not labeled'}`}</h5>
       <div className="flex flex-wrap items-center gap-2">
         {profile
           ? <ButtonLink variant="secondary" size="small" trailingIcon={RiExternalLinkLine}
-              href={profile} target="_blank" rel="noopener noreferrer">来源资料</ButtonLink>
+              href={profile} target="_blank" rel="noopener noreferrer">Source profile</ButtonLink>
           : null}
         <Button variant="secondary" size="small"
           onClick={() => openEntity('creator', row.creator || '')}>
-          {`查看全部 ${works.toLocaleString()} 部作品`}
+          {`View all ${works.toLocaleString()} titles`}
         </Button>
       </div>
       <SourceImage url={row.preview_url} />
-      <p className="text-body-2-regular text-text-secondary">通过后记录身份判断。</p>
+      <p className="text-body-2-regular text-text-secondary">Approving records the identity decision.</p>
       {samples.length ? <>
-        <h5 className="text-body-medium text-text-primary">本地作品样本</h5>
+        <h5 className="text-body-medium text-text-primary">Local title samples</h5>
         <ul className="flex flex-col gap-1">
           {samples.map((asset) => (
             <li key={asset.id} className="flex min-w-0 items-center gap-2">
@@ -145,13 +145,13 @@ export function IdentityEvidence(
                 onClick={() => openItem(asset.id)}>
                 <span title={asset.name} className="block max-w-full truncate">{asset.name}</span>
               </Button>
-              <Button variant="ghost" size="small" aria-label={`打开 ${asset.name} 的文件位置`}
+              <Button variant="ghost" size="small" aria-label={`Open the file location of ${asset.name}`}
                 {...busyProps(revealing === asset.id)}
-                onClick={() => onReveal(asset.id)}>文件位置</Button>
+                onClick={() => onReveal(asset.id)}>File location</Button>
             </li>
           ))}
         </ul>
-      </> : <p className="text-body-2-regular text-text-secondary">暂无本地作品样本，打开全部作品核对。</p>}
+      </> : <p className="text-body-2-regular text-text-secondary">No local title samples; open all titles to check.</p>}
       {note ? <p role="status" className="text-body-2-regular text-text-error-primary">{note}</p> : null}
     </section>
   );
@@ -185,10 +185,10 @@ export function AssetPicker(
   return (
     <div className="flex flex-col gap-2">
       <SelectionActions prefix={<span className="tabular-nums text-body-2-regular text-text-secondary">
-          {`已选 ${chosen.size} / ${assets.length}`}
+          {`${chosen.size} / ${assets.length} selected`}
         </span>} actions={[
-          { label: '全选', disabled: locked, onPress: () => onPicked(assets.map(asset => asset.id)) },
-          { label: '清空', disabled: locked, onPress: () => onPicked([]) },
+          { label: 'Select all', disabled: locked, onPress: () => onPicked(assets.map(asset => asset.id)) },
+          { label: 'Clear', disabled: locked, onPress: () => onPicked([]) },
         ]} />
       <div className="review-asset-grid gap-1.5">
         {assets.map((asset, index) => {
@@ -204,7 +204,7 @@ export function AssetPicker(
                 <CheckboxGlyph size="sm" state={{ isSelected: on, isIndeterminate: false,
                   isFocusVisible: false, isDisabled: locked, isHovered: false }} />
               </span>
-              <VisuallyHidden>{`${on ? '已选' : '未选'} ${asset.name || asset.id}`}</VisuallyHidden>
+              <VisuallyHidden>{`${on ? 'Selected' : 'Not selected'} ${asset.name || asset.id}`}</VisuallyHidden>
             </button>
           );
         })}

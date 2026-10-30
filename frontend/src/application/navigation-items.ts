@@ -7,28 +7,28 @@ export type ManagementKey = 'stats' | 'taste' | 'review' | 'cleanup' | 'trash' |
 export type NavigationItem<Key extends string = string> = readonly [key: Key, label: string, glyph: string];
 
 export const SIDEBAR_ITEMS = [
-  ['', '首页', 'home'],
-  ['performers', '艺人', 'user-round'],
-  ['studios', '厂牌', 'clapperboard'],
-  ['tags', '标签', 'tags'],
+  ['', 'Home', 'home'],
+  ['performers', 'Performers', 'user-round'],
+  ['studios', 'Studios', 'clapperboard'],
+  ['tags', 'Tags', 'tags'],
   ['jav', 'JAV', 'jav'],
-  ['flagged', '已标记', 'bookmark'],
-  ['playlists', '播放列表', 'playlist'],
-  ['follow', '关注', 'rss'],
-  ['immerse', '沉浸模式', 'gallery-vertical-end'],
-  ['manage', '管理', 'wrench'],
+  ['flagged', 'Marked', 'bookmark'],
+  ['playlists', 'Playlists', 'playlist'],
+  ['follow', 'Following', 'rss'],
+  ['immerse', 'Immersive mode', 'gallery-vertical-end'],
+  ['manage', 'Manage', 'wrench'],
 ] as const satisfies readonly NavigationItem<SidebarKey>[];
 
 export const MANAGE_SECTIONS = [
-  ['stats', '统计', 'chart'],
-  ['taste', '口味', 'heart'],
-  ['review', '人工复核', 'square-check-big'],
-  ['cleanup', '数据管理', 'hard-drive'],
-  ['trash', '回收站', 'trash'],
-  ['follow', '关注管理', 'rss'],
-  ['quality', '高清版', 'sparkles'],
-  ['activity', '任务中心', 'history'],
-  ['configuration', 'Peach 配置', 'folder-cog'],
+  ['stats', 'Stats', 'chart'],
+  ['taste', 'Taste', 'heart'],
+  ['review', 'Manual review', 'square-check-big'],
+  ['cleanup', 'Data management', 'hard-drive'],
+  ['trash', 'Trash', 'trash'],
+  ['follow', 'Manage follows', 'rss'],
+  ['quality', 'HD versions', 'sparkles'],
+  ['activity', 'Task center', 'history'],
+  ['configuration', 'Peach settings', 'folder-cog'],
 ] as const satisfies readonly NavigationItem<ManagementKey>[];
 
 export const MANAGE_MENU_SECTIONS: readonly ManagementKey[] = ['stats', 'taste', 'cleanup', 'follow', 'activity', 'configuration'];

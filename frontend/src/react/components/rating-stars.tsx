@@ -17,11 +17,11 @@ export function RatingStars({ value, onRate, busyStar, busyAttrs }: {
   return <span data-rating-stars="" aria-hidden={onRate ? undefined : true}>
     {[1, 2, 3, 4, 5].map(star => onRate
       ? <button key={star} type="button" data-rate={star} data-on={String(star <= current)}
-        title={star === current ? '再点一次取消评分' : `${star} 星`}
-        aria-label={star === current ? `取消评分（当前 ${star} 星）` : `评为 ${star} 星`}
+        title={star === current ? 'Click again to remove rating' : `${star} stars`}
+        aria-label={star === current ? `Remove rating (currently ${star} stars)` : `Rate ${star} stars`}
         {...busyAttrs?.(star)} aria-disabled={busyStar ? true : undefined} aria-busy={busyStar === star || undefined}
         onClick={() => { if (!busyStar) onRate(star) }}>
-        {busyStar === star ? <span dangerouslySetInnerHTML={{ __html: spinnerHtml('正在保存评分') }} /> : <Star />}
+        {busyStar === star ? <span dangerouslySetInnerHTML={{ __html: spinnerHtml('Saving rating') }} /> : <Star />}
       </button>
       : <span key={star} data-rate={star} data-on={String(score >= star)}>
         <span data-rating-icon=""><Star />

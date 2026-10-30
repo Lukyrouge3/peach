@@ -31,7 +31,7 @@ export interface FaceRef {
 }
 
 /** 代表作画面替账号顶着圆框时，悬停与读屏读到的那句。 */
-export const STAND_IN_TITLE = '代表作画面，非本人';
+export const STAND_IN_TITLE = 'Shown from her work, not a photo of her';
 
 /* 原地替换的图（实体图、封面、标识）地址都带服务端下发的内容版本（文件修改时间）：换头像、
    补高清封面、换标识都覆盖同一个文件，地址不跟着变的话，同一页里浏览器直接复用内存里那张
@@ -73,7 +73,7 @@ const focusOf = (value: unknown): FaceFocus | null =>
 /** 「女优」只用于番号发行物。素人、创作者自制和网红内容里的出镜者是艺人，套上 JAV 的行业
  *  称谓既不准确也会和创作者身份混淆。判据由后端 `is_jav` 给。 */
 export function performerLabel(item: { is_jav?: boolean } | null | undefined): string {
-  return item && item.is_jav ? '女优' : '艺人';
+  return item && item.is_jav ? 'Actresses' : 'Performers';
 }
 
 /* 实体那张脸：规范实体图优先，取不到退到代表作头像，两样都取不到就一个 `<img>`
@@ -312,7 +312,7 @@ export function frameArtwork(item: CoverItem, eager: boolean): Artwork {
 
 /** 播放队列一行的小图：Mix 画面按小图取，没有可用的图就写「无预览」占住那一格。 */
 export function queueThumbHtml(item: CoverItem, javImage: unknown): string {
-  return mixFace(item, 'small', false, javImage).html || '<span class="nopic">无预览</span>';
+  return mixFace(item, 'small', false, javImage).html || '<span class="nopic">No preview</span>';
 }
 
 /* 详情开场给播放器的海报位：video.js 的脚本还在下载、流源还没接上时，画面先给本地
@@ -358,7 +358,7 @@ export function cardIdentity(item: IdentityItem): {
   const primaryCreator = item.is_jav && performer ? '' : item.creator || '';
   const kind = primaryCreator ? 'creator' : performer ? 'performer' : '';
   return {
-    kind, name: primaryCreator || performer || '未归属',
+    kind, name: primaryCreator || performer || 'Unassigned',
     coStarred: performers.length > 1 && !primaryCreator, performers, refs,
     total: item.performer_total || performers.length,
   };
@@ -387,5 +387,5 @@ export function mixLabel(item: IdentityItem, tagLabel: (tag: string) => string):
   if (item.is_jav && performer) return entityDisplayName('performer', performer);
   if (item.creator) return entityDisplayName('creator', item.creator);
   return (performer ? entityDisplayName('performer', performer) : '') || item.studio || item.code
-    || tagLabel((item.tags || [])[0] || '') || '为你推荐';
+    || tagLabel((item.tags || [])[0] || '') || 'Recommended for you';
 }

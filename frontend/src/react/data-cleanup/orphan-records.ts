@@ -44,12 +44,12 @@ export type RecordKey = RecordTable | RowRecord;
 
 /** 六张表在这一块里的名字，顺序就是显示顺序。 */
 export const RECORD_LABELS: ReadonlyArray<readonly [RecordTable, string]> = [
-  ['asset_preference', '喜欢与理由'],
-  ['watch_queue', '稍后看'],
-  ['playlist_item', '播放列表'],
-  ['asset_quality_goal', '寻找更好版本'],
-  ['activity_event', '观看历史'],
-  ['asset_tag_preference', '隐藏标签'],
+  ['asset_preference', 'Likes and reasons'],
+  ['watch_queue', 'Watch later'],
+  ['playlist_item', 'Playlists'],
+  ['asset_quality_goal', 'Find a better version'],
+  ['activity_event', 'Watch history'],
+  ['asset_tag_preference', 'Hide tags'],
 ];
 
 export const fetchOrphanRecords = (signal?: AbortSignal) =>
@@ -66,10 +66,10 @@ export const purgeOrphan = (id: number | number[]) =>
 
 /** 行上四列的写法：分值与次数照写；只记过最近播放、没有播放次数时写「播放过」。 */
 const rowRecordsText = (records: OrphanRecord['records']) => [
-  records.rating ? `评分 ${records.rating}` : '',
-  records.play_count ? `播放 ${Number(records.play_count).toLocaleString()} 次`
-    : records.last_played ? '播放过' : '',
-  records.o_count ? `高潮 ${Number(records.o_count).toLocaleString()} 次` : '',
+  records.rating ? `Rating ${records.rating}` : '',
+  records.play_count ? `Played ${Number(records.play_count).toLocaleString()} times`
+    : records.last_played ? 'Played' : '',
+  records.o_count ? `Climax ${Number(records.o_count).toLocaleString()} times` : '',
 ];
 
 /** 一条带的记录排成一句：「喜欢与理由 1 · 观看历史 3 · 评分 4 · 播放 2 次」。 */
@@ -80,7 +80,7 @@ export const recordsText = (records: OrphanRecord['records']) => [
   ...rowRecordsText(records),
 ].filter(Boolean).join(' · ');
 
-const minutes = (seconds: number | null) => (seconds ? `${Math.round(seconds / 60)} 分钟` : '');
+const minutes = (seconds: number | null) => (seconds ? `${Math.round(seconds / 60)} min` : '');
 
 /** 下拉框里一个候选文件那一行。 */
 export const candidateText = (item: OrphanCandidate) =>

@@ -80,7 +80,7 @@ function ManageBar({ host: at, pressed: key, menu }: Pick<ManageHeaderProps, 'me
   }, [key, menu]);
 
   return (
-    <nav data-manage-bar="" aria-label="管理">
+    <nav data-manage-bar="" aria-label="Manage">
       <PillTabList ref={row} data-manage-menu="" data-pill-nav="">
         {menu.map(([entry, label, glyph]) => {
           const on = entry === key;
@@ -107,9 +107,9 @@ function Crumb({ host: at, label }: { host: ManageHeaderHost; label: string }) {
     at.openDataCleanup();
   };
   return (
-    <nav data-manage-crumb="" aria-label="当前位置">
+    <nav data-manage-crumb="" aria-label="Current location">
       <ol>
-        <li><a href="/data-cleanup" onClick={follow}>数据管理</a><Icon name="chevron-right" /></li>
+        <li><a href="/data-cleanup" onClick={follow}>Data management</a><Icon name="chevron-right" /></li>
         <li aria-current="true"><span>{label}</span></li>
       </ol>
     </nav>
@@ -131,8 +131,8 @@ function TrashLede({ host: at, lede }: { host: ManageHeaderHost; lede: Lede }) {
           <>
             <LedeText text={lede.text} />
             {lede.total ? (
-              <button type="button" data-empty-trash="" data-danger="" title="永久删除回收站内容"
-                onClick={() => at.emptyTrash()}>清空回收站</button>
+              <button type="button" data-empty-trash="" data-danger="" title="Permanently delete trash contents"
+                onClick={() => at.emptyTrash()}>Empty trash</button>
             ) : null}
           </>
         )}

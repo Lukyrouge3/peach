@@ -47,7 +47,7 @@ export function FeedNewRow({ feedNew, host, wire, act, settled }: {
       const wanted = action === 'want';
       button.dataset.feedAction = wanted ? 'unwant' : 'want';
       button.setAttribute('aria-pressed', String(wanted));
-      button.title = wanted ? '取消想要' : '想要';
+      button.title = wanted ? 'Remove from wants' : 'Want';
       return;
     }
     if (action === 'ignore') card.remove();

@@ -99,7 +99,7 @@ export function configureStagePlayer(next: StagePlayerHost, stage: {
 let pagehideWired = false;
 
 function stageHost(): StagePlayerHost {
-  if (!host) throw new Error('舞台播放器还没有接上宿主（configureStagePlayer）');
+  if (!host) throw new Error('Stage player isn\'t connected to a host yet (configureStagePlayer)');
   return host;
 }
 
@@ -163,15 +163,15 @@ export function attachStagePlayer(frame: HTMLElement, options: StagePlayerOption
 export async function mountWallPlayer(summary: PlayerItem, frame: HTMLElement, signal: AbortSignal): Promise<(continuePlaying?: boolean) => void> {
   const item = await api(`/api/item?id=${summary.id}`, { signal }) as PlayerItem & { error?: string };
   signal.throwIfAborted();
-  if (!item || item.error) throw new Error(item?.error || '作品未取得');
-  if (item.medium && item.medium !== 'video') throw new Error('这条作品没有可播放的视频');
-  if (item.location === 'online') throw new Error('请打开详情播放在线作品');
-  if (item.cost === 'metered') throw new Error('请打开详情确认计费来源');
+  if (!item || item.error) throw new Error(item?.error || 'Title not obtained');
+  if (item.medium && item.medium !== 'video') throw new Error('This title has no playable video');
+  if (item.location === 'online') throw new Error('Open the details to play online titles');
+  if (item.cost === 'metered') throw new Error('Open the details to confirm the billed source');
   const sources = await stageHost().player.loadSourceStatus();
   signal.throwIfAborted();
   if (sources[String(item.root_id || item.location || '')] === false) throw new Error(stageHost().player.offlineReason(String(item.root_id || item.location || '')));
   const metadata: StageMeta = { kind: 'item', item, title: String(item.title || item.name || ''),
-    sub: String((item.performers as string[] | undefined)?.[0] || item.creator || '未归属') };
+    sub: String((item.performers as string[] | undefined)?.[0] || item.creator || 'Unassigned') };
   setStageMeta(metadata);
   const release = attachStagePlayer(frame, { kind: 'item', item, autoplay: true });
   let released = false;
@@ -267,7 +267,7 @@ function paintMeta(next: { title: string; sub: string }): void {
   if (!dom) return;
   dom.title.textContent = next.title || '';
   dom.sub.textContent = next.sub || '';
-  dom.info.setAttribute('aria-label', next.title ? `展开到详情：${next.title}` : '展开到详情');
+  dom.info.setAttribute('aria-label', next.title ? `Expand to details: ${next.title}` : 'Expand to details');
 }
 
 /* 画面区按视频比例给高：上游 4:3 的片子小窗就是 400×300。竖片压到 1:1 以内，400 宽的 9:16
@@ -284,7 +284,7 @@ function syncPlayState(): void {
   const player = held?.player;
   if (!player || player.isDisposed() || !dom) return;
   const paused = player.paused();
-  dom.play.setAttribute('aria-label', paused ? '播放' : '暂停');
+  dom.play.setAttribute('aria-label', paused ? 'Play' : 'Pause');
   /* 主播放器那一枚走的是 path 形变，迷你条上这一枚只有 20px，形变看不出来，走两枚字形叠着换。
      换的只是容器状态，不改 `use` 的 href——改 href 是硬切。 */
   if (!dom.play.querySelector('[data-icon-swap]')) dom.play.innerHTML = iconSwapHtml('player-pause', 'player-play', paused ? 'b' : 'a');
@@ -305,7 +305,7 @@ const seekStep = (): number => Math.max(1, Number(stageHost().player.settings().
 function syncSeekLabels(): void {
   if (!dom || !host) return;
   const step = seekStep();
-  for (const [button, text] of [[dom.back, `后退 ${step} 秒`], [dom.ahead, `前进 ${step} 秒`]] as const) {
+  for (const [button, text] of [[dom.back, `Back ${step} s`], [dom.ahead, `Forward ${step} s`]] as const) {
     button.setAttribute('aria-label', text);
     button.title = text;
   }
@@ -432,7 +432,7 @@ export async function miniplayerPlay(id: number): Promise<void> {
   video.preload = 'metadata';
   dom.frame.prepend(video);
   const nextMeta: StageMeta = { kind: 'item', item, title: String(item.title || item.name || ''),
-    sub: String((item.performers as string[] | undefined)?.[0] || item.creator || '未归属') };
+    sub: String((item.performers as string[] | undefined)?.[0] || item.creator || 'Unassigned') };
   /* 换片期间 `held` 仍指着旧的那一格（标成已拆），小窗不因为挂载要等一拍而收起。 */
   paintMeta(nextMeta);
   mountPlayer(video, {

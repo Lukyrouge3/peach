@@ -18,18 +18,18 @@ import './library-policy-settings.css';
 
 export type Preset = 'auto' | 'local' | 'custom';
 export const STAGES = [
-  ['probe', '读取视频信息'],
-  ['metadata', '联网补资料'],
-  ['cover', '联网补封面'],
-  ['people', '联网补人物图片'],
-  ['preview', '生成九宫格预览'],
+  ['probe', 'Read video info'],
+  ['metadata', 'Fetch metadata online'],
+  ['cover', 'Fetch covers online'],
+  ['people', 'Fetch people images online'],
+  ['preview', 'Generate contact sheet previews'],
 ] as const;
 export type Stage = (typeof STAGES)[number][0];
 export const AUTO_STAGES: readonly Stage[] = ['probe', 'metadata', 'cover', 'people', 'preview'];
 const PRESETS: readonly (readonly [Preset, string, string])[] = [
-  ['auto', '自动补全', '缺什么联网补什么'],
-  ['local', '仅使用本地资料', '不联网，只用本地 NFO 和图片'],
-  ['custom', '自定义', '逐项选择要做的步骤'],
+  ['auto', 'Auto-complete', 'Fetch whatever is missing online'],
+  ['local', 'Local metadata only', 'Offline, local NFO and images only'],
+  ['custom', 'Custom', 'Choose each step'],
 ];
 
 /** 三档处理方式的说明，分组上方只放一份：常显一句话，三档的差别收在可展开的对比表里。 */
@@ -37,13 +37,13 @@ export function PolicyLegend() {
   return (
     <div data-policy-legend="" className="flex flex-col gap-1">
       <Help>{POLICY_SUMMARY}</Help>
-      <Disclosure summary="三种处理方式对比">
+      <Disclosure summary="Compare the three handling options">
         <table data-policy-matrix="" className="text-body-2-regular">
-          <thead><tr><th scope="col"><VisuallyHidden>步骤</VisuallyHidden></th>
+          <thead><tr><th scope="col"><VisuallyHidden>Step</VisuallyHidden></th>
             {POLICY_COLUMNS.map(name => <th key={name} scope="col">{name}</th>)}</tr></thead>
           <tbody>{POLICY_MATRIX.map(([step, ...cells]) => <tr key={step}><th scope="row">{step}</th>
             {cells.map((cell, index) => <td key={POLICY_COLUMNS[index]} data-policy-cell={cell === '✓' ? 'on' : cell === '—' ? 'off' : 'choice'}>
-              {cell === '✓' ? <span aria-label="做">✓</span> : cell === '—' ? <span aria-label="不做">—</span> : cell}</td>)}</tr>)}</tbody>
+              {cell === '✓' ? <span aria-label="Do">✓</span> : cell === '—' ? <span aria-label="Skip">—</span> : cell}</td>)}</tr>)}</tbody>
         </table>
         <Help>{POLICY_COVER_NOTE}</Help>
       </Disclosure>
@@ -54,7 +54,7 @@ export function PolicyLegend() {
 /** 标题行里的处理方式下拉：弹层顶部写明在选什么，每档带一句话；收起时只显示档名。 */
 export function PresetSelect({ name, value, onChange }: { name: string; value: Preset; onChange(value: Preset): void }) {
   return (
-    <Select className="w-full" aria-label={`${name} 处理方式`} selectedKey={value} prefix="处理方式"
+    <Select className="w-full" aria-label={`${name} handling`} selectedKey={value} prefix="Handling"
       renderValue={<span className="truncate">{PRESETS.find(([key]) => key === value)?.[1]}</span>}
       onSelectionChange={key => onChange(String(key) as Preset)}>
       {PRESETS.map(([key, label, hint]) => (
@@ -71,8 +71,8 @@ export function PresetSelect({ name, value, onChange }: { name: string; value: P
 
 export function StageChooser({ name, value, onChange }: { name: string; value: readonly Stage[]; onChange(value: readonly Stage[]): void }) {
   return (
-    <Disclosure defaultOpen summary={`${name} 的处理步骤（${value.length}/${STAGES.length}）`}>
-      <div className="flex flex-wrap gap-x-6 gap-y-2" role="group" aria-label={`${name} 处理步骤`}>
+    <Disclosure defaultOpen summary={`${name} processing steps (${value.length}/${STAGES.length})`}>
+      <div className="flex flex-wrap gap-x-6 gap-y-2" role="group" aria-label={`${name} processing steps`}>
         {STAGES.map(([key, label]) => (
           <Checkbox key={key} isSelected={value.includes(key)}
             onChange={(on) => onChange(on ? [...value, key] : value.filter(stage => stage !== key))}>
@@ -90,12 +90,12 @@ export function LibraryColorPicker({ id, name, value: color, onChange }: {
 }) {
   const trigger = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
-  const label = ACCENT_CHOICES.find(([key]) => key === color)?.[1] || '无颜色';
+  const label = ACCENT_CHOICES.find(([key]) => key === color)?.[1] || 'No color';
   const choose = (next: string) => { onChange(next); previewLibraryColor(id, next); setOpen(false) };
   return <>
     <button ref={trigger} type="button" className="text-body-medium" data-glow-chip="" data-library-color-trigger="" aria-haspopup="dialog"
-      aria-expanded={open} aria-label={`${name || '未命名媒体库'} 来源色：${label}`} title={label} onClick={() => setOpen(true)}>
-      <span aria-hidden className="text-text-tertiary">来源色</span>
+      aria-expanded={open} aria-label={`${name || 'Untitled media library'} Source color: ${label}`} title={label} onClick={() => setOpen(true)}>
+      <span aria-hidden className="text-text-tertiary">Source color</span>
       {color
         ? <span data-glow-ball="" aria-hidden="true" data-accent-ball={color} />
         : <span data-glow-ball="" data-library-none="" aria-hidden="true" />}
@@ -104,10 +104,10 @@ export function LibraryColorPicker({ id, name, value: color, onChange }: {
     <UNSAFE_PortalProvider getContainer={() => overlayHost(trigger.current)}>
       <Popover triggerRef={trigger} isOpen={open} onOpenChange={setOpen} placement="bottom start" offset={8}
         containerPadding={12} className={MENU_POPOVER_SURFACE}>
-        <Dialog aria-label={`${name || '未命名媒体库'} 来源色`} className="outline-none">
-          <p className="px-1 pb-2 text-body-medium text-text-primary">选择来源色</p>
+        <Dialog aria-label={`${name || 'Untitled media library'} Source color`} className="outline-none">
+          <p className="px-1 pb-2 text-body-medium text-text-primary">Choose source color</p>
           <div data-accent-grid="" data-library-colors="" role="group">
-            <button type="button" data-glow-chip="" aria-pressed={!color} title="无颜色" aria-label="无颜色"
+            <button type="button" data-glow-chip="" aria-pressed={!color} title="No color" aria-label="No color"
               onClick={() => choose('')}>
               <span data-glow-ball="" data-library-none="" aria-hidden="true" />
             </button>

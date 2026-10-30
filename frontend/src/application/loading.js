@@ -17,7 +17,7 @@ import { routeMetaOf } from './../history/route-meta';
 import { javTab } from '../react/jav/jav-navigation';
 export const loadingState = { setGridCards: undefined, gridCards: undefined, managementPlaceholder: undefined, wantsDiscoveryBars: undefined, entityShapesReady: undefined, ENTITY_SHAPES_WAIT: undefined, syncPageTitle: undefined };
 
-export function renderCatalogLoading(label='正在读取作品'){
+export function renderCatalogLoading(label='Loading titles'){
   if(location.pathname==='/wall'){$('#loadSentinel').hidden=true;return}
   const count=$('#count');
   /* 垃圾文件那一屏的计数行是自己的：一块摘要面加一条分类切换，没有排序也没有换批。
@@ -85,18 +85,18 @@ export function renderInitialSurfaceLoading(){
   if(path==='/junk-files'){
     /* 垃圾文件是一屏同质卡片，等的是内容结构不是后台进度：Loading Dots 说的是
        「还在跑」，这里要说的是「等下会出现几张什么形状的卡」，所以用目录骨架。 */
-    renderCatalogLoading('正在读取垃圾文件');
+    renderCatalogLoading('Loading junk files');
     return;
   }
   if(path==='/jav'&&javTab(new URLSearchParams(location.search).get('tab'))==='library'){
-    renderCatalogLoading('正在读取馆藏');return;
+    renderCatalogLoading('Loading library');return;
   }
   /* 管理区、播放列表页与关注页的占位由各页面接手。 */
   if(navigationState.managedPagePath(path)){
     hideDiscoveryBars();
     const stats=$('#stats');stats.hidden=false;clearCatalogGrid();
     stats.innerHTML=path.startsWith('/follow')&&path!=='/subscriptions'
-      ?followState.followSkeletonHtml('正在读取关注内容')
+      ?followState.followSkeletonHtml('Loading follow content')
       :loadingState.managementPlaceholder(path);
     fitSkeleton(stats);
     return;
@@ -129,10 +129,10 @@ export function renderInitialSurfaceLoading(){
 
 export function installLoading3() {
 followState.followContentSkeletonHtml = (media=new URLSearchParams(location.search).get('media')==='images'?'images':'videos',
-  label='正在读取关注内容')=>pageSkeletonHtml(label,{cards:true,className:'follow-content-skeleton postercard-skeleton',
+  label='Loading follow content')=>pageSkeletonHtml(label,{cards:true,className:'follow-content-skeleton postercard-skeleton',
   gridClass:media==='images'?'followlist followphotowall':'',gridSize:photoSize()});
-followState.followSkeletonHtml = (label='正在读取关注内容')=>`<div class="peach-react"><div class="follow" data-follow-feed>
-  <div data-follow-head><h2 data-follow-title>关注</h2></div>
+followState.followSkeletonHtml = (label='Loading follow content')=>`<div class="peach-react"><div class="follow" data-follow-feed>
+  <div data-follow-head><h2 data-follow-title>Following</h2></div>
   <div class="tier followauthors" data-skeleton-tier="av"></div>
   <div class="tier followworks" data-skeleton-tier="brandpill"></div>
   <div class="board-filter-frame" data-filter-frame>
@@ -152,7 +152,7 @@ loadingState.syncPageTitle = path=>{
   const url=new URL(path,location.origin);
   const pathname=decodeURIComponent(url.pathname);
   const label=routeMetaOf(pathname)?.title;
-  document.title=label?`${label} · Peach`:'Peach · 蜜桃';
+  document.title=label?`${label} · Peach`:'Peach';
   document.body.dataset.surface=url.pathname;
   paintNav();
 };

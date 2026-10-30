@@ -93,7 +93,7 @@ async function sendBytes<T>(url: string, file: File): Promise<T> {
   const response = await fetch(url, { method: 'POST', credentials: 'same-origin', body: file });
   const payload = await response.json().catch(() => null) as (T & { error?: string }) | null;
   if (response.ok) return payload as T;
-  throw new ApiError(payload?.error || `请求失败（${response.status}）`, response.status, payload);
+  throw new ApiError(payload?.error || `Request failed (${response.status})`, response.status, payload);
 }
 
 /** 一张候选按 `aspect` 取景的那一块：有取景区就在它里面取，没有就整张图居中。
@@ -139,28 +139,28 @@ export function pickerNote(name: string, data: AvatarChoices | undefined): strin
   if (!data) return name;
   const elsewhere = data.matched_names.filter((one) => one !== name);
   if (elsewhere.length) {
-    const named = `「${elsewhere.slice(0, NOTE_NAMES).join('」「')}」`;
-    const more = elsewhere.length > NOTE_NAMES ? `等 ${elsewhere.length.toLocaleString()} 个名字` : '';
-    return `${name}：图库里按${named}${more}找到的。`;
+    const named = `“${elsewhere.slice(0, NOTE_NAMES).join('”“')}”`;
+    const more = elsewhere.length > NOTE_NAMES ? ` and ${elsewhere.length.toLocaleString()} more names` : '';
+    return `${name}: found in the gallery by ${named}${more}.`;
   }
   return data.choices.length
-    ? `${name}：换上的那张留在本机，随时能换回来。`
-    : `${name}：还没有备选图片，可输入番号、图片地址或从本机选择。`;
+    ? `${name}: the image you switched in stays on this computer, so you can switch back any time.`
+    : `${name}: no candidate images yet; enter a code or image URL, or choose from this computer.`;
 }
 
 /** 超过两天按天数说：「124 小时」要人自己去除。 */
 const indexAge = (hours: number): string =>
-  hours < 48 ? `${Math.max(1, Math.round(hours))} 小时` : `${Math.floor(hours / 24)} 天`;
+  hours < 48 ? `${Math.max(1, Math.round(hours))} h` : `${Math.floor(hours / 24)} d`;
 
 /** 图库索引没取过或已过期、这一次也一张图库图都没拿到时的那句提示；别的情形是空串。
  *  没取过和过期是两回事：过期的索引照样在查，只是新收的人像查不到。 */
 export function indexNote(data: AvatarChoices | undefined): string {
-  if (data?.index_refreshing) return '正在更新图库索引，候选图片会自动显示。';
-  if (data?.index_error && data.index_stale) return '图库索引未取得：' + data.index_error;
+  if (data?.index_refreshing) return 'Updating the gallery index; candidate images will show up automatically.';
+  if (data?.index_error && data.index_stale) return 'Gallery index not obtained:' + data.index_error;
   if (!data || !data.index_stale || data.choices.some((one) => one.source === 'gfriends')) return '';
   return data.index_age_hours === null
-    ? '图库索引还没取过，只能从用过的图里选。'
-    : `图库索引 ${indexAge(data.index_age_hours)}没更新，新收的人像这里还查不到。`;
+    ? 'The gallery index hasn\'t been fetched yet, so you can only pick from images used before.'
+    : `The gallery index hasn't been updated for ${indexAge(data.index_age_hours)}, so newly added portraits can't be found here yet.`;
 }
 
 /** 多人合演的作品：格子上标人数，框选时提醒先找到她自己的脸。 */
@@ -168,25 +168,25 @@ export const sharedCast = (choice: AvatarChoice): boolean => choice.cast > 1;
 
 export const cropNote = (choice: AvatarChoice): string =>
   sharedCast(choice)
-    ? `${choice.label}：${choice.cast.toLocaleString()} 人合演，先找到她自己的脸，再拖动方框选一块。`
-    : `${choice.label}：拖动方框选一块，滚轮或角上那枚方块改大小。`;
+    ? `${choice.label}: ${choice.cast.toLocaleString()} performers; find her own face first, then drag the box to select an area.`
+    : `${choice.label}: drag the box to select an area; use the scroll wheel or the corner handle to resize.`;
 
 const SOURCE_LABELS: Record<string, string> = {
-  gfriends: '图库', history: '用过的', asset: '作品画面', code: '番号封面',
-  url: '地址', upload: '本机', social: '社媒头像', online: '在线作品',
+  gfriends: 'Gallery', history: 'Used before', asset: 'Scenes', code: 'Code covers',
+  url: 'Address', upload: 'This computer', social: 'Social avatars', online: 'Online titles',
 };
 
 /** 底图那一排每一格的名字：封面一格，九宫格九格按位置数。 */
 export function baseLabel(ref: string): string {
   if (ref.startsWith('follow:')) {
     const what = ref.split(':')[2];
-    return what === 'cover' ? '作品封面' : `内容图片 ${Number(what.replace('image', '') || 0) + 1}`;
+    return what === 'cover' ? 'Title cover' : `Content image ${Number(what.replace('image', '') || 0) + 1}`;
   }
-  if (ref.startsWith('cover:')) return '封面';
+  if (ref.startsWith('cover:')) return 'Cover';
   const what = ref.split(':')[2] || '';
-  if (what === 'cover') return '封面';
+  if (what === 'cover') return 'Cover';
   const cell = Number(what.replace('cell', ''));
-  return Number.isFinite(cell) ? `第 ${cell + 1} 格` : what;
+  return Number.isFinite(cell) ? `Cell ${cell + 1}` : what;
 }
 
 /** 一格的完整说明，进 `title`：哪儿来的、多大、按谁找到的。作品画面再接上服务端的说明：
@@ -194,6 +194,6 @@ export function baseLabel(ref: string): string {
 export const choiceDetail = (choice: AvatarChoice): string =>
   `${SOURCE_LABELS[choice.source] || choice.source} · ${choice.label}`
   + (choice.width ? ` · ${choice.width}×${choice.height}` : '')
-  + (sharedCast(choice) ? ` · ${choice.cast.toLocaleString()} 人合演` : '')
-  + (choice.found_by ? ` · 按「${choice.found_by}」找到` : '')
+  + (sharedCast(choice) ? ` · ${choice.cast.toLocaleString()} performers` : '')
+  + (choice.found_by ? ` · found by “${choice.found_by}”` : '')
   + (choice.source === 'asset' && choice.detail && choice.detail !== choice.label ? ` · ${choice.detail}` : '');

@@ -17,7 +17,7 @@ export interface FolderPage {
 }
 export interface FolderScope { loc?: string; library?: string }
 export const PURPOSES: Record<FolderPurpose, string> = {
-  category: '个人分类', creator: '创作者／账号', performer: '人物', seller: '卖家', studio: '厂牌',
+  category: 'Personal categories', creator: 'Creators/accounts', performer: 'People', seller: 'Sellers', studio: 'Studios',
 };
 export function folderQuery(scope: FolderScope, folder = '', search = '') {
   const query = new URLSearchParams({ ...scope, folder, ...(search ? { q: search } : {}) });

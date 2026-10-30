@@ -18,6 +18,6 @@ export function filterControlsSkeletonHtml(sorts: readonly EntitySortKey[], layo
   const view = catalogView();
   const folders = new URLSearchParams(location.search);
   const sizes = layout && view === 'cards' ? segments(layout.label, layout.value, layout.options) : '';
-  return `<span data-entity-sorts=""><button type="button" data-entity-batch="" data-filter-action="" aria-label="换一批" ${FILTER_WAITING}>${icon('shuffle')}</button>${sizes}${segments('馆藏显示方式', view, [['cards','卡片','ri-layout-grid-line'],['list','列表','ri-list-unordered']])}<button type="button" data-folder-mode-toggle="" aria-label="文件夹模式" aria-pressed="${folders.get('browse') === 'folders' || !!folders.get('folder')}" ${FILTER_WAITING}>${icon('ri-folder-3-line')}</button>${sorts.map(sort =>
+  return `<span data-entity-sorts=""><button type="button" data-entity-batch="" data-filter-action="" aria-label="Shuffle" ${FILTER_WAITING}>${icon('shuffle')}</button>${sizes}${segments('Library display mode', view, [['cards','Cards','ri-layout-grid-line'],['list','List','ri-list-unordered']])}<button type="button" data-folder-mode-toggle="" aria-label="Folder mode" aria-pressed="${folders.get('browse') === 'folders' || !!folders.get('folder')}" ${FILTER_WAITING}>${icon('ri-folder-3-line')}</button>${sorts.map(sort =>
     `<button type="button" data-entity-sort="${esc(sort.key)}" aria-pressed="${sort.pressed}" ${FILTER_WAITING}>${esc(sort.label)}${sort.dir ? icon(sort.dir === 'asc' ? 'arrow-up' : 'arrow-down') : ''}</button>`).join('')}</span>`;
 }

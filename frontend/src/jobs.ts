@@ -72,10 +72,10 @@ export function followJobProgress(options: {
   title?: string;
   watchIdle?: boolean;
 }): void {
-  const note=options.note || (text=>noteHtml(text,{label:'任务状态',variant:'error'}));
+  const note=options.note || (text=>noteHtml(text,{label:'Task status',variant:'error'}));
   const loading=options.loading || loadingDotsHtml;
-  const progress=options.progress || ((value,max,label)=>jobActivityHtml(label||`已处理 ${value} / ${max}`,value,max));
-  const container=options.container || (content=>`<section class="followtask" data-geist-fieldset aria-label="任务进度"><div class="geist-fieldset-content">${content}</div></section>`);
+  const progress=options.progress || ((value,max,label)=>jobActivityHtml(label||`Processed ${value} / ${max}`,value,max));
+  const container=options.container || (content=>`<section class="followtask" data-geist-fieldset aria-label="Task progress"><div class="geist-fieldset-content">${content}</div></section>`);
   const panel = document.createElement('div');
   options.host.hidden = true;
   panel.dataset.followJob = '';
@@ -97,10 +97,10 @@ export function followJobProgress(options: {
         if (tracked) sessionStorage.setItem(storageKey, tracked);
         const current = state.current;
         const attempt = (current?.attempt || 1) > 1
-          ? ` · 第 ${current?.attempt}/${current?.max_attempts} 次尝试${current?.retry_in ? `，${current.retry_in} 秒后重试` : ''}` : '';
-        const text = (state.message || (options.title ? options.title + (state.total ? `：已完成 ${state.checked || 0}/${state.total}` : '') : '') || (state.total
-          ? `${state.older ? '抓取历史' : '检查更新'}：已完成 ${state.checked || 0}/${state.total} 个来源`
-          : '正在准备检查任务'))
+          ? ` · attempt ${current?.attempt}/${current?.max_attempts}${current?.retry_in ? `, retrying in ${current.retry_in} s` : ''}` : '';
+        const text = (state.message || (options.title ? options.title + (state.total ? `: ${state.checked || 0}/${state.total} done` : '') : '') || (state.total
+          ? `${state.older ? 'Fetch history' : 'Check for updates'}: done ${state.checked || 0}/${state.total} sources`
+          : 'Preparing check task'))
           + (current ? ` · ${current.label || current.provider || ''}${attempt}` : '');
         const content = (state.total || 0) > 0
           ? progress(state.checked || 0, state.total!, text) : loading(text);
@@ -110,12 +110,12 @@ export function followJobProgress(options: {
         settled = true;
         options.host.hidden = state.status !== 'failed';
         sessionStorage.removeItem(storageKey);
-        panel.innerHTML = state.status === 'failed' ? note(state.error || '检查失败') : '';
+        panel.innerHTML = state.status === 'failed' ? note(state.error || 'Check failed') : '';
         options.complete(state);
       } else {
         if (tracked && state.status === 'idle') {
           options.host.hidden = false;
-          panel.innerHTML = note('任务状态已失效，请重新发起任务');
+          panel.innerHTML = note('Task status has expired; start the task again');
           sessionStorage.removeItem(storageKey);
           settled = true;
           return;
@@ -125,7 +125,7 @@ export function followJobProgress(options: {
     },
     disconnected: () => {
       options.host.hidden = false;
-      panel.innerHTML = note('暂时无法读取进度，正在重新连接…');
+      panel.innerHTML = note('Can\'t read progress right now, reconnecting…');
     },
   });
 }

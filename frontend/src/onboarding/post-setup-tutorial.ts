@@ -46,6 +46,6 @@ export function resetPostSetupTutorialState():void{
 /** 取不到清单时那张卡：只有固定文案，关闭在左、立即重试在右；事件仍由装配那一侧接。 */
 export const postSetupTutorialErrorHtml=(alertIcon:string):string=>
   `<article class="post-setup-notification post-setup-error">${alertIcon}
-      <div><h2>暂时无法检查安装进度</h2><p>切换页面或重新打开后会再检查一次。</p>
-      <div class="post-setup-error-actions"><button class="geist-button" type="button" data-tutorial-dismiss>关闭</button>
-      <button class="geist-button" type="button" data-tutorial-retry>立即重试</button></div></div></article>`;
+      <div><h2>Can't check setup progress right now</h2><p>It will check again when you switch pages or reopen.</p>
+      <div class="post-setup-error-actions"><button class="geist-button" type="button" data-tutorial-dismiss>Close</button>
+      <button class="geist-button" type="button" data-tutorial-retry>Retry now</button></div></div></article>`;

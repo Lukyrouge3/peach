@@ -20,7 +20,7 @@ export function SourcePicture({ item, image, thumbnail = false }: {
   const picture = useRef<HTMLImageElement>(null);
   const local = image === 'cover' && item.has_cover;
   const remote = !local && (image !== 'cover' || item.source_image);
-  const alt = thumbnail ? '' : image === 'cover' ? `${item.code} 封面` : `${item.code} 预览 ${Number(image) + 1}`;
+  const alt = thumbnail ? '' : image === 'cover' ? `${item.code} cover` : `${item.code} preview ${Number(image) + 1}`;
   const src = remote ? javImageUrl(item.code, image, attempt) : local ? coverUrl(item, true) : item.cover_url || '';
   useLayoutEffect(() => {
     const node = picture.current;
@@ -29,13 +29,13 @@ export function SourcePicture({ item, image, thumbnail = false }: {
   if (!remote) {
     if (src) return <img ref={picture} data-jav-picture={thumbnail ? undefined : ''} src={src} alt={alt} referrerPolicy="no-referrer"
       onLoad={() => setLoaded({ src, alt })} />;
-    return thumbnail ? <span>预览未取得</span> : <div data-jav-picture-wait=""><Note tone="neutral">封面未取得</Note></div>;
+    return thumbnail ? <span>Preview not obtained</span> : <div data-jav-picture-wait=""><Note tone="neutral">Cover not obtained</Note></div>;
   }
   if (failed === src) {
-    if (thumbnail) return <span>预览未取得</span>;
+    if (thumbnail) return <span>Preview not obtained</span>;
     return <div data-jav-picture-wait=""><Note tone="neutral"
-      action={<Button variant="secondary" onClick={() => setAttempt((value) => value + 1)}>立即重试</Button>}>
-      图片未取得</Note></div>;
+      action={<Button variant="secondary" onClick={() => setAttempt((value) => value + 1)}>Retry now</Button>}>
+      Image not obtained</Note></div>;
   }
   const ready = loaded?.src === src;
   const reveal = async (node: HTMLImageElement) => {
@@ -44,8 +44,8 @@ export function SourcePicture({ item, image, thumbnail = false }: {
   };
   return <>
     {ready || loaded ? null : thumbnail
-      ? <span className="relative block h-full w-full skeleton-sheen" aria-label="正在读取预览" />
-      : <div data-jav-picture-wait="" data-skeleton="image" role="status" aria-label="正在读取图片"><span className="relative skeleton-sheen" /></div>}
+      ? <span className="relative block h-full w-full skeleton-sheen" aria-label="Loading preview" />
+      : <div data-jav-picture-wait="" data-skeleton="image" role="status" aria-label="Loading image"><span className="relative skeleton-sheen" /></div>}
     {!ready && loaded ? <img data-jav-picture={thumbnail ? undefined : ''} data-source-picture="" src={loaded.src}
       alt={loaded.alt} referrerPolicy="no-referrer" /> : null}
     <img ref={picture} data-jav-picture={thumbnail ? undefined : ''} data-source-picture="" src={src} alt={alt} referrerPolicy="no-referrer"

@@ -17,7 +17,7 @@ export function createRevealSourceAction(ports: SourceActionPorts) {
     const html = button?.innerHTML ?? '', label = button?.textContent?.trim() ?? '';
     if (button) {
       setActionBusy(button);
-      button.innerHTML = `${spinnerHtml('正在定位')}${label ? `<span>${esc(label)}</span>` : ''}`;
+      button.innerHTML = `${spinnerHtml('Locating')}${label ? `<span>${esc(label)}</span>` : ''}`;
     }
     status.textContent = '';
     try {

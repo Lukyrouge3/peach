@@ -50,7 +50,7 @@ export function BackgroundIssues() {
   if (!issues.length) return null;
   return (
     <section aria-labelledby={id} className="flex min-w-0 flex-col gap-3">
-      <h3 id={id} className="text-title-2-medium text-text-primary">需要处理</h3>
+      <h3 id={id} className="text-title-2-medium text-text-primary">Needs attention</h3>
       <ul className="flex min-w-0 flex-col gap-3">
         {issues.map((issue) => <li key={issue.key}><IssueRow issue={issue} /></li>)}
       </ul>
@@ -64,18 +64,18 @@ function IssueRow({ issue }: { issue: BackgroundIssue }) {
     mutationFn: () => apiSend(issue.retry!, {}),
     onSuccess: () => { void client.invalidateQueries({ queryKey: BACKGROUND_ISSUES_KEY }) },
   });
-  const moment = issue.since ? `自 ${momentText(issue.since)} 起` : `发现于 ${momentText(issue.noticed_at)}`;
+  const moment = issue.since ? `Since ${momentText(issue.since)}` : `Noticed ${momentText(issue.noticed_at)}`;
   return (
     <Note tone="error" title={issue.title} action={
       <div className="flex flex-wrap items-center gap-2">
         <LinkButton href={issue.href} size="small" trailingIcon={RiArrowRightLine}>{issue.link_label}</LinkButton>
         {issue.retry
           ? <Button variant="secondary" size="small" disabled={!issue.retry_available}
-              {...busyProps(retry.isPending)} onClick={() => retry.mutate()}>立即重试</Button>
+              {...busyProps(retry.isPending)} onClick={() => retry.mutate()}>Retry now</Button>
           : null}
       </div>
     }>
-      {retry.error ? `${moment}\n没有重试：${errorMessage(retry.error)}` : moment}
+      {retry.error ? `${moment}\nNot retrying: ${errorMessage(retry.error)}` : moment}
     </Note>
   );
 }

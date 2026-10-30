@@ -72,7 +72,7 @@ function readRuntime(run: Run): Promise<Runtime | null> {
 function writerProps(runtime: Runtime | null, path: string) {
   return {
     readOnly: !!runtime?.ledger_read_only,
-    readOnlyMessage: runtime?.ledger_read_only_message || '本机当前只能浏览',
+    readOnlyMessage: runtime?.ledger_read_only_message || 'This device is browse-only right now',
     writerUrl: runtime?.ledger_writer_origin ? new URL(path, runtime.ledger_writer_origin).href : '',
   };
 }
@@ -91,7 +91,7 @@ async function openProps(path: ManagedPath, run: Run): Promise<object | null> {
     return { onboarding } satisfies ManagedOpenProps['/taste'];
   }
   if (path.startsWith('/settings/')) {
-    if (window.location.hash === '#peachProxy') writeShell({ configurationRequestedSection: '网络与访问' });
+    if (window.location.hash === '#peachProxy') writeShell({ configurationRequestedSection: 'Network and access' });
     const section = search().get('section') || configurationRequestedSection || configurationSection(path);
     return (section ? { section } : {}) satisfies ManagedOpenProps['/settings/library'];
   }

@@ -1,18 +1,18 @@
 /* 处理方式与媒体库分组的说明。设置页与它的首屏骨架用同一份文字，骨架里的折行和真实页面一致。 */
 
 /** 分组上方常显的一句：三档处理方式差在哪，细节收在对比表里。 */
-export const POLICY_SUMMARY = '每个媒体库都先读本地 NFO 和同目录图片；处理方式只决定要不要联网补全。';
+export const POLICY_SUMMARY = 'Every media library first reads local NFO files and images in the same folder; the handling option only decides whether to fill in from the internet.';
 
 /** 三档对比表：每行一个步骤，三列依次是自动补全、仅使用本地资料、自定义。 */
-export const POLICY_COLUMNS = ['自动补全', '仅使用本地资料', '自定义'] as const;
+export const POLICY_COLUMNS = ['Auto-complete', 'Local metadata only', 'Custom'] as const;
 export const POLICY_MATRIX: readonly (readonly [step: string, auto: string, local: string, custom: string])[] = [
-  ['读本地 NFO 和图片', '✓', '✓', '✓'],
-  ['读取视频信息、生成九宫格', '✓', '✓', '可选'],
-  ['联网补资料', '✓', '—', '可选'],
-  ['联网补封面', '✓', '—', '可选'],
-  ['联网补人物图片', '✓', '—', '可选'],
+  ['Read local NFO and images', '✓', '✓', '✓'],
+  ['Read video info, generate contact sheets', '✓', '✓', 'Optional'],
+  ['Fetch metadata online', '✓', '—', 'Optional'],
+  ['Fetch covers online', '✓', '—', 'Optional'],
+  ['Fetch people images online', '✓', '—', 'Optional'],
 ];
-export const POLICY_COVER_NOTE = '本地只有竖版海报时：自动补全会联网找完整封套（FC2 商品图除外），仅使用本地资料直接用竖版。';
+export const POLICY_COVER_NOTE = 'When only a portrait poster exists locally: auto-complete finds the full jacket online (except FC2 product images), while local-only uses the portrait poster directly.';
 
 /** 两颗添加键下面的一句：文件夹归媒体库，什么时候该加文件夹、什么时候该加媒体库。 */
-export const LIBRARY_FOLDER_HELP = '一个媒体库可以有多个文件夹，作品合在一起显示，共用名称、颜色和处理方式；要分开显示或分开设置时再添加媒体库。';
+export const LIBRARY_FOLDER_HELP = 'A media library can have several folders; their titles display together and share a name, color and handling option. Add another media library when you want them displayed or configured separately.';

@@ -9,8 +9,8 @@ export function libraryFields(row?: SetupFolder): Partial<SetupFolder> {
 }
 
 export function processingSummary(row: SetupFolder): string {
-  if (row.library_policy === 'local') return '仅使用本地资料';
-  if (row.library_policy !== 'custom') return '自动补全';
+  if (row.library_policy === 'local') return 'Local metadata only';
+  if (row.library_policy !== 'custom') return 'Auto-complete';
   const stages = STAGES.filter(([key]) => row.library_stages?.split(',').includes(key)).map(([, label]) => label);
-  return stages.length ? `自定义：${stages.join('、')}` : '自定义：只读取本地 NFO 和图片';
+  return stages.length ? `Custom: ${stages.join(', ')}` : 'Custom: read local NFO and images only';
 }

@@ -27,14 +27,14 @@ export function FollowTags({ item, label, actions }: { item: FollowDetailItem; l
   }, () => {
     if (operation === 'add') rememberTag(tag);
     const inverse = operation === 'add' ? 'remove' : item.custom_tags?.includes(tag) ? 'add' : 'restore';
-    actions.toast(operation === 'add' ? `已添加标签「${label(tag)}」` : `已删除标签「${label(tag)}」`, {
+    actions.toast(operation === 'add' ? `Added tag “${label(tag)}”` : `Deleted tag “${label(tag)}”`, {
       undo: async () => {
         const result = await apiSend<{ item: FollowDetailItem; group: FollowGroup }>('/api/follow/tag', { id: item.id, operation: inverse, tag });
         apply(result); await refresh();
       },
     });
   }) };
-  return <section aria-label="内容标签" data-follow-tag-editor="" data-follow-detail-tags="">
+  return <section aria-label="Content tags" data-follow-tag-editor="" data-follow-detail-tags="">
     <DetailTags tags={detailTags(item, label).map(k => ({ k, cat: tagCategory(item, k) }))} scope="online" adding={!!action.busy}
       candidates={[]}
       label={label} onOpen={actions.openTag} onAdd={tag => write('add', tag)} onRemove={tag => write('remove', tag.k)}

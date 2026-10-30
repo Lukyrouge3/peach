@@ -36,12 +36,12 @@ import {
 import { SourceIcon } from './source-view';
 
 const MENU_ROW = cx(MENU_ITEM, MENU_ITEM_INTERACTIVE, 'text-body-2-medium');
-const PLACEHOLDER = '粘贴来源链接，或输入创作者名、id…';
-const TITLE = '添加创作者关注';
+const PLACEHOLDER = 'Paste a source link, or enter a creator name or id…';
+const TITLE = 'Follow a creator';
 // 索引下载的提醒只在真按名字查时出现；常驻成一句说明就是噪音。
-const BY_NAME_HINT = '查找中（首次按名字查要下载创作者索引，可能几十秒）';
-const BY_LINK_HINT = '识别中';
-const NO_CANDIDATE = '站内没有查到来源';
+const BY_NAME_HINT = 'Searching (the first name search downloads the creator index and may take tens of seconds)';
+const BY_LINK_HINT = 'Identifying';
+const NO_CANDIDATE = 'No sources found on the site';
 
 export interface AddSourceProps {
   data: FollowData;
@@ -84,10 +84,10 @@ function SuggestMenu(
   return (
     <Popover ref={menu} triggerRef={field} isOpen isNonModal shouldFlip={false}
       onOpenChange={(open) => { if (!open) onClose() }}
-      placement="bottom start" offset={4} aria-label="来源建议"
+      placement="bottom start" offset={4} aria-label="Source suggestions"
       className={cx(MENU_POPOVER_SURFACE, 'flex w-(--trigger-width) flex-col gap-1 overscroll-contain')}>
       {busy && !options.length
-        ? <div className="px-2 py-1.5"><LoadingDots label="正在查找建议" /></div>
+        ? <div className="px-2 py-1.5"><LoadingDots label="Finding suggestions" /></div>
         : null}
       {options.map((option, at) => (
         <Fragment key={`${option.group}-${option.value}`}>
@@ -127,21 +127,21 @@ function SourceFilter(
 ) {
   const rows = (credentials.providers || []).filter((row) => row.followable);
   const shown = rows.filter((row) => !hidden.has(row.provider_label)).length;
-  const label = shown === rows.length ? '全部来源' : `${shown}/${rows.length} 个来源`;
+  const label = shown === rows.length ? 'All sources' : `${shown}/${rows.length} sources`;
   const toggle = (provider: string, on: boolean) => {
     const next = new Set(hidden);
     if (on) next.delete(provider); else next.add(provider);
     onHidden(next);
   };
-  return <SelectionPopover label="来源筛选" triggerLabel={label} leadingIcon={RiFilter3Line}
-    empty="暂无可用来源"
+  return <SelectionPopover label="Source filter" triggerLabel={label} leadingIcon={RiFilter3Line}
+    empty="No sources available"
     items={rows.map(row => ({ id: row.provider_label, selected: !hidden.has(row.provider_label),
       label: <span className="flex min-w-0 items-center gap-1.5"><SourceIcon provider={row.provider} />{row.provider_label}</span> }))}
     onChange={toggle}
     actions={[
-      { label: '全选', disabled: !rows.length, onPress: () => onHidden(new Set()) },
-      { label: '全不选', disabled: !rows.length, onPress: () => onHidden(new Set(rows.map(row => row.provider_label))) },
-      { label: '凭据设置', href: CREDENTIALS_PATH },
+      { label: 'Select all', disabled: !rows.length, onPress: () => onHidden(new Set()) },
+      { label: 'Select none', disabled: !rows.length, onPress: () => onHidden(new Set(rows.map(row => row.provider_label))) },
+      { label: 'Credential settings', href: CREDENTIALS_PATH },
     ]} />;
 }
 
@@ -154,7 +154,7 @@ function PickRow(
   },
 ) {
   if (row.kind === 'error') {
-    return <Note tone="error" title={row.line}>{row.error || '查找失败'}</Note>;
+    return <Note tone="error" title={row.line}>{row.error || 'Search failed'}</Note>;
   }
   const candidates = (row.candidates || []).filter(
     (candidate) => !hidden.has(candidate.provider_label || ''));
@@ -172,7 +172,7 @@ function PickRow(
               <b className="text-body-medium">{candidate.provider_label}</b>
               <span className="min-w-0 break-words">{candidate.label}</span>
               <small className="text-caption-1-regular text-text-secondary">
-                {candidate.known ? '已经关注' : candidate.evidence}
+                {candidate.known ? 'Already following' : candidate.evidence}
               </small>
             </span>
           </Checkbox>
@@ -182,11 +182,11 @@ function PickRow(
         <div key={search.url} className="flex flex-wrap items-center gap-2">
           <small className="text-caption-1-regular text-text-secondary">{search.evidence}</small>
           {/* 这一条会离开 Peach，所以带外链标；标由共用的 `ExternalLink` 给，全站一个写法。 */}
-          <ExternalLink href={search.url}>{`${search.label}：${search.query}`}</ExternalLink>
+          <ExternalLink href={search.url}>{`${search.label}: ${search.query}`}</ExternalLink>
         </div>
       ))}
       {failures.length ? (
-        <Help>{failures.map(([name, reason]) => `${name}：${reason}`).join('；')}</Help>
+        <Help>{failures.map(([name, reason]) => `${name}: ${reason}`).join('; ')}</Help>
       ) : null}
     </div>
   );
@@ -237,7 +237,7 @@ export function AddSource({ data, credentials, readOnly, toast }: AddSourceProps
     onStarted: () => setUnpicked(new Set()),
     onError: (cause) => setProblem(errorMessage(cause)),
     onFinish: (state) => {
-      if (state.status === 'failed') setProblem(state.error || '查找失败');
+      if (state.status === 'failed') setProblem(state.error || 'Search failed');
     },
   });
 
@@ -297,7 +297,7 @@ export function AddSource({ data, credentials, readOnly, toast }: AddSourceProps
           sources.push(done.source);
         } catch (cause) {
           // 一条失败不该把其余的一起丢掉，逐条报。
-          failures.push(`${item.candidate.label}：${errorMessage(cause)}`);
+          failures.push(`${item.candidate.label}: ${errorMessage(cause)}`);
         }
         setAdded((now) => now + 1);
       }
@@ -309,10 +309,10 @@ export function AddSource({ data, credentials, readOnly, toast }: AddSourceProps
     },
     onSuccess: (result) => {
       void reloadFollowManage();
-      if (result.failures.length) { setProblem(result.failures.join('；')); return }
+      if (result.failures.length) { setProblem(result.failures.join('; ')); return }
       setProblem('');
       dismiss();
-      toast(`已添加 ${result.sources.length} 个关注来源`);
+      toast(`Added ${result.sources.length} follow sources`);
     },
     onError: (cause) => setProblem(errorMessage(cause)),
   });
@@ -334,7 +334,7 @@ export function AddSource({ data, credentials, readOnly, toast }: AddSourceProps
             const next = event.relatedTarget;
             if (!event.currentTarget.contains(next) && !menu.current?.contains(next)) setFocused(false);
           }}>
-          <Input aria-label="来源链接、名字或 id" placeholder={PLACEHOLDER} value={line}
+          <Input aria-label="Source link, name or id" placeholder={PLACEHOLDER} value={line}
             leadingIcon={RiSearchLine} enterKeyHint="search" isDisabled={readOnly} onChange={setLine}
             onCompositionStart={() => { setComposing(true); setActive(-1) }}
             onCompositionEnd={(event) => { setComposing(false); setLine(event.currentTarget.value) }}
@@ -346,19 +346,19 @@ export function AddSource({ data, credentials, readOnly, toast }: AddSourceProps
         </div>
         <SourceFilter credentials={credentials} hidden={hidden} onHidden={setHidden} />
         <Button variant="primary" disabled={readOnly || !line.trim()}
-          {...busyProps(running || resolve.isPending)} onClick={() => search(line)}>查找</Button>
+          {...busyProps(running || resolve.isPending)} onClick={() => search(line)}>Search</Button>
       </div>
 
       <div aria-live="polite" className="flex flex-col gap-3 empty:hidden">
         {running || resolve.isPending ? <TaskProgress embedded
-          label={job?.message || (job?.total ? `查找中：${job.checked || 0}/${job.total}` : byName ? BY_NAME_HINT : BY_LINK_HINT)}
+          label={job?.message || (job?.total ? `Searching: ${job.checked || 0}/${job.total}` : byName ? BY_NAME_HINT : BY_LINK_HINT)}
           value={job?.checked} total={job?.total} /> : null}
-        {problem ? <Note tone="error" title="这一次没有完成">{problem}</Note> : null}
+        {problem ? <Note tone="error" title="This run didn't finish">{problem}</Note> : null}
       </div>
 
       {rows.length ? (
         <div className="flex flex-col gap-3">
-          <FieldLabel>查找结果</FieldLabel>
+          <FieldLabel>Search results</FieldLabel>
           {rows.map((row, at) => (
             <PickRow key={`${row.line}-${at}`} row={row} at={at} hidden={hidden} unpicked={unpicked}
               onPick={(key, on) => {
@@ -369,13 +369,13 @@ export function AddSource({ data, credentials, readOnly, toast }: AddSourceProps
           ))}
           <div className="flex flex-wrap items-center gap-2">
             <Button variant="secondary" size="small"
-              onClick={() => dismiss()}>关闭</Button>
+              onClick={() => dismiss()}>Close</Button>
             <Button variant="primary" size="small" disabled={readOnly || !picked.length}
               {...busyProps(register.isPending)}
-              onClick={() => register.mutate(picked)}>{`添加选中（${picked.length}）`}</Button>
+              onClick={() => register.mutate(picked)}>{`Add selected (${picked.length})`}</Button>
             {register.isPending ? (
               <span role="status" className="text-body-2-regular text-text-secondary">
-                {`添加中… ${added}/${picked.length}`}
+                {`Adding… ${added}/${picked.length}`}
               </span>
             ) : null}
           </div>
@@ -384,10 +384,10 @@ export function AddSource({ data, credentials, readOnly, toast }: AddSourceProps
 
       {guesses.length ? (
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-body-2-regular text-text-secondary">猜你喜欢</span>
+          <span className="text-body-2-regular text-text-secondary">You might like</span>
           {guesses.map((guess) => (
             <Button key={guess.name} variant="secondary" size="small" disabled={readOnly}
-              title={`浏览历史里出现 ${guess.visits} 次${guess.origin ? ` · ${guess.origin}` : ''}`}
+              title={`Appears ${guess.visits} times in browsing history${guess.origin ? ` · ${guess.origin}` : ''}`}
               onClick={() => search(guess.name)}>{guess.name}</Button>
           ))}
         </div>

@@ -4,7 +4,7 @@ export const clampRating = (value: number | null | undefined) => Math.min(Math.m
 export const ratingStars = (value: number | null | undefined) => Math.round(clampRating(value) / RATING_STEP);
 export const ratingText = (value: number | null | undefined) => {
   const stars = ratingStars(value);
-  return stars ? `${stars} 星` : '未评分';
+  return stars ? `${stars} stars` : 'Not rated';
 };
 export const nextRating = (before: number | null | undefined, star: number) =>
   star === ratingStars(before) ? 0 : star * RATING_STEP;

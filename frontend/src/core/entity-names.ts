@@ -61,5 +61,5 @@ export function entityDisplayName(kind: string, name: string, id?: number | null
 export function nameFallback(kind: string, name: string, id?: number | null): string {
   const row = entityWriting(kind, name, id);
   if (!row || (language === 'ja' ? row.ja : row.zh_cn)) return '';
-  return language === 'ja' ? '暂无已核对的日文原文，保留当前名称' : '暂无已核对的中文写法，保留当前名称';
+  return language === 'ja' ? 'No verified Japanese original yet; keeping the current name' : 'No verified Chinese spelling yet; keeping the current name';
 }

@@ -19,12 +19,12 @@ export function SourceSettings({ data, receipt, panel, issues }: ConfigurationGr
     queryFn: ({ signal }) => fetchCredentials(signal), enabled: panel?.active !== false, refetchOnMount: 'always' });
   return <div {...groupRoot(panel)}>
     {issues}
-    <div><ButtonLink href="/sources" variant="secondary">采集来源与登录状态</ButtonLink></div>
+    <div><ButtonLink href="/sources" variant="secondary">Scraping sources and sign-in status</ButtonLink></div>
     {credentials.data
       ? <Credentials data={credentials.data} readOnly={Boolean(data.ledger_read_only)} toast={receipt} embedded />
       : credentials.error
-        ? <Note tone="error" title="来源凭据未取得">{errorMessage(credentials.error)}</Note>
-        : panel?.active !== false ? <SectionSkeleton label="正在读取来源凭据" html={credentialsSkeleton} /> : null}
+        ? <Note tone="error" title="Source credentials not obtained">{errorMessage(credentials.error)}</Note>
+        : panel?.active !== false ? <SectionSkeleton label="Loading source credentials" html={credentialsSkeleton} /> : null}
     <FollowPreferenceRows receipt={receipt} />
     <IndexerSettings receipt={receipt} />
     {data.entry_links ? <EntryLinksForm initial={data.entry_links} receipt={receipt} /> : null}

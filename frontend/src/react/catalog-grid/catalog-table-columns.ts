@@ -20,8 +20,8 @@ export const columnSizes: Record<string, { width: number; min: number; max: numb
 };
 
 export const defaultColumnVisibility: Record<string, boolean> = { code: false, o: false, new: false, played: false, release: false };
-const labels: Record<string, string> = { select: '选择', name: '作品', dur: '时长', size: '体积', resolution: '分辨率',
-  rating: '评分', o: '高潮计数', plays: '观看次数', new: '入库时间', played: '观看时间', release: '发行时间', code: '番号', tags: '标签' };
+const labels: Record<string, string> = { select: 'Select', name: 'Works', dur: 'Duration', size: 'Size', resolution: 'Resolution',
+  rating: 'Rating', o: 'Climax count', plays: 'Play count', new: 'Date added', played: 'Watch time', release: 'Release date', code: 'Code', tags: 'Tags' };
 export const catalogColumns = ['select', 'name', 'tags', 'code', 'dur', 'resolution', 'size', 'rating', 'plays', 'o', 'played', 'new', 'release']
   .map(id => ({ id, label: labels[id]!, ...columnSizes[id]!, flex: id === 'name', required: id === 'select' || id === 'name', visible: defaultColumnVisibility[id] !== false }));
 

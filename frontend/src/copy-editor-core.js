@@ -35,15 +35,15 @@
     let result;
     try { result = JSON.parse(raw); }
     catch {
-      const error = new Error(`未取得保存结果（HTTP ${response.status}），请刷新页面核对；服务未返回 JSON`);
+      const error = new Error(`No save result (HTTP ${response.status}); refresh the page to check. The server did not return JSON`);
       error.unconfirmed = response.ok;
       throw error;
     }
     if (!response.ok || result?.ok === false) {
-      throw new Error(result?.error || (typeof result?.detail === 'string' ? result.detail : `请求失败（HTTP ${response.status}）`));
+      throw new Error(result?.error || (typeof result?.detail === 'string' ? result.detail : `Request failed (HTTP ${response.status})`));
     }
     if (result === null || typeof result !== 'object') {
-      const error = new Error(`未取得保存结果（HTTP ${response.status}），请刷新页面核对`);
+      const error = new Error(`No save result (HTTP ${response.status}); refresh the page to check`);
       error.unconfirmed = true;
       throw error;
     }
@@ -122,7 +122,7 @@
       event.preventDefault(); const rect = bar.getBoundingClientRect(), step = event.shiftKey ? 40 : 10;
       move(rect.left + direction[0] * step, rect.top + direction[1] * step);
     };
-    handle.title = '拖动工具栏空白处移动，方向键微调，双击空白处或 Esc 复位';
+    handle.title = 'Drag empty toolbar space to move, arrow keys to nudge, double-click empty space or Esc to reset';
     handle.dataset.copyDrag = '';
     const events = { pointerdown: down, pointermove: motion, pointerup: stop, pointercancel: stop, keydown: key,
       dblclick: event => { if (!event.target.closest('button,a,input,select,textarea,[contenteditable]')) reset(); } };
@@ -157,17 +157,17 @@
     for (const type of ['pointerdown', 'click']) host.addEventListener(type, event => event.stopPropagation());
     const bar = document.createElement('div'); bar.dataset.copyEditor = ''; bar.dataset.copyBar = '';
     bar.popover = 'manual'; bar.tabIndex = 0;
-    bar.dataset.selectionDock = ''; bar.dataset.glassPane = ''; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', '文案编辑');
+    bar.dataset.selectionDock = ''; bar.dataset.glassPane = ''; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', 'Copy editing');
     const hint = document.createElement('span'); hint.id = 'peach-copy-hint'; hint.hidden = true;
-    hint.textContent = '点击文字修改，回车或点别处保存，Esc 取消；暂停编辑后可操作页面。';
+    hint.textContent = 'Click text to edit, Enter or click elsewhere to save, Esc to cancel; pause editing to use the page.';
     bar.setAttribute('aria-describedby', hint.id);
-    const state = document.createElement('span'); state.dataset.copyState = ''; state.textContent = '改字模式'; bar.append(state);
+    const state = document.createElement('span'); state.dataset.copyState = ''; state.textContent = 'Edit text mode'; bar.append(state);
     const status = document.createElement('span'); status.dataset.copyFeedback = ''; status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite');
     const say = (text, tone = '') => {
       status.textContent = text; state.title = text || '';
-      state.textContent = tone === 'err' ? '保存失败' : text?.includes('Enter 保存') ? '正在编辑'
-        : text?.startsWith('已保存') ? '已保存' : text === '已取消' ? '已取消'
-        : text?.includes('…') ? '处理中' : active ? '改字模式' : '编辑已暂停';
+      state.textContent = tone === 'err' ? 'Save failed' : text?.includes('Enter to save') ? 'Editing'
+        : text?.startsWith('Saved') ? 'Saved' : text === 'Canceled' ? 'Canceled'
+        : text?.includes('…') ? 'Processing' : active ? 'Edit text mode' : 'Editing paused';
     };
     const button = (text, action) => {
       const node = document.createElement('button'); node.type = 'button'; node.textContent = text;
@@ -175,12 +175,12 @@
     };
     let active = true, busy = false, recovery = null, choice = null;
     const toolbarDrag = attachToolbarDrag(bar);
-    const toggle = button('暂停编辑', () => {
+    const toggle = button('Pause editing', () => {
       if (busy) return;
-      active = !active; options.onToggle?.(active); toggle.textContent = active ? '暂停编辑' : '继续编辑'; say('');
+      active = !active; options.onToggle?.(active); toggle.textContent = active ? 'Pause editing' : 'Resume editing'; say('');
     });
-    button('导出修改', () => options.onExport?.());
-    button('退出编辑', () => { if (!busy) options.onExit?.(); });
+    button('Export changes', () => options.onExport?.());
+    button('Exit editing', () => { if (!busy) options.onExit?.(); });
     bar.append(status); host.append(hint, bar);
     const localStyles = new Map();
     const shadowObservers = new Map();
@@ -231,10 +231,10 @@
           recovery.remove(); recovery = null; action();
         });
       },
-      choose(items, rect, { label = '选项', message = '' } = {}) {
+      choose(items, rect, { label = 'Options', message = '' } = {}) {
         choice?.cancel();
         const select = document.createElement('select'); select.dataset.copyEditor = ''; select.dataset.copyChoice = '';
-        select.setAttribute('aria-label', label); select.add(new Option(`请选择${label}`, ''));
+        select.setAttribute('aria-label', label); select.add(new Option(`Choose ${label}`, ''));
         items.forEach((item, index) => select.add(new Option(item.label, String(index))));
         Object.assign(select.style, { left: Math.max(16, Math.min(rect.left, innerWidth - 300)) + 'px',
           top: Math.max(16, Math.min(rect.bottom + 8, innerHeight - 60)) + 'px' });
@@ -316,7 +316,7 @@
       setBusy(true);
       try {
         const prepared = await options.prepare?.(ed);
-        if (prepared === null || destroyed || !node.isConnected || (ed.element ? ed.element.textContent : node.data) !== before) { say('已取消'); return; }
+        if (prepared === null || destroyed || !node.isConnected || (ed.element ? ed.element.textContent : node.data) !== before) { say('Canceled'); return; }
         ed = { ...ed, ...prepared };
         const input = !!node.parentElement.closest('button,a,[role="button"]');
         const box = document.createElement(input ? 'input' : 'span');
@@ -343,10 +343,10 @@
             ed.element.append(box);
           } else node.replaceWith(...[ed.lead, box, ed.trail].filter(Boolean));
         }
-        box.setAttribute('aria-label', '修改文字'); editing = ed; positionInput(); box.focus();
+        box.setAttribute('aria-label', 'Edit text'); editing = ed; positionInput(); box.focus();
         if (input) box.select();
         else { const range = document.createRange(); range.selectNodeContents(box); getSelection()?.removeAllRanges(); getSelection()?.addRange(range); }
-        hideHighlight(); say(ed.candidate?.template ? '保留 {占位符}，只改文字 · Enter 保存 · Esc 取消' : 'Enter 保存 · Esc 取消');
+        hideHighlight(); say(ed.candidate?.template ? 'Keep {placeholders}, change only the text · Enter to save · Esc to cancel' : 'Enter to save · Esc to cancel');
         box.addEventListener('keydown', event => {
           event.stopPropagation(); if (event.isComposing) return;
           if (event.key === 'Enter' && !(ed.multiline && event.shiftKey)) { event.preventDefault(); commit(); }
@@ -374,9 +374,9 @@
       const text = (ed.multiline ? value : value.replace(/\s*\n\s*/g, ' ')).trim();
       const connected = ed.node.isConnected || ed.box.isConnected;
       putBack(ed);
-      if (cancel || !connected) { say('已取消'); return; }
+      if (cancel || !connected) { say('Canceled'); return; }
       if (text === ed.core) return;
-      setBusy(true); say('保存中…');
+      setBusy(true); say('Saving…');
       let persisted = false;
       try {
         const result = await options.save(ed, text) ?? {};
@@ -387,11 +387,11 @@
           ed.nodes.forEach((node, i) => { node.data = parts[i]; });
           cleanInline(ed.element);
         } else if (result.remove) ed.node.remove(); else ed.node.data = ed.lead + rendered + ed.trail;
-        say(result.message || (rendered ? '已保存修改' : '已删除文字'), 'ok');
+        say(result.message || (rendered ? 'Changes saved' : 'Text deleted'), 'ok');
         await options.onSaved?.(ed, { ...result, text: rendered });
       } catch (error) {
         if (!persisted && !ed.element) ed.node.data = ed.before;
-        say((persisted ? '已保存，界面更新未完成：' : error.unconfirmed ? '未确认保存：' : '没保存：') + error.message, 'err');
+        say((persisted ? 'Saved, but the interface did not finish updating:' : error.unconfirmed ? 'Save not confirmed:' : 'Not saved:') + error.message, 'err');
       } finally { setBusy(false); }
     }
     document.addEventListener('mousemove', move, { passive: true });

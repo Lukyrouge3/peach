@@ -96,7 +96,7 @@ async function request<T>(url: string, init: RequestInit, fallback: string): Pro
     });
   } catch (cause) {
     if (init.signal?.aborted) throw cause;
-    throw new SetupRequestError(0, '连接不到 Peach，请确认它仍在运行后重试');
+    throw new SetupRequestError(0, 'Can\'t reach Peach; make sure it\'s still running and try again');
   }
   const body = await response.json().catch(() => null) as { error?: string; errors?: SetupErrors } | null;
   if (!response.ok) throw new SetupRequestError(response.status, body?.error || fallback, body?.errors);
@@ -104,16 +104,16 @@ async function request<T>(url: string, init: RequestInit, fallback: string): Pro
 }
 
 export const fetchQuestions = (signal?: AbortSignal) =>
-  request<SetupQuestions>(SETUP_QUESTIONS_URL, { signal }, '没能读取设置题目');
+  request<SetupQuestions>(SETUP_QUESTIONS_URL, { signal }, 'Couldn\'t load the setup questions');
 
 export const submitSetup = (submission: SetupSubmission) =>
-  request<SetupDone>(SETUP_URL, { method: 'POST', body: JSON.stringify(submission) }, '没能完成设置');
+  request<SetupDone>(SETUP_URL, { method: 'POST', body: JSON.stringify(submission) }, 'Couldn\'t finish setup');
 
 export const restoreSetup = (dataRoot: string) =>
-  request<SetupDone>(`${SETUP_URL}/restore`, { method: 'POST', body: JSON.stringify({ data_root: dataRoot }) }, '没能使用此数据目录');
+  request<SetupDone>(`${SETUP_URL}/restore`, { method: 'POST', body: JSON.stringify({ data_root: dataRoot }) }, 'Couldn\'t use this data folder');
 
 export const pickFolder = async (initial: string) =>
   (await request<{ path: string | null }>(PICK_FOLDER_URL,
-    { method: 'POST', body: JSON.stringify({ initial }) }, '没能打开文件夹对话框')).path;
+    { method: 'POST', body: JSON.stringify({ initial }) }, 'Couldn\'t open the folder dialog')).path;
 
-export const describeFailure = (cause: unknown) => (cause instanceof Error && cause.message) || '请求失败，请重试';
+export const describeFailure = (cause: unknown) => (cause instanceof Error && cause.message) || 'Request failed; try again';

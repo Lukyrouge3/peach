@@ -299,7 +299,7 @@ export function cancelGlide(pane:HTMLElement|null|undefined):void{
 }
 
 /** Geist Scroller: one-axis overflow with edge fades as the scroll affordance. */
-export function scrollerHtml(content:string,{className='',label='可滚动内容',overflow='y'}={}){
+export function scrollerHtml(content:string,{className='',label='Scrollable content',overflow='y'}={}){
   const axis=new Set(['x','y','both']).has(overflow)?overflow:'y';
   return `<div class="ui-geist-scroller${className?` ${esc(className)}`:''}" data-geist-scroller>
     <div class="ui-geist-scroller-overlay" aria-hidden="true"></div>

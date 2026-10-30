@@ -26,51 +26,51 @@ export interface RouteMeta {
 }
 
 export const ROUTE_META: Readonly<Record<string, RouteMeta>> = {
-  '/settings': { title: '设置', refresh: 'skip' },
+  '/settings': { title: 'Settings', refresh: 'skip' },
   ...Object.fromEntries(Object.entries(PREFERENCE_SECTIONS).map(([key, title]) => [`/settings/${key}`, { title, refresh: 'skip' }])),
   ...Object.fromEntries(Object.entries(CONFIGURATION_SECTIONS).map(([key, title]) => [`/settings/${key}`, { title, section: 'configuration', refresh: 'reopen' }])),
   '/jav': { nav: 'jav', title: 'JAV', refresh: 'reopen' },
-  '/stats': { section: 'stats', title: '统计' },
-  '/taste': { section: 'taste', title: '口味', refresh: 'reopen' },
-  '/review': { section: 'review', title: '人工复核', refresh: 'reopen' },
-  '/data-cleanup': { section: 'cleanup', title: '数据管理' },
-  '/duplicates': { section: 'cleanup', title: '重复文件', refresh: 'reopen' },
-  '/quality-goals': { section: 'quality', title: '高清版', refresh: 'reopen' },
-  '/sources': { section: 'cleanup', title: '来源和凭证', refresh: 'reopen' },
-  '/subscriptions': { section: 'follow', title: '关注管理', refresh: 'skip' },
-  '/settings/library': { section: 'configuration', title: 'Peach 配置', refresh: 'reopen' },
-  '/tasks': { section: 'activity', title: '任务中心', refresh: 'reopen' },
+  '/stats': { section: 'stats', title: 'Stats' },
+  '/taste': { section: 'taste', title: 'Taste', refresh: 'reopen' },
+  '/review': { section: 'review', title: 'Manual review', refresh: 'reopen' },
+  '/data-cleanup': { section: 'cleanup', title: 'Data management' },
+  '/duplicates': { section: 'cleanup', title: 'Duplicate files', refresh: 'reopen' },
+  '/quality-goals': { section: 'quality', title: 'HD versions', refresh: 'reopen' },
+  '/sources': { section: 'cleanup', title: 'Sources and credentials', refresh: 'reopen' },
+  '/subscriptions': { section: 'follow', title: 'Manage follows', refresh: 'skip' },
+  '/settings/library': { section: 'configuration', title: 'Peach settings', refresh: 'reopen' },
+  '/tasks': { section: 'activity', title: 'Task center', refresh: 'reopen' },
   // 旧直达地址，改写到数据管理页的锚点，没有自己的管理身份。
-  '/resource-sync': { title: '数据管理' },
-  '/performers': { nav: 'performers', title: '艺人', reload: 'reopen' },
-  '/creators': { title: '卖家', reload: 'reopen' },
-  '/studios': { nav: 'studios', title: '厂牌', reload: 'reopen' },
-  '/agencies': { title: '事务所', reload: 'reopen' },
-  '/series': { nav: 'studios', title: '系列', reload: 'reopen' },
-  '/tags': { nav: 'tags', title: '标签', reload: 'reopen' },
+  '/resource-sync': { title: 'Data management' },
+  '/performers': { nav: 'performers', title: 'Performers', reload: 'reopen' },
+  '/creators': { title: 'Sellers', reload: 'reopen' },
+  '/studios': { nav: 'studios', title: 'Studios', reload: 'reopen' },
+  '/agencies': { title: 'Agencies', reload: 'reopen' },
+  '/series': { nav: 'studios', title: 'Series', reload: 'reopen' },
+  '/tags': { nav: 'tags', title: 'Tags', reload: 'reopen' },
   '/performers/*': { reload: 'reopen' },
   '/studios/*': { reload: 'reopen' },
   '/creators/*': { reload: 'reopen' },
   '/series/*': { reload: 'reopen' },
   '/agencies/*': { reload: 'reopen' },
   '/tags/*': { reload: 'reopen' },
-  '/playlists': { nav: 'playlists', title: '播放列表', refresh: 'reopen' },
+  '/playlists': { nav: 'playlists', title: 'Playlists', refresh: 'reopen' },
   // 关注页重画要联网取一遍卡面，「换一批」只由页面自己的按钮触发。
-  '/follow': { nav: 'follow', title: '关注', refresh: 'skip' },
+  '/follow': { nav: 'follow', title: 'Following', refresh: 'skip' },
   // 目录：首页与回收站没有自己的标签，三个筛选态与垃圾文件的侧栏键与标签同 `STATE_ROUTES`、`STATE_LABELS`。
   '/': {},
-  '/unseen': { nav: 'fresh', title: '没看过' },
-  '/watch-later': { nav: 'later', title: '稍后看' },
-  '/flagged': { nav: 'flagged', title: '已标记' },
-  '/junk-files': { nav: 'ads', title: '垃圾文件' },
+  '/unseen': { nav: 'fresh', title: 'Unwatched' },
+  '/watch-later': { nav: 'later', title: 'Watch later' },
+  '/flagged': { nav: 'flagged', title: 'Marked' },
+  '/junk-files': { nav: 'ads', title: 'Junk files' },
   '/trash': { section: 'trash' },
   // 覆盖：详情、四种队列与关注详情。分卷与版本队列没有自己的标签。
-  '/assets/:id': { title: '媒体记录' },
-  '/works/:code': { nav: 'jav', title: 'JAV 作品' },
-  '/posts/:id': { title: '关注' },
+  '/assets/:id': { title: 'Media records' },
+  '/works/:code': { nav: 'jav', title: 'JAV titles' },
+  '/posts/:id': { title: 'Following' },
   // 沉浸模式进页面组，不算覆盖。
-  '/immerse': { nav: 'immerse', title: '沉浸模式' },
-  '/wall': { nav: 'wall', title: '播放墙' },
+  '/immerse': { nav: 'immerse', title: 'Immersive mode' },
+  '/wall': { nav: 'wall', title: 'Video wall' },
 };
 
 /** 这条路径登记的元数据；没登记是 `null`。 */
@@ -84,5 +84,5 @@ export function routeMetaOf(path: string): RouteMeta | null {
   const pattern = `/${segment}/*`;
   const kinds: Record<string, string> = { performers: 'performer', studios: 'studio', creators: 'creator', agencies: 'agency', series: 'series', tags: 'tag' };
   const name = /^\d+$/.test(rest.join('/')) ? entityLinkName(kinds[segment] || '', Number(rest[0])) : rest.join('/');
-  return Object.hasOwn(ROUTE_META, pattern) ? { ...ROUTE_META[pattern], title: name ? entityDisplayName(kinds[segment] || '', name) : '资料' } : null;
+  return Object.hasOwn(ROUTE_META, pattern) ? { ...ROUTE_META[pattern], title: name ? entityDisplayName(kinds[segment] || '', name) : 'profiles' } : null;
 }

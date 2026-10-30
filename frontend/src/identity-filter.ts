@@ -6,7 +6,7 @@
 import { islandButton } from './island-skeleton';
 
 export const IDENTITY_CATEGORIES: readonly (readonly [string, string])[] = [
-  ['all', '全部'], ['japanese_av', '女优'], ['amateur', '素人'], ['western', '西方'], ['blogger', '网黄博主'], ['animation', '动画作者'],
+  ['all', 'All'], ['japanese_av', 'Actresses'], ['amateur', 'Amateurs'], ['western', 'Western'], ['blogger', 'Adult creators'], ['animation', 'Animators'],
 ];
 
 /** 页面那一行的容器类，骨架与页面同一串。 */
@@ -17,5 +17,5 @@ export function identityFilterSkeletonHtml(category: string): string {
   const buttons = IDENTITY_CATEGORIES.map(([key, label]) => islandButton({
     variant: key === known ? 'primary' : 'secondary', size: 'small', label, attrs: `aria-pressed="${key === known}"`,
   })).join('');
-  return `<div class="peach-react"><div aria-label="身份分类" class="${IDENTITY_ROW_CLASS}">${buttons}</div></div>`;
+  return `<div class="peach-react"><div aria-label="Identity category" class="${IDENTITY_ROW_CLASS}">${buttons}</div></div>`;
 }

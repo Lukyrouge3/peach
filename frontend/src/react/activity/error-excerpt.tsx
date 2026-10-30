@@ -32,12 +32,12 @@ export function ErrorExcerpt({ text, className = '' }: { text: string; className
   return (
     <div data-error-excerpt="" className={`flex min-w-0 max-w-full flex-col items-start gap-1 ${className}`}>
       {open
-        ? <ErrorDetails id={id} label="完整错误详情">{full}</ErrorDetails>
+        ? <ErrorDetails id={id} label="Full error details">{full}</ErrorDetails>
         : <p className="w-full wrap-anywhere">{head}</p>}
       {more
         ? <Button variant="ghost" size="small" data-error-details-toggle="" className="-ml-2" aria-expanded={open} aria-controls={open ? id : undefined}
             onClick={() => setOpen(!open)}>
-            {open ? '收起详情' : '查看详情'}
+            {open ? 'Hide details' : 'Show details'}
           </Button>
         : null}
     </div>

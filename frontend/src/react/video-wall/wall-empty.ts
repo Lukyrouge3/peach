@@ -7,12 +7,12 @@ export function wallEmptyHtml({ libraryEmpty, matches, hasMore, catalogEmpty }: 
   libraryEmpty: boolean; matches: number; hasMore: boolean; catalogEmpty?: string;
 }): string {
   if (libraryEmpty) return catalogEmpty || catalogEmptyHtml();
-  if (!matches) return emptyStateHtml('search', '没有符合筛选条件的视频', '清除筛选条件后查看全部视频。', {
-    actions: `<a class="geist-button primary" href="${unfilteredWallAddress()}">清除筛选</a>`,
+  if (!matches) return emptyStateHtml('search', 'No videos match the filters', 'Clear filters to see all videos.', {
+    actions: `<a class="geist-button primary" href="${unfilteredWallAddress()}">Clear filters</a>`,
   });
-  return emptyStateHtml('image', '这些视频还没有封面', hasMore
-    ? '载入更多作品后继续浏览。' : '为作品补充封面后，可在播放墙中查看。', {
-    actions: '<a class="geist-button primary" href="/data-cleanup">补全封面</a>'
-      + (hasMore ? '<button type="button" class="geist-button" data-wall-load-more>加载更多</button>' : ''),
+  return emptyStateHtml('image', 'These videos have no cover yet', hasMore
+    ? 'Load more titles to keep browsing.' : 'After covers are added, titles can be viewed on the video wall.', {
+    actions: '<a class="geist-button primary" href="/data-cleanup">Complete covers</a>'
+      + (hasMore ? '<button type="button" class="geist-button" data-wall-load-more>Load more</button>' : ''),
   });
 }

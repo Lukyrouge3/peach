@@ -22,11 +22,11 @@ import { busyProps, useAction } from './use-action';
 /** 连接握手在服务端进行，页面按固定间隔重问，直到拿到入口或失败原因。 */
 const POLL_INTERVAL = 2000;
 
-const MODES: [TunnelState['mode'], string][] = [['quick', '临时链接'], ['named', '命名隧道']];
+const MODES: [TunnelState['mode'], string][] = [['quick', 'Temporary link'], ['named', 'Named tunnel']];
 
 const HELP: Record<TunnelState['mode'], string> = {
-  quick: '临时预览用，地址随机，重启后会变。启动前要先设置访问密码。',
-  named: '使用你在 Cloudflare 绑定的固定域名。启动前要先设置访问密码。',
+  quick: 'For temporary previews; the address is random and changes after a restart. Set an access password before starting.',
+  named: 'Uses the fixed domain you bound in Cloudflare. Set an access password before starting.',
 };
 
 type FieldErrors = Partial<Record<'hostname' | 'mode', string>>;
@@ -90,19 +90,19 @@ export function TunnelSettings({ revision: initialRevision, initial, receipt }: 
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    send('save', active, () => receipt('已保存配置'));
+    send('save', active, () => receipt('Settings saved'));
   };
 
   const toggle = () => send('toggle', !active, (next) => receipt(
-    next.enabled ? '公网入口已启动' : '公网入口已停止',
+    next.enabled ? 'Public entry started' : 'Public entry stopped',
   ));
 
   return (
-    <Section id="tunnel" title="Cloudflare 公网入口" onSubmit={submit} aside={<StatusLabel tone={state.error ? 'error' : active ? 'progress' : 'neutral'}>
-      {state.error ? '连接失败' : state.state === 'running' ? '运行中' : state.state === 'starting' ? '连接中' : '已停止'}</StatusLabel>}>
+    <Section id="tunnel" title="Cloudflare public entry" onSubmit={submit} aside={<StatusLabel tone={state.error ? 'error' : active ? 'progress' : 'neutral'}>
+      {state.error ? 'Connection failed' : state.state === 'running' ? 'Running' : state.state === 'starting' ? 'Connecting' : 'Stopped'}</StatusLabel>}>
       <Stack>
         {state.named_available
-          ? <RadioGroup aria-label="公网入口的形态（二选一）" value={mode} isDisabled={active}
+          ? <RadioGroup aria-label="Public entry type (choose one)" value={mode} isDisabled={active}
               onChange={(next) => setMode(next as TunnelState['mode'])} className={SEGMENTED_TRACK}>
               {MODES.map(([value, label]) => (
                 <Radio key={value} value={value} className={SEGMENT}>{label}</Radio>
@@ -111,32 +111,32 @@ export function TunnelSettings({ revision: initialRevision, initial, receipt }: 
           : null}
         <Help>{HELP[named ? 'named' : 'quick']}</Help>
         {named ? <>
-          <Input id="tunnel-hostname" label="公开主机名" autoComplete="off" maxLength={253}
+          <Input id="tunnel-hostname" label="Public hostname" autoComplete="off" maxLength={253}
             value={hostname} onChange={setHostname} isDisabled={active} validationBehavior="aria"
             isInvalid={Boolean(fields.hostname)}
-            hint={fields.hostname || 'Cloudflare Zero Trust 里指向这台电脑的主机名。'} />
-          <Input id="tunnel-token" type="password" label="隧道令牌" autoComplete="off" maxLength={2048}
+            hint={fields.hostname || 'The hostname in Cloudflare Zero Trust that points to this computer.'} />
+          <Input id="tunnel-token" type="password" label="Tunnel token" autoComplete="off" maxLength={2048}
             value={token} onChange={setToken} isDisabled={active} validationBehavior="aria"
             hint={state.token_set
-              ? '已保存，留空不改。'
-              : '在 Cloudflare Zero Trust 的隧道详情页复制。'} />
+              ? 'Saved; leave empty to keep.'
+              : 'Copy it from the tunnel details page in Cloudflare Zero Trust.'} />
         </> : null}
         {!state.available
-          ? <Note tone="warning" title="找不到 cloudflared">安装官方 cloudflared，或用设置文件的 tunnel.binary 与 PEACH_CLOUDFLARED 指定路径。</Note>
+          ? <Note tone="warning" title="cloudflared not found">Install the official cloudflared, or set its path with tunnel.binary in the settings file or PEACH_CLOUDFLARED.</Note>
           : null}
         {state.state === 'running' && state.url
-          ? <Note tone="info" title="公网地址"><ExternalLink href={state.url}>{state.url}</ExternalLink></Note>
+          ? <Note tone="info" title="Public address"><ExternalLink href={state.url}>{state.url}</ExternalLink></Note>
           : null}
-        {state.state === 'starting' ? <Note tone="info" title="正在连接">正在等待 cloudflared 连上 Cloudflare 边缘。</Note> : null}
+        {state.state === 'starting' ? <Note tone="info" title="Connecting">Waiting for cloudflared to connect to the Cloudflare edge.</Note> : null}
         {state.error ? <ErrorText>{state.error}</ErrorText> : null}
         {action.error ? <ErrorText>{action.error}</ErrorText> : null}
       </Stack>
-      <Footer status={state.enabled ? 'Peach 重启后自动恢复。' : undefined}>
+      <Footer status={state.enabled ? 'Restores automatically after Peach restarts.' : undefined}>
         <Button variant={state.named_available ? 'secondary' : 'primary'} onClick={toggle} {...busyProps(action.busy === 'toggle')}>
-          {active ? '停止公网入口' : '启动公网入口'}
+          {active ? 'Stop public entry' : 'Start public entry'}
         </Button>
         {state.named_available
-          ? <Button type="submit" {...busyProps(action.busy === 'save')}>保存配置</Button>
+          ? <Button type="submit" {...busyProps(action.busy === 'save')}>Save settings</Button>
           : null}
       </Footer>
     </Section>

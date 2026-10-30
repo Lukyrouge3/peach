@@ -33,25 +33,25 @@ export const createV10Player: VideojsFactory = (video, options) => {
   if (options.poster) video.poster = String(options.poster);
   media.append(video); container.append(media); provider.append(container); root.append(provider);
   if (options.controls !== false) {
-    container.insertAdjacentHTML('beforeend', `<div class="vjs-loading-spinner" aria-label="正在缓冲"></div>
+    container.insertAdjacentHTML('beforeend', `<div class="vjs-loading-spinner" aria-label="Buffering"></div>
       <div class="vjs-error-display"><div class="vjs-modal-dialog-content" role="alert"></div></div>
       <div class="vjs-control-bar">
-        <media-play-button class="vjs-play-control vjs-control vjs-button" label="播放"></media-play-button>
+        <media-play-button class="vjs-play-control vjs-control vjs-button" label="Play"></media-play-button>
         <div class="vjs-volume-panel vjs-control vjs-volume-panel-horizontal">
-          <media-mute-button class="vjs-mute-control vjs-control vjs-button" label="静音"></media-mute-button>
-          <div class="vjs-volume-control vjs-volume-horizontal"><media-volume-slider class="vjs-volume-bar vjs-slider vjs-slider-horizontal" label="音量">
+          <media-mute-button class="vjs-mute-control vjs-control vjs-button" label="Mute"></media-mute-button>
+          <div class="vjs-volume-control vjs-volume-horizontal"><media-volume-slider class="vjs-volume-bar vjs-slider vjs-slider-horizontal" label="Volume">
             <media-slider-track><media-slider-fill class="vjs-volume-level"></media-slider-fill></media-slider-track>
             <media-slider-thumb class="vjs-volume-thumb"></media-slider-thumb>
             <media-slider-value class="vjs-volume-tooltip"></media-slider-value>
           </media-volume-slider></div>
         </div>
-        <div class="vjs-progress-control vjs-control"><media-time-slider class="vjs-progress-holder vjs-slider vjs-slider-horizontal" label="播放进度">
+        <div class="vjs-progress-control vjs-control"><media-time-slider class="vjs-progress-holder vjs-slider vjs-slider-horizontal" label="Playback progress">
           <media-slider-track><media-slider-buffer class="vjs-load-progress"></media-slider-buffer><media-slider-fill class="vjs-play-progress"></media-slider-fill></media-slider-track>
           <media-slider-thumb class="vjs-progress-thumb"></media-slider-thumb>
         </media-time-slider></div>
-        <div class="vjs-subtitles-control vjs-control"><button type="button" class="vjs-button" aria-label="开启字幕" aria-pressed="false">CC</button></div>
-        <media-pip-button class="vjs-picture-in-picture-control vjs-control vjs-button" label="画中画"></media-pip-button>
-        <media-fullscreen-button class="vjs-fullscreen-control vjs-control vjs-button" label="全屏"></media-fullscreen-button>
+        <div class="vjs-subtitles-control vjs-control"><button type="button" class="vjs-button" aria-label="Turn on subtitles" aria-pressed="false">CC</button></div>
+        <media-pip-button class="vjs-picture-in-picture-control vjs-control vjs-button" label="Picture-in-picture"></media-pip-button>
+        <media-fullscreen-button class="vjs-fullscreen-control vjs-control vjs-button" label="Fullscreen"></media-fullscreen-button>
       </div>`);
   }
   const events = new EventTarget();
@@ -88,7 +88,7 @@ export const createV10Player: VideojsFactory = (video, options) => {
   const showError = (value: unknown, notify = true) => {
     failure = value; root.classList.add('vjs-error');
     const message = root.querySelector('.vjs-modal-dialog-content');
-    if (message) message.textContent = (value as { message?: string })?.message || '视频暂时无法播放';
+    if (message) message.textContent = (value as { message?: string })?.message || 'The video can\'t play right now';
     if (notify) emit('error');
   };
   media.addEventListener('error', () => showError(media.error || video.error), { signal });
@@ -152,7 +152,7 @@ export const createV10Player: VideojsFactory = (video, options) => {
       const generation = ++playGeneration;
       // 官方 HLS adapter 在微任务里挂载片源；原生 play 必须使用已经挂载的片源。
       await Promise.resolve();
-      if (disposed || generation !== playGeneration) throw new DOMException('播放请求已取消', 'AbortError');
+      if (disposed || generation !== playGeneration) throw new DOMException('Playback request canceled', 'AbortError');
       return video.play();
     },
     pause: () => { playGeneration++; video.pause() },

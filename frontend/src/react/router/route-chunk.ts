@@ -41,7 +41,7 @@ export function routeChunk<M>(load: () => Promise<M>): RouteChunk<M> {
   return {
     preload: () => attempt().catch(async (error: unknown) => { await recoverStaleBuild(); throw error }),
     get: () => {
-      if (!loaded) throw new Error('页面代码还没装载');
+      if (!loaded) throw new Error('Page code hasn\'t loaded yet');
       return loaded.module;
     },
   };

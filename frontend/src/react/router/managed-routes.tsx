@@ -125,7 +125,7 @@ const configurationRoute = (path: ConfigurationPath): ManagedRoute<ManagedOpenPr
   page: (open, actions) => {
     const { ConfigurationPage, DiagnosticsPage } = configurationPage.get();
     return <ConfigurationPage receipt={message => actions.receipt(message)}
-      reopenTutorial={actions.reopenTutorial} section={path === '/settings/diagnostics' ? '系统诊断' : open.section ?? ''}
+      reopenTutorial={actions.reopenTutorial} section={path === '/settings/diagnostics' ? 'System diagnostics' : open.section ?? ''}
       diagnostics={<DiagnosticsPage openItem={actions.openItem} receipt={message => actions.receipt(message)} />} />;
   },
 });
@@ -417,7 +417,7 @@ function routeOf(path: RoutedPath): ManagedRoute<object> {
 
 /** 首屏取数（`openManagedRoute` 经 `connectManagedRoutes` 调它）。 */
 export function prefetchManagedRoute(path: string, open: object, signal: AbortSignal): Promise<void> {
-  if (!isRoutedPath(path)) return Promise.reject(new Error(`路由树里没有这一页：${path}`));
+  if (!isRoutedPath(path)) return Promise.reject(new Error(`This page isn't in the route tree: ${path}`));
   return routeOf(path).prefetch(open, signal);
 }
 

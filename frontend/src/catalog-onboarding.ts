@@ -33,21 +33,21 @@ export async function catalogSuggestions(state: Record<string, string>, request:
 
 /** 空馆藏、筛选无结果与资料尚未建立分别给出可执行入口。 */
 export function catalogEmptyHtml({ kind = 'catalog', filtered = false, jav = false, configurable: _configurable = false, online = false } = {}): string {
-  const add = '<a class="geist-button primary" href="/settings/library">添加媒体</a>';
-  const follow = '<a class="geist-button' + (online ? ' primary' : '') + '" href="/subscriptions?tab=add">添加关注</a>';
-  if (filtered || jav) return emptyStateHtml('search', jav ? '还没有符合条件的 JAV 作品' : '没有符合条件的内容',
-    jav ? '已扫描但尚未补充发行资料的视频可在全部内容中查看。' : '清除筛选或搜索条件后查看全部内容。',
+  const add = '<a class="geist-button primary" href="/settings/library">Add media</a>';
+  const follow = '<a class="geist-button' + (online ? ' primary' : '') + '" href="/subscriptions?tab=add">Add follows</a>';
+  if (filtered || jav) return emptyStateHtml('search', jav ? 'No matching JAV titles yet' : 'Nothing matches',
+    jav ? 'Scanned videos that don\'t have release metadata yet are listed under All content.' : 'Clear filters or search to see all content.',
     { actions: jav
-      ? '<a class="geist-button primary" href="/?loc=&thumb=0">查看全部内容</a><a class="geist-button" href="/data-cleanup#libraryProcessing">补全影片资料</a>'
-      : `<a class="geist-button primary" href="${filtered ? esc(clearCatalogAddress()) : '/?loc=&thumb=0'}">${filtered ? '清除筛选' : '查看全部内容'}</a>` });
+      ? '<a class="geist-button primary" href="/?loc=&thumb=0">View all content</a><a class="geist-button" href="/data-cleanup#libraryProcessing">Complete video metadata</a>'
+      : `<a class="geist-button primary" href="${filtered ? esc(clearCatalogAddress()) : '/?loc=&thumb=0'}">${filtered ? 'Clear filters' : 'View all content'}</a>` });
   if (kind !== 'catalog') {
-    const labels: Record<string, string> = { tags: '标签', performers: '艺人', creators: '卖家', studios: '厂牌', agencies: '事务所', series: '系列' };
+    const labels: Record<string, string> = { tags: 'Tags', performers: 'Performers', creators: 'Sellers', studios: 'Studios', agencies: 'Agencies', series: 'Series' };
     // 在线那一档数的是来源上的东西，名字也跟着来源的说法：艺人页在线摆的是关注来源里的创作者。
-    const onlineLabels: Record<string, string> = { tags: '标签', performers: '创作者' };
-    const label = (online ? onlineLabels[kind] : '') || labels[kind] || '资料';
-    return emptyStateHtml(kind === 'tags' ? 'tags' : 'user-round', '还没有' + label,
-      online ? '添加关注来源并获取内容后，这里会显示来源上的' + label + '。' : '添加内容并补充资料后，这里会显示对应信息。',
+    const onlineLabels: Record<string, string> = { tags: 'Tags', performers: 'Creators' };
+    const label = (online ? onlineLabels[kind] : '') || labels[kind] || 'profiles';
+    return emptyStateHtml(kind === 'tags' ? 'tags' : 'user-round', 'No' + label,
+      online ? 'yet. After you add follow sources and fetch content, the source\'s' + label + '。' : 'Once content is added and its metadata filled in, it will show up here.',
       { actions: online ? follow : add + follow });
   }
-  return emptyStateHtml('play', '还没有视频', '添加媒体目录或关注来源，开始建立你的馆藏。', { actions: add + follow });
+  return emptyStateHtml('play', 'No videos yet', 'Add a media folder or follow source to start building your library.', { actions: add + follow });
 }

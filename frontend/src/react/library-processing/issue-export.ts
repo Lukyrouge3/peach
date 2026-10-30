@@ -7,7 +7,7 @@ interface IssuePage {
 
 /** 任务号和内容版本同时固定；失败或取消不交付半份文件。 */
 export async function exportProcessingIssues(state: LibraryProcessingData, signal: AbortSignal): Promise<string> {
-  if (!state.job_id) throw new Error('请先选择有问题记录的任务');
+  if (!state.job_id) throw new Error('Choose a task with issue records first');
   const rows: LibraryProcessingIssue[] = [];
   let total = 1, revision = '';
   for (let offset = 0; offset < total; offset += 200) {
@@ -17,10 +17,10 @@ export async function exportProcessingIssues(state: LibraryProcessingData, signa
     signal.throwIfAborted();
     if (page.job_id !== state.job_id || page.offset !== offset
       || (revision && (page.revision !== revision || page.total !== total))) {
-      throw new Error('问题记录已变化，请重新导出');
+      throw new Error('Issue records changed; export again');
     }
     if (offset === 0) { total = page.total; revision = page.revision }
-    if (page.rows.length !== Math.min(200,total-offset)) throw new Error('问题记录不完整，请重新导出');
+    if (page.rows.length !== Math.min(200,total-offset)) throw new Error('Issue records are incomplete; export again');
     rows.push(...page.rows);
   }
   return JSON.stringify({job_id:state.job_id, revision, exported_at:new Date().toISOString(), total:rows.length, rows},null,2);

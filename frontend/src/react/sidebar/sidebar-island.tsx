@@ -232,19 +232,19 @@ function catalogGroups(
     };
   };
   return [
-    spec('来源', 'src', facets.locations, 'loc', true),
+    spec('Source', 'src', facets.locations, 'loc', true),
     facets.duration
-      ? { title: '时长', kind: 'meta', active: false, body: <Duration host={at} filters={filters} /> }
+      ? { title: 'Duration', kind: 'meta', active: false, body: <Duration host={at} filters={filters} /> }
       : null,
     /* 产地紧挨着来源：两者回答的都是「这批片打哪来」，一个说存储，一个说发行体系。可多选。 */
-    spec('产地', 'general', facets.regions, 'region', true),
-    spec('发行年份', 'meta', facets.years || [], 'year', true),
-    spec('画幅', 'meta', facets.orientations, 'orient', false),
-    spec('创作者', 'artist', facets.creators, 'creator', false, 'creator'),
-    spec('内容标签', 'general', facets.tags, 'tag', false, 'tag'),
-    spec('影片属性', 'meta', facets.tech, 'tag', false, 'tech'),
+    spec('Region', 'general', facets.regions, 'region', true),
+    spec('Release year', 'meta', facets.years || [], 'year', true),
+    spec('Aspect', 'meta', facets.orientations, 'orient', false),
+    spec('Creators', 'artist', facets.creators, 'creator', false, 'creator'),
+    spec('Content tags', 'general', facets.tags, 'tag', false, 'tag'),
+    spec('Video attributes', 'meta', facets.tech, 'tag', false, 'tech'),
     facets.followTags.length ? {
-      title: '关注标签', kind: 'online', active: false,
+      title: 'Followed tags', kind: 'online', active: false,
       body: <FollowChips rows={facets.followTags} host={at} selected={null} badges />,
     } : null,
   ];
@@ -260,15 +260,15 @@ function followGroups(
   const selected = new Set(content.selected);
   return [
     providers.length ? {
-      title: '来源', kind: 'src', active: providers.some((row) => provider.includes(row.value)),
+      title: 'Source', kind: 'src', active: providers.some((row) => provider.includes(row.value)),
       body: <ChipList rows={providers} filterKey="provider" multi={false} selected={provider} counts={null} host={at}
         onToggle={(_key, value) => at.selectFollowProvider(value)} />,
     } : null,
     content.duration
-      ? { title: '时长', kind: 'meta', active: false, body: <Duration host={at} filters={filters} commit={at.setFollowDuration} /> }
+      ? { title: 'Duration', kind: 'meta', active: false, body: <Duration host={at} filters={filters} commit={at.setFollowDuration} /> }
       : null,
     content.tags.length ? {
-      title: '内容标签', kind: 'online', active: content.tags.some((row) => selected.has(row.value)),
+      title: 'Content tags', kind: 'online', active: content.tags.some((row) => selected.has(row.value)),
       body: <FollowChips rows={content.tags} host={at} selected={selected} badges={false} />,
     } : null,
   ];
@@ -412,7 +412,7 @@ function MoreList({ epoch, title, rows, latest, limit, filterKey, selected, coun
         counts={counts} host={at} />
       {expandable && rows.length > limit
         ? <button type="button" ref={button} data-sidebar-more={filterKey} aria-expanded={expanded}
-            aria-label={`${expanded ? '收起' : '展开全部'}${title}`} onClick={more}><Icon name="chevron-down" /></button>
+            aria-label={`${expanded ? 'Collapse' : 'Show all'}${title}`} onClick={more}><Icon name="chevron-down" /></button>
         : null}
     </>
   );
@@ -502,7 +502,7 @@ function Duration({ host: at, filters, commit: onCommit = at.setDuration }: {
 
   const tip = (end: 'min' | 'max', value: number) => (
     <output data-sidebar-range-tip="" data-range-end={end} data-range-active={active === end ? '' : undefined} aria-hidden="true">
-      {end === 'max' && value >= DURATION_MAX ? '不限' : `${value} 分钟`}
+      {end === 'max' && value >= DURATION_MAX ? 'Any' : `${value} min`}
     </output>
   );
   return (
@@ -510,9 +510,9 @@ function Duration({ host: at, filters, commit: onCommit = at.setDuration }: {
       <div data-sidebar-range="" id="durationRange" ref={group}>
         <span data-sidebar-range-base="" />
         <span data-sidebar-range-fill="" />
-        <input id="durMin" type="range" min="0" max={DURATION_MAX} step="5" value={lo} aria-label="最短时长（分钟）"
+        <input id="durMin" type="range" min="0" max={DURATION_MAX} step="5" value={lo} aria-label="Minimum duration (min)"
           ref={minInput} onChange={(event) => move('min', Number(event.currentTarget.value))} />
-        <input id="durMax" type="range" min="0" max={DURATION_MAX} step="5" value={hi} aria-label="最长时长（分钟）"
+        <input id="durMax" type="range" min="0" max={DURATION_MAX} step="5" value={hi} aria-label="Maximum duration (min)"
           ref={maxInput} onChange={(event) => move('max', Number(event.currentTarget.value))} />
         {tip('min', lo)}
         {tip('max', hi)}

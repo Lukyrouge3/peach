@@ -52,7 +52,7 @@ class PlayerMemory {
       return value;
     })().catch(error => {
       this.reading = undefined;
-      if (!this.cleanup.signal.aborted) { this.error = '播放记忆未读取，请重试'; this.changed() }
+      if (!this.cleanup.signal.aborted) { this.error = 'Playback position not loaded; try again'; this.changed() }
       throw error;
     });
   }
@@ -66,12 +66,12 @@ class PlayerMemory {
           body: JSON.stringify(patch), keepalive: !patch.track });
         if (!response.ok) {
           const body = await response.json().catch(() => null);
-          throw new Error(body?.error || body?.detail || '播放记忆未保存，请重试');
+          throw new Error(body?.error || body?.detail || 'Playback position not saved; try again');
         }
         this.unsaved = {}; this.error = '';
       } catch (error) {
         this.unsaved = patch;
-        this.error = error instanceof Error ? error.message : '播放记忆未保存，请重试';
+        this.error = error instanceof Error ? error.message : 'Playback position not saved; try again';
         throw error;
       } finally { this.changed() }
     });

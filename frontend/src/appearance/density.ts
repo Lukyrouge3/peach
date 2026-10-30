@@ -24,7 +24,7 @@ function paintSizeGlyph(button: HTMLElement, size: string): void {
     button.innerHTML = iconSwapHtml(big[2], small[2], size === small[0] ? 'b' : 'a');
     if (drift) button.append(drift);
   } else setIconSwap(button, size === small[0] ? 'b' : 'a');
-  setAttribute(button, 'aria-label', size === 'big' ? '切换为小图' : '切换为大图');
+  setAttribute(button, 'aria-label', size === 'big' ? 'Switch to small thumbnails' : 'Switch to large thumbnails');
 }
 
 /* 同值不重写：视频墙滚动时这几处每秒被叫十几次，`<body>` 上写一次属性就是整棵树重新匹配样式。 */
@@ -41,7 +41,7 @@ export function applyDensity(density: Density = currentDensity()): void {
   const button = densityButton();
   if (!button) return;
   setAttribute(button, 'aria-pressed', String(density === 'dense'));
-  setAttribute(button, 'title', '当前：' + (density === 'big' ? '大图' : '密集'));
+  setAttribute(button, 'title', 'Current:' + (density === 'big' ? 'Large' : 'Dense'));
   paintSizeGlyph(button, density === 'big' ? 'big' : 'small');
 }
 
@@ -57,6 +57,6 @@ export function paintPhotoSizeButton(size: string): void {
   const button = densityButton();
   if (!button) return;
   setAttribute(button, 'aria-pressed', String(size === 'small'));
-  setAttribute(button, 'title', '当前：' + (size === 'big' ? '大图' : '小图'));
+  setAttribute(button, 'title', 'Current:' + (size === 'big' ? 'Large' : 'Small'));
   paintSizeGlyph(button, size);
 }

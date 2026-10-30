@@ -55,18 +55,18 @@ const count = (value: number) => Number(value).toLocaleString();
 export function statusLine(state: MediaRepairState): string {
   if (state.status === 'running') {
     // 服务端偶尔报出超过总数的已查数，按总数封顶。
-    const where = state.total ? `${count(Math.min(state.checked || 0, state.total))} / ${count(state.total)}` : '准备中';
+    const where = state.total ? `${count(Math.min(state.checked || 0, state.total))} / ${count(state.total)}` : 'Preparing';
     return state.stage === '修复' && state.message
-      ? `修复 ${where} · ${state.message}`
-      : `${state.stage || '扫描'} ${where}`;
+      ? `Repairing ${where} · ${state.message}`
+      : `${state.stage || 'Scanning'} ${where}`;
   }
   if (state.status === 'complete' && (state.repaired || state.failed)) {
     return state.failed
-      ? `修好 ${count(state.repaired)} 部，${count(state.failed)} 部修不了`
-      : `修好 ${count(state.repaired)} 部`;
+      ? `Repaired ${count(state.repaired)}, ${count(state.failed)} couldn't be repaired`
+      : `Repaired ${count(state.repaired)}`;
   }
   return '';
 }
 
 export const missingToolText = (state: MediaRepairState) =>
-  `${count(state.missing_tool)} 部缺索引的片子要装上 untrunc 才修得了，下载入口在配置页的「运行信息」里。`;
+  `${count(state.missing_tool)} videos missing an index need untrunc installed to repair; the download link is under “Runtime info” on the settings page.`;

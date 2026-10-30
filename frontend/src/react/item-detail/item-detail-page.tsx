@@ -55,7 +55,7 @@ const Glyph = ({ name }: { name: string }) => (
 const Html = ({ html }: { html: string }) => <span className="contents" dangerouslySetInnerHTML={{ __html: html }} />;
 
 /** 文件大小：没记下或记成 0 的写「大小未知」，同卡片上那一格。 */
-const sizeText = (size: unknown) => (Number(size) > 0 ? fmtSize(Number(size)) : '大小未知');
+const sizeText = (size: unknown) => (Number(size) > 0 ? fmtSize(Number(size)) : 'Size unknown');
 
 export function ItemDetailPage(props: ItemDetailProps) {
   const { queue: ref, actions } = props;
@@ -90,7 +90,7 @@ export function ItemDetailPage(props: ItemDetailProps) {
 
 /** 关闭键。`id` 留着：Escape、点浮窗外面与壳的兜底都按 `#closeStage` 找它再点一下。 */
 const CloseStage = ({ onClose }: { onClose(): void }) => (
-  <button type="button" data-stage-close="" id="closeStage" title="关闭" aria-label="关闭" onClick={onClose}
+  <button type="button" data-stage-close="" id="closeStage" title="Close" aria-label="Close" onClick={onClose}
     dangerouslySetInnerHTML={{ __html: icon('x') }} />
 );
 
@@ -150,9 +150,9 @@ function MediaFrame({ item, gate, helpers, actions, autoplay, onEnded }: {
     enabled: !!item.is_jav && !!item.code && !item.sample_images?.length });
   const samples = item.sample_images?.length ? item.sample_images.map(sample => ({ index: sample.n, source: false }))
     : Array.from({ length: Math.min(30, Math.max(0, source.data?.preview_count || 0)) }, (_, index) => ({ index: index + 1, source: true }));
-  const media = item.is_jav && item.code ? [...(item.has_cover ? [{ index: -1, label: '封面' }] : []),
-    ...samples.map((sample, index) => ({ ...sample, label: `预览 ${index + 1}` })),
-    { index: -2, label: '正片', video: true }] : [];
+  const media = item.is_jav && item.code ? [...(item.has_cover ? [{ index: -1, label: 'Cover' }] : []),
+    ...samples.map((sample, index) => ({ ...sample, label: `Preview ${index + 1}` })),
+    { index: -2, label: 'Full video', video: true }] : [];
   const hasPictures = media.length > 1;
   const selectImage = (index: number) => {
     if (index !== -2) frameRef.current?.querySelector('video')?.pause();
@@ -178,7 +178,7 @@ function MediaFrame({ item, gate, helpers, actions, autoplay, onEnded }: {
       <div data-player-toolbar="">
         <span data-player-stats-slot="" />
         {hasPictures ? <button type="button" data-jav-preview-toggle="" aria-pressed={image !== -2}
-          onClick={() => selectImage(image === -2 ? media[0]!.index : -2)}><Glyph name={image === -2 ? 'image' : 'play'} />{image === -2 ? '查看图片' : '播放正片'}</button>
+          onClick={() => selectImage(image === -2 ? media[0]!.index : -2)}><Glyph name={image === -2 ? 'image' : 'play'} />{image === -2 ? 'View image' : 'Play full video'}</button>
           : null}
         <span data-player-net-slot="" />
       </div>
@@ -189,27 +189,27 @@ function MediaFrame({ item, gate, helpers, actions, autoplay, onEnded }: {
             source={samples.find(sample => sample.index === (entry.index === -2 ? media[0]!.index : entry.index))?.source} thumbnail />} />
       </> : null}
       {image !== -2 && item.is_jav && item.code && !item.sample_images?.length && (source.isPending || source.error || source.data?.state === 'partial') ?
-        <div data-item-samples-state="">{source.isPending ? <span data-skeleton="samples" role="status" aria-label="正在读取样图" className="relative block h-12 w-20 skeleton-sheen" />
+        <div data-item-samples-state="">{source.isPending ? <span data-skeleton="samples" role="status" aria-label="Loading sample images" className="relative block h-12 w-20 skeleton-sheen" />
           : <Button variant="secondary" {...busyProps(source.isFetching)} title={source.data?.message || requestErrorMessage(source.error)}
-            aria-label="立即重试样图" onClick={() => { refreshSamples.current = true; void source.refetch() }}>立即重试</Button>}</div> : null}
+            aria-label="Retry sample images now" onClick={() => { refreshSamples.current = true; void source.refetch() }}>Retry now</Button>}</div> : null}
       {gate === 'offline' ? <OfflineGate item={item} badge={badge} helpers={helpers} actions={actions} />
         : gate === 'disc' ? (
           <div role="status" data-item-gate="disc">
-            <b>ISO 原盘</b>
-            <span>请使用支持原盘的外部播放器打开。</span>
-            <ExternalPlayback key={item.id} id={item.id} onOpened={() => actions.toast('已请求打开本地播放器')} />
+            <b>ISO disc image</b>
+            <span>Open it with an external player that supports disc images.</span>
+            <ExternalPlayback key={item.id} id={item.id} onOpened={() => actions.toast('Requested to open the local player')} />
           </div>
         ) : gate === 'online' ? (
           <div id="onlineGate" role="status" data-item-gate="online">
             <Html html={badge} />
-            <b>在线作品</b>
-            <span>这条没有对应的关注条目，媒体地址无从解析。</span>
-            <button className="chip" id="openSavedFollow" type="button" onClick={actions.openSavedFollow}>打开已保存关注</button>
+            <b>Online titles</b>
+            <span>This item has no matching follow entry, so the media address can't be resolved.</span>
+            <button className="chip" id="openSavedFollow" type="button" onClick={actions.openSavedFollow}>Open saved follow</button>
           </div>
         ) : gate === 'metered' && !started ? (
           <div id="gate" data-item-gate="metered" onClick={() => setStarted('clicked')}>
             <Html html={badge} />
-            <span>点此开始拉流 · {sizeText(item.size)}</span>
+            <span>Click to start streaming · {sizeText(item.size)}</span>
           </div>
         ) : null}
     </div>
@@ -231,10 +231,10 @@ function OfflineGate({ item, badge, helpers, actions }: {
   return (
     <div id="offlineGate" role="status" data-item-gate="offline">
       <Html html={badge} />
-      <b>媒体目录无法访问</b>
+      <b>Media folder inaccessible</b>
       <span>{helpers.offlineReason(String(item.root_id || item.location || ''))}</span>
       <button className="chip" id="offlineRetry" type="button" disabled={checking} onClick={() => void retry()}>
-        {still ? '仍无法读取 · 刷新' : '刷新状态'}
+        {still ? 'Still unreadable · Refresh' : 'Refresh status'}
       </button>
     </div>
   );
@@ -265,10 +265,10 @@ function Queue({ queue, itemId, helpers, actions }: {
   }, [helpers, queue.kind]);
   const saveMix = useSaveMix(queue, actions);
   const head = queue.kind === 'mix'
-    ? <button type="button" data-save-mix="" title="保存为播放列表" aria-label="保存为播放列表" onClick={saveMix}
+    ? <button type="button" data-save-mix="" title="Save as playlist" aria-label="Save as playlist" onClick={saveMix}
       dangerouslySetInnerHTML={{ __html: icon('playlist') }} />
     : queue.kind === 'playlist'
-      ? <button type="button" data-edit-playlist="" title="编辑播放列表" aria-label="编辑播放列表" onClick={actions.editPlaylist}
+      ? <button type="button" data-edit-playlist="" title="Edit playlist" aria-label="Edit playlist" onClick={actions.editPlaylist}
         dangerouslySetInnerHTML={{ __html: icon('playlist') }} />
       : null;
   const ref = { kind: queue.kind, seedId: queue.seedId, playlistId: queue.playlistId };
@@ -281,7 +281,7 @@ function Queue({ queue, itemId, helpers, actions }: {
         const gone = queue.kind === 'playlist' && isVanished(row);
         return (
           <MixQueueRow key={row.id} current={row.id === itemId} data-queue-item={row.id} row={{ 'data-queue-row': row.id }}
-            disabled={gone} title={gone ? '文件已不在盘上，不能播放' : undefined}
+            disabled={gone} title={gone ? 'File is no longer on disk and can\'t play' : undefined}
             {...(gone ? { 'data-queue-vanished': '' } : {})}
             onClick={() => { if (!gone) actions.openQueueItem(ref, row.id) }}
             pic={<><Html html={queueThumbHtml(row, helpers.javImage())} /><i className="mono" data-mix-item-duration="">{fmtDur(row.duration)}</i></>}
@@ -289,12 +289,12 @@ function Queue({ queue, itemId, helpers, actions }: {
             after={queue.kind === 'playlist' ? (
               <span data-queue-edit="">
                 <i data-queue-grip="" aria-hidden="true"><Glyph name="grip-vertical" /></i>
-                <button type="button" data-queue-remove={row.id} title="移出播放列表" aria-label="移出播放列表"
+                <button type="button" data-queue-remove={row.id} title="Remove from playlist" aria-label="Remove from playlist"
                   onClick={() => reorder.remove(row.id)}><Glyph name="x" /></button>
               </span>
             ) : null}>
             <span data-queue-head="">{edition}<b data-middle-truncate="">{helpers.displayName(row)}</b></span>
-            <span data-truncate-end="">{gone ? '已消失 · 文件已不在盘上'
+            <span data-truncate-end="">{gone ? 'Missing · file is no longer on disk'
               : queue.kind === 'parts' || (queue.kind === 'editions' && row.part_label)
                 ? partLabel(row.part_label) : mixLabel(row, helpers.tagLabel)}</span>
           </MixQueueRow>
@@ -328,7 +328,7 @@ function usePlaylistReorder(queue: DetailQueue, itemId: number, actions: ItemDet
   const reorder = useMutation({
     mutationFn: (ids: number[]) => write({ action: 'reorder', asset_ids: ids }),
     onSuccess: (playlist, _ids) => { apply(playlist) },
-    onError: (error) => actions.failure('调整播放顺序', error),
+    onError: (error) => actions.failure('Reorder playback', error),
   });
   const ids = queue.items.map((row) => row.id);
   return {
@@ -338,17 +338,17 @@ function usePlaylistReorder(queue: DetailQueue, itemId: number, actions: ItemDet
       if (sameOrder(next, ids)) return;
       const before = ids;
       await reorder.mutateAsync(next);
-      actions.toast('已调整播放顺序', { undo: async () => { apply(await write({ action: 'reorder', asset_ids: before })) } });
+      actions.toast('Playback order updated', { undo: async () => { apply(await write({ action: 'reorder', asset_ids: before })) } });
     },
     remove: (assetId: number) => {
       const before = ids;
       void confirmModal({
-        title: '移出播放列表', body: '这个视频将从播放列表移除，视频文件保留。', confirmLabel: '移出播放列表',
+        title: 'Remove from playlist', body: 'This video will be removed from the playlist; the video file is kept.', confirmLabel: 'Remove from playlist',
         onConfirm: async () => {
           const playlist = await write({ action: 'remove', asset_id: assetId });
           /* 撤销要把它放回它那一位：`add` 只会补在末尾，所以补完再按移出之前那份顺序排一次。
              列表被这一下清空时它已经不在页面上，撤销后带回列表页而不是空队列。 */
-          actions.toast('已移出播放列表', {
+          actions.toast('Removed from playlist', {
             undo: async () => {
               await write({ action: 'add', asset_ids: [assetId] });
               const restored = apply(await write({ action: 'reorder', asset_ids: before }));
@@ -390,42 +390,42 @@ function Side({ item, queue, write, helpers, actions }: {
           {item.release_date ? <span data-spec-item=""><Glyph name="calendar" /><span>{item.release_date}</span></span> : null}
           {item.region_label ? (
             <button type="button" data-spec-item="" data-open-region={item.region || ''}
-              title={item.region_settled ? '已判定的产地；打开同产地的作品' : '按番号或厂牌推断的产地，批量判定后不再变；打开同产地的作品'}
+              title={item.region_settled ? 'Assigned region; open titles from the same region' : 'Region inferred from the code or studio; it stops changing after a bulk assignment. Open titles from the same region'}
               onClick={() => actions.openRegion(item.region || '')}>
-              <Glyph name="globe" /><span>{item.region_label}{item.region_settled ? '' : '（推断）'}</span>
+              <Glyph name="globe" /><span>{item.region_label}{item.region_settled ? '' : '(inferred)'}</span>
             </button>
           ) : null}
         </div>
         {(item.medium || 'video') === 'video' && !online && !String(item.name || '').toLowerCase().endsWith('.iso')
-          ? <ExternalPlayback key={item.id} id={item.id} onOpened={() => actions.toast('已请求打开本地播放器')} /> : null}
+          ? <ExternalPlayback key={item.id} id={item.id} onOpened={() => actions.toast('Requested to open the local player')} /> : null}
         <Identity item={item} helpers={helpers} actions={actions} />
         <Tags item={item} write={write} helpers={helpers} actions={actions} />
         <LibraryCompletionPrompt assetIds={missingPreviewIds([item], helpers.javImage())}
           onComplete={() => { void queryClient.invalidateQueries({ queryKey: itemKey(item.id) }) }} />
         <Trace item={item} />
         <div data-stage-actions="" data-item-feedback="">
-          <button type="button" id="likeBtn" data-fb="like" aria-label={item.liked ? '取消喜欢' : '喜欢'} title="喜欢 · 记录口味偏好"
+          <button type="button" id="likeBtn" data-fb="like" aria-label={item.liked ? 'Unlike' : 'Like'} title="Like · records taste preference"
             aria-pressed={!!item.liked} {...busy('like')} onClick={() => write.preference({ liked: !item.liked })}><Glyph name="thumbs-up" /></button>
-          <button type="button" id="preferenceToggle" data-fb="reason" aria-label="喜爱理由" title="喜爱理由" aria-expanded={reasonOpen}
+          <button type="button" id="preferenceToggle" data-fb="reason" aria-label="Like reasons" title="Like reasons" aria-expanded={reasonOpen}
             aria-controls="preferencePanel" data-has-reason={String(!!item.like_reason)}
             onClick={() => setReasonOpen((open) => !open)}><Glyph name="notebook-pen" /></button>
-          <button type="button" data-stage-action="dislike" data-kind="dislike" aria-label="不合口味" title="不合口味 · 降低推荐权重"
+          <button type="button" data-stage-action="dislike" data-kind="dislike" aria-label="Not to taste" title="Not to taste · lowers recommendation weight"
             aria-pressed={item.feedback === 'dislike'} {...busy('dislike')} onClick={() => write.feedback('dislike')}><Glyph name="thumbs-down" /></button>
-          <button type="button" data-stage-action="seen" data-kind="seen" aria-label="看过了" title="看过了 · 只降低近期推荐"
+          <button type="button" data-stage-action="seen" data-kind="seen" aria-label="Watched" title="Watched · only lowers recent recommendations"
             aria-pressed={item.feedback === 'seen'} {...busy('seen')} onClick={() => write.feedback('seen')}><Glyph name="eye" /></button>
-          <button type="button" data-stage-action="later" id="stageLater" aria-label="稍后看" title="稍后看 · 加入或移出队列"
+          <button type="button" data-stage-action="later" id="stageLater" aria-label="Watch later" title="Watch later · add to or remove from the queue"
             aria-pressed={!!item.watch_later} {...busy('later')} onClick={write.later}><Glyph name={item.watch_later ? 'check' : 'bookmark-plus'} /></button>
-          <button type="button" id="addPlaylist" data-fb="playlist" aria-label="加入播放列表" title="加入播放列表"
+          <button type="button" id="addPlaylist" data-fb="playlist" aria-label="Add to playlist" title="Add to playlist"
             onClick={() => actions.addToPlaylist(item)}><Glyph name="playlist" /></button>
-          <button type="button" id="betterVersion" data-fb="quality" aria-label="寻找更好版本"
-            title={item.better_version ? (item.better_version_reason || '已标记寻找更好版本') : '寻找高清、无水印或完整版'}
+          <button type="button" id="betterVersion" data-fb="quality" aria-label="Find a better version"
+            title={item.better_version ? (item.better_version_reason || 'Marked to find a better version') : 'Find an HD, watermark-free or complete version'}
             aria-pressed={!!item.better_version} {...busy('quality')} onClick={write.quality}><Glyph name="sparkles" /></button>
-          <button type="button" data-kind="dispose" data-fb="dispose" aria-label="移入回收站" title="移入回收站 · 文件仍保留，可从回收站永久清除"
+          <button type="button" data-kind="dispose" data-fb="dispose" aria-label="Move to trash" title="Move to trash · the file is kept and can be permanently cleared from the trash"
             aria-pressed={item.disposal === 'trash'} {...busy('dispose')} onClick={() => write.feedback('dispose')}><Glyph name="trash" /></button>
         </div>
         <Preference item={item} open={reasonOpen} write={write} />
         <button type="button" data-kind="o" {...busy('o')} onClick={() => write.feedback('o')}>
-          <Glyph name="sperm" /><span>记一次高潮</span><b className="mono" id="oCount">{item.o_count || 0}</b>
+          <Glyph name="sperm" /><span>Log a climax</span><b className="mono" id="oCount">{item.o_count || 0}</b>
         </button>
       </div>
     </div>
@@ -451,7 +451,7 @@ function DetailTitle({ item, queue, helpers, actions, onStatus }: {
           dangerouslySetInnerHTML={{ __html: html }} />
         <span data-title-tools="">
           <button type="button" data-title-fold="" hidden={!foldable} aria-expanded={expanded}
-            aria-label={expanded ? '收起标题' : '展开标题'} title={expanded ? '收起标题' : '展开完整标题'} onClick={toggle}>
+            aria-label={expanded ? 'Collapse title' : 'Expand title'} title={expanded ? 'Collapse title' : 'Expand full title'} onClick={toggle}>
             <CollapseChevron />
           </button>
           {/* 取景框存的是坐标不是图片：存完重取这一条，封面地址没变，变的是接口给的 `poster_box`。
@@ -485,7 +485,7 @@ function SourceTools({ id, actions, onStatus }: { id: number; actions: ItemDetai
   const sync = async () => {
     if (busy) return;
     setBusy('sync');
-    onStatus('正在核对目录…');
+    onStatus('Checking folder…');
     const result = await actions.sync(id);
     onStatus(result.text);
     setBusy('');
@@ -493,10 +493,10 @@ function SourceTools({ id, actions, onStatus }: { id: number; actions: ItemDetai
   };
   return (
     <>
-      <button type="button" data-reveal={id} title="在文件管理器里打开源文件所在目录" aria-label="定位源文件"
+      <button type="button" data-reveal={id} title="Open the source file's folder in the file manager" aria-label="Locate source file"
         {...(busy === 'reveal' ? { 'aria-busy': true, 'aria-disabled': true } : {})} onClick={() => void reveal()}
-        dangerouslySetInnerHTML={{ __html: busy === 'reveal' ? spinnerHtml('正在定位') : icon('folder-open') }} />
-      <button type="button" data-sync={id} title="核对该目录：磁盘上已删除的移入 Peach 回收站，带个人记录的标为已消失" aria-label="同步删除"
+        dangerouslySetInnerHTML={{ __html: busy === 'reveal' ? spinnerHtml('Locating') : icon('folder-open') }} />
+      <button type="button" data-sync={id} title="Check this folder: files deleted from disk go to the Peach trash, and those with personal records are marked as missing" aria-label="Sync deletions"
         {...(busy === 'sync' ? { 'aria-busy': true, 'aria-disabled': true } : {})} onClick={() => void sync()}>
         <Glyph name="folder-sync" />
       </button>
@@ -508,7 +508,7 @@ function SourceTools({ id, actions, onStatus }: { id: number; actions: ItemDetai
 function Rating({ item, write }: { item: DetailItem; write: DetailWrite }) {
   const on = ratingStars(item.rating);
   return (
-    <div id="detailRating" role="group" data-item-rating="" aria-label="评分" data-value={clampRating(item.rating)}>
+    <div id="detailRating" role="group" data-item-rating="" aria-label="Rating" data-value={clampRating(item.rating)}>
       <RatingStars value={on} onRate={star => write.rate(star)}
         busyStar={[1, 2, 3, 4, 5].find(star => write.busy.has(`rate:${star}`))}
         busyAttrs={star => write.busyAttrs(`rate:${star}`)} />
@@ -537,21 +537,21 @@ function Identity({ item, actions }: { item: DetailItem; helpers: ItemDetailHelp
   const primary = [
     groups.unowned ? (
       <section key="unowned" data-id-group="unowned">
-        <h5 data-id-label="">归属</h5>
+        <h5 data-id-label="">Owner</h5>
         <div data-id-row="">
-          <button type="button" data-id-cell="unowned" data-open-unowned="" title="打开未归属：馆藏里没有署名人的作品"
+          <button type="button" data-id-cell="unowned" data-open-unowned="" title="Open Unassigned: library titles with no credited person"
             onClick={actions.openUnowned}>
-            <span data-id-face=""><Glyph name="user-round" /></span><span data-id-name="">未归属</span>
+            <span data-id-face=""><Glyph name="user-round" /></span><span data-id-name="">Unassigned</span>
           </button>
         </div>
       </section>
     ) : group(performerLabel(item), 'performer', groups.cast, overflow && !castOpen
       ? <Button variant="secondary" size="small" id="castMore" data-cast-more="" trailingIcon={RiArrowDownSLine}
-        aria-expanded={false} onClick={() => setCastOpen(true)}>还有 {overflow} 位</Button> : null),
-    group('厂牌', 'studio', groups.studios),
-    group('片商', 'studio', groups.makers),
-    group('卖家', 'creator', groups.creators.filter(ref => ref.identity_categories?.includes('seller'))),
-    group('创作者', 'creator', groups.creators.filter(ref => !ref.identity_categories?.includes('seller'))),
+        aria-expanded={false} onClick={() => setCastOpen(true)}>{overflow} more</Button> : null),
+    group('Studios', 'studio', groups.studios),
+    group('Maker', 'studio', groups.makers),
+    group('Sellers', 'creator', groups.creators.filter(ref => ref.identity_categories?.includes('seller'))),
+    group('Creators', 'creator', groups.creators.filter(ref => !ref.identity_categories?.includes('seller'))),
   ].filter(Boolean);
   return (
     <div data-item-identity="">
@@ -581,11 +581,11 @@ function Trace({ item }: { item: DetailItem }) {
   return (
     <div data-item-trace="">
       <div data-trace-metric="">
-        <div data-trace-label=""><span>离开位置</span><span id="ratioTxt">0%</span></div>
+        <div data-trace-label=""><span>Left at</span><span id="ratioTxt">0%</span></div>
         <div data-trace-bar=""><u id="watched" /><b id="mark" /></div>
       </div>
       <div data-trace-metric="">
-        <div data-trace-label=""><span>真实观看</span><span id="realTxt">{real == null ? '0%' : `${real.toFixed(0)}%`}</span></div>
+        <div data-trace-label=""><span>Real viewing</span><span id="realTxt">{real == null ? '0%' : `${real.toFixed(0)}%`}</span></div>
         {/* oxlint-disable-next-line shadcn/no-inline-styles -- 宽度是这一条看过的比例，之后由壳的遥测随上报改写 */}
         <div data-trace-bar=""><u id="realBar" data-trace-real="" style={real == null ? undefined : { width: `${real.toFixed(1)}%` }} /></div>
       </div>
@@ -602,13 +602,13 @@ function Preference({ item, open, write }: { item: DetailItem; open: boolean; wr
   const saving = write.busy.has('preference');
   return (
     <div id="preferencePanel" data-item-preference="" hidden={!open}>
-      <textarea ref={field} id="likeReason" maxLength={2000} placeholder="为什么喜欢？" value={reason}
+      <textarea ref={field} id="likeReason" maxLength={2000} placeholder="Why do you like it?" value={reason}
         onChange={(event) => setReason(event.target.value)} />
       <div data-preference-foot="">
         <span id="preferenceState" aria-live="polite">{write.preferenceState}</span>
-        <button type="button" className="geist-button primary" id="savePreference" data-save-preference="" title="提交喜爱理由" aria-label="提交喜爱理由"
+        <button type="button" className="geist-button primary" id="savePreference" data-save-preference="" title="Submit like reasons" aria-label="Submit like reasons"
           {...write.busyAttrs('preference')} onClick={() => write.preference({ reason })}
-          dangerouslySetInnerHTML={{ __html: saving ? `${spinnerHtml('正在提交喜爱理由')}<span>提交中</span>` : '<span>提交</span>' }} />
+          dangerouslySetInnerHTML={{ __html: saving ? `${spinnerHtml('Submitting like reasons')}<span>Submitting</span>` : '<span>Submit</span>' }} />
       </div>
     </div>
   );
@@ -629,7 +629,7 @@ function Related(props: ItemDetailProps & { item: DetailItem }) {
   const [skeleton] = useState(() => helpers.relatedSkeletonHtml());
   return (
     <RelatedSection wireDrag={helpers.wireDrag} busy={result.isPending} empty={result.data?.length === 0}
-      error={result.isError ? `读取接着看失败：${requestErrorMessage(result.error)}` : undefined}
+      error={result.isError ? `Couldn't load Up next: ${requestErrorMessage(result.error)}` : undefined}
       onRetry={() => { void result.refetch() }}>
         {result.data ? (
           <CatalogGridPage mode="items" variant="next" items={result.data} helpers={grid.helpers} actions={grid.actions}
@@ -692,14 +692,14 @@ function useDetailWrite(item: DetailItem, actions: ItemDetailActions, label: (ta
     busy, sourceState, setSourceState, preferenceState,
     busyAttrs: (name: string) => (busy.has(name) ? { 'aria-busy': true, 'aria-disabled': true } as const : {}),
 
-    rate: (star: number) => start(`rate:${star}`, '评分', async () => {
+    rate: (star: number) => start(`rate:${star}`, 'Rating', async () => {
       const before = current().rating || 0;
       const value = nextRating(before, star);
       await sendFeedback('rate', value);
-      actions.toast(value ? `已评 ${ratingStars(value)} 星` : '已取消评分', { undo: async () => { await sendFeedback('rate', before) } });
+      actions.toast(value ? `Rated ${ratingStars(value)} stars` : 'Rating removed', { undo: async () => { await sendFeedback('rate', before) } });
     }),
 
-    feedback: (kind: string) => start(kind, '操作', async () => {
+    feedback: (kind: string) => start(kind, 'Actions', async () => {
       const before = { feedback: current().feedback || null };
       const result = await sendFeedback(kind);
       actions.toast(feedbackReceipt(kind, result), {
@@ -716,21 +716,21 @@ function useDetailWrite(item: DetailItem, actions: ItemDetailActions, label: (ta
       if (kind === 'dispose') await actions.trashChanged(result.disposal || null, false);
     }),
 
-    later: () => start('later', '更新稍后看', async () => {
+    later: () => start('later', 'Update Watch later', async () => {
       const result = await post<{ watch_later: boolean }>(WATCH_LATER_URL, {});
       apply({ watch_later: result.watch_later });
-      actions.toast(result.watch_later ? '已加入稍后看' : '已移出稍后看', {
+      actions.toast(result.watch_later ? 'Added to Watch later' : 'Removed from Watch later', {
         undo: async () => { apply({ watch_later: (await post<{ watch_later: boolean }>(WATCH_LATER_URL, {})).watch_later }) },
       });
     }),
 
-    quality: () => start('quality', '更新版本需求', async () => {
+    quality: () => start('quality', 'Update version needs', async () => {
       const before = { wanted: !!current().better_version, reason: current().better_version_reason || '' };
       type Goal = { better_version: boolean; better_version_reason?: string };
       const paint = (goal: Goal) => apply({ better_version: goal.better_version, better_version_reason: goal.better_version_reason || '' });
       const result = await post<Goal>(QUALITY_GOAL_URL, { wanted: !before.wanted });
       paint(result);
-      actions.toast(result.better_version ? '已标记寻找更好版本' : '已取消寻找更好版本', {
+      actions.toast(result.better_version ? 'Marked to find a better version' : 'Stopped finding a better version', {
         undo: async () => { paint(await post<Goal>(QUALITY_GOAL_URL, before)) },
       });
     }),
@@ -738,33 +738,33 @@ function useDetailWrite(item: DetailItem, actions: ItemDetailActions, label: (ta
     /* 喜欢与理由是同一条偏好：点喜欢键只改 `liked`，提交理由时有字就算喜欢。 */
     preference: ({ liked, reason }: { liked?: boolean; reason?: string }) => {
       const name = liked === undefined ? 'preference' : 'like';
-      start(name, '保存喜欢偏好', async () => {
+      start(name, 'Save like preference', async () => {
         const before = { liked: !!current().liked, reason: current().like_reason || '' };
         const text = reason ?? before.reason;
         const wanted = liked ?? (before.liked || text.trim().length > 0);
         type Preference = { liked: boolean; like_reason?: string };
         const paint = (result: Preference) => apply({ liked: result.liked, like_reason: result.like_reason || '' });
-        setPreferenceState('保存中…');
+        setPreferenceState('Saving…');
         try {
           paint(await post<Preference>(PREFERENCE_URL, { liked: wanted, reason: text }));
         } catch (error) {
-          setPreferenceState('保存失败 · 请重试');
+          setPreferenceState('Save failed · try again');
           throw error;
         }
-        setPreferenceState('已保存');
-        setTimeout(() => setPreferenceState((now) => (now === '已保存' ? '' : now)), 1400);
+        setPreferenceState('Saved');
+        setTimeout(() => setPreferenceState((now) => (now === 'Saved' ? '' : now)), 1400);
         const saved = current();
-        actions.toast(saved.liked ? '已保存喜欢偏好' : '已取消喜欢', {
+        actions.toast(saved.liked ? 'Like preference saved' : 'Unliked', {
           undo: async () => { paint(await post<Preference>(PREFERENCE_URL, before)) },
         });
       });
     },
 
-    removeTag: (tag: DetailTag) => start(`tag:${tag.k}`, '删除标签', async () => {
+    removeTag: (tag: DetailTag) => start(`tag:${tag.k}`, 'Delete tag', async () => {
       const result = await post<{ ok?: boolean }>(ITEM_TAG_URL, { operation: 'remove', tag: tag.k });
-      if (!result.ok) throw new Error('标签未删除');
+      if (!result.ok) throw new Error('Tag not deleted');
       apply((now) => withoutTag(now, tag.k));
-      actions.toast(`已删除标签「${label(tag.k)}」`, {
+      actions.toast(`Deleted tag “${label(tag.k)}”`, {
         undo: async () => {
           await post(ITEM_TAG_URL, { operation: 'add', tag: tag.k });
           apply((now) => withTag(now, tag));
@@ -775,17 +775,17 @@ function useDetailWrite(item: DetailItem, actions: ItemDetailActions, label: (ta
     addTag: (raw: string) => {
       const tag = raw.trim();
       if (!tag) return;
-      start(`add:${tag}`, '添加标签', async () => {
+      start(`add:${tag}`, 'Add tag', async () => {
         const result = await post<{ ok?: boolean; tag?: string }>(ITEM_TAG_URL, { operation: 'add', tag });
         if (!result.ok) return;
         const canonical = result.tag || tag;
         if (hasTag(current(), canonical)) {
-          actions.toast(`标签「${label(canonical)}」已存在`);
+          actions.toast(`Tag “${label(canonical)}” already exists`);
           return;
         }
         apply((now) => withTag(now, { k: canonical, cat: 'general' }));
         rememberTag(canonical);
-        actions.toast(`已添加标签「${label(canonical)}」`, {
+        actions.toast(`Added tag “${label(canonical)}”`, {
           undo: async () => {
             await post(ITEM_TAG_URL, { operation: 'remove', tag: canonical });
             apply((now) => withoutTag(now, canonical));

@@ -37,13 +37,13 @@ export function PeachProxy({ initial, receipt }: { initial: PeachProxyState; rec
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     void action.run('save', (signal) => apiSend<PeachProxyState>('/api/configuration/peach-proxy', { mode, proxy: address }, 'POST', signal),
-      (next) => { setSaved(next); setAddress(''); receipt('已保存配置'); });
+      (next) => { setSaved(next); setAddress(''); receipt('Settings saved'); });
   };
 
   return (
-    <Section id="peachProxy" title="Peach 代理" onSubmit={submit}>
+    <Section id="peachProxy" title="Peach proxy" onSubmit={submit}>
       <Rows>
-        <SettingsRow label="连接方式">
+        <SettingsRow label="Connection method">
           <ProxyModeSelect mode={mode} onChange={setMode} />
         </SettingsRow>
       </Rows>
@@ -52,12 +52,12 @@ export function PeachProxy({ initial, receipt }: { initial: PeachProxyState; rec
           {mode === 'proxy'
             ? <ProxyAddressField id="peachProxyAddress" value={address} onChange={setAddress} saved={saved.proxy_saved} />
             : null}
-          {saved.needs_selection ? <Note tone="warning" title="需要选择连接方式">已有来源的代理地址不同，请选择公共连接方式。</Note> : null}
+          {saved.needs_selection ? <Note tone="warning" title="Choose a connection method">Existing sources use different proxy addresses; choose a shared connection method.</Note> : null}
           {action.error ? <ErrorText>{action.error}</ErrorText> : null}
         </Stack>
       ) : null}
       <Footer>
-        <Button type="submit" {...busyProps(action.busy === 'save')}>保存配置</Button>
+        <Button type="submit" {...busyProps(action.busy === 'save')}>Save settings</Button>
       </Footer>
     </Section>
   );

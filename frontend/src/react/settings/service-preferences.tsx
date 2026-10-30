@@ -22,10 +22,10 @@ import {
 import { ErrorText, Help, Rows, Section, Stack, TaskCenterLink } from './section';
 import { busyProps } from './use-action';
 
-const THUMBNAIL_OPTIONS = [['off', '关闭'], ['precise', '每 10 秒一张'], ['coarse', '每 30 秒一张']] as const;
+const THUMBNAIL_OPTIONS = [['off', 'Close'], ['precise', 'One every 10 s'], ['coarse', 'One every 30 s']] as const;
 
 export function VideoThumbnailRow({ epoch = 0 }: { epoch?: number }) {
-  return <Section title="时间轴缩略图"><VideoThumbnailControls epoch={epoch} /></Section>;
+  return <Section title="Timeline thumbnails"><VideoThumbnailControls epoch={epoch} /></Section>;
 }
 
 export function VideoThumbnailControls({ epoch = 0, disabled = false }: { epoch?: number; disabled?: boolean }) {
@@ -38,9 +38,9 @@ export function VideoThumbnailControls({ epoch = 0, disabled = false }: { epoch?
   return (
     <>
       <Rows>
-        <SettingsRow label="时间轴预览" description="按所选间隔抽帧，仅处理本机磁盘上的视频。">
+        <SettingsRow label="Timeline previews" description="Samples frames at the chosen interval; only videos on local disks are processed.">
           <div id="videoThumbnailSetting">
-            <Select aria-label="缩略图采集间隔" selectedKey={data?.mode || 'off'}
+            <Select aria-label="Thumbnail sampling interval" selectedKey={data?.mode || 'off'}
               isDisabled={disabled || !data || status.isFetching || save.isPending}
               onSelectionChange={(key) => { if (key !== null) save.mutate(String(key)) }}>
               {THUMBNAIL_OPTIONS.map(([key, label]) => <SelectItem key={key} id={key}>{label}</SelectItem>)}
@@ -50,7 +50,7 @@ export function VideoThumbnailControls({ epoch = 0, disabled = false }: { epoch?
       </Rows>
       {save.isPending || data?.status === 'running'
         ? <Stack divided>
-            <Help role="status">{save.isPending ? '正在保存…' : '正在采集。'}</Help>
+            <Help role="status">{save.isPending ? 'Saving…' : 'Sampling.'}</Help>
             {save.isPending ? null : <TaskCenterLink />}
           </Stack>
         : null}
@@ -67,28 +67,28 @@ export function FollowPreferenceRows({ receipt }: { receipt(message: string): vo
   const initialDays = settings.data?.followInitialDays ?? store.value.followInitialDays;
   const error = initial.error || settings.error;
   return (
-    <Section title="关注采集">
+    <Section title="Follow scraping">
       <Rows>
         <FollowScheduleRow />
         <FeedScheduleRow />
-        <SettingsRow label="首次采集范围">
+        <SettingsRow label="Initial scrape range">
           <div id="followInitialDaysSetting">
-            <Select aria-label="首次采集范围" selectedKey={String(initialDays)}
+            <Select aria-label="Initial scrape range" selectedKey={String(initialDays)}
               isDisabled={settings.isFetching || initial.isPending}
               onSelectionChange={(key) => {
                 if (key === null) return;
                 initial.mutate({ followInitialDays: Number(key) }, { onSuccess: (saved) => {
                   if (typeof saved.followInitialDays === 'number') store.value.followInitialDays = saved.followInitialDays;
                   store.save();
-                  receipt('已保存首次采集范围');
+                  receipt('Initial scrape range saved');
                 } });
               }}>
               {FOLLOW_INITIAL_RANGE_OPTIONS.map(([key, label]) => <SelectItem key={key} id={key}>{label}</SelectItem>)}
             </Select>
           </div>
         </SettingsRow>
-        <SettingsRow label="头像刷新">每 3 个月</SettingsRow>
-        <SettingsRow label="favicon 刷新">每年</SettingsRow>
+        <SettingsRow label="Avatar refresh">Every 3 months</SettingsRow>
+        <SettingsRow label="Favicon refresh">Yearly</SettingsRow>
       </Rows>
       {error ? <Stack divided><ErrorText>{errorMessage(error)}</ErrorText></Stack> : null}
     </Section>
@@ -122,28 +122,28 @@ function FollowScheduleRow() {
   const error = save.error || status.error;
   return (
     <>
-      <SettingsRow label="自动检查更新">
+      <SettingsRow label="Check for updates automatically">
         {/* 间隔框只在开着时出现；这一行按有框的高度留位，读回状态时下面几行不跟着动。 */}
         <div id="followScheduleSetting" className="flex min-h-9 min-w-0 flex-wrap items-center justify-end gap-2">
-          <Switch aria-label="自动检查更新" isSelected={data?.enabled === true} isDisabled={blocked}
+          <Switch aria-label="Check for updates automatically" isSelected={data?.enabled === true} isDisabled={blocked}
             onChange={(on) => {
               localStorage.setItem('peach.number.followScheduleSetting', String(remembered.current));
               save.mutate(on ? remembered.current : 0);
             }} />
           {data?.enabled ? <div className="flex items-center gap-2">
             <Input type="number" inputMode="numeric" name="follow-interval" autoComplete="off"
-              aria-label="自动检查间隔" className="w-24"
+              aria-label="Auto-check interval" className="w-24"
               value={draft} onChange={(value) => { setDraft(value); setInvalid(false) }} onBlur={commit}
               onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); commit() } }}
               isDisabled={blocked} isInvalid={invalid} />
-            <span className="text-body-2-regular text-text-secondary">分钟</span>
+            <span className="text-body-2-regular text-text-secondary">min</span>
           </div> : null}
         </div>
       </SettingsRow>
-      {invalid ? <Stack><ErrorText>请输入 15–10080 的整数（分钟）。</ErrorText></Stack> : null}
+      {invalid ? <Stack><ErrorText>Enter a whole number from 15 to 10080 (minutes).</ErrorText></Stack> : null}
       {save.isPending || data?.running
-        ? <Stack><Help role="status">{save.isPending ? '正在保存…' : '正在检查来源更新…'}</Help></Stack> : null}
-      <ScheduleFailure kind="follow" status={data} title="上次自动检查失败" />
+        ? <Stack><Help role="status">{save.isPending ? 'Saving…' : 'Checking sources for updates…'}</Help></Stack> : null}
+      <ScheduleFailure kind="follow" status={data} title="Last auto-check failed" />
       {error ? <Stack><ErrorText>{errorMessage(error)}</ErrorText></Stack> : null}
     </>
   );
@@ -156,20 +156,20 @@ function FeedScheduleRow() {
   const data = status.data;
   /* 首次读取时先占住这一行：读数回来再填字，下面的行不往下跳。 */
   if (!data) {
-    return status.isPending ? <SettingsRow label="订阅源拉取">
-      <span data-skeleton aria-busy="true" aria-label="正在读取订阅源拉取间隔"
+    return status.isPending ? <SettingsRow label="Feed fetching">
+      <span data-skeleton aria-busy="true" aria-label="Loading feed fetch interval"
         className="block h-4 w-16 rounded-2lg bg-background-tertiary-default" />
     </SettingsRow> : null;
   }
   const minutes = data.interval_minutes;
-  const interval = minutes % 60 ? `每 ${minutes} 分钟` : `每 ${minutes / 60} 小时`;
+  const interval = minutes % 60 ? `Every ${minutes} min` : `Every ${minutes / 60} h`;
   return (
     <>
-      <SettingsRow label="订阅源拉取">
-        <span id="feedScheduleSetting">{!data.available ? '只在写入端可用' : data.enabled ? interval : '已关闭'}</span>
+      <SettingsRow label="Feed fetching">
+        <span id="feedScheduleSetting">{!data.available ? 'Only available on the writer' : data.enabled ? interval : 'Off'}</span>
       </SettingsRow>
-      {data.running ? <Stack><Help role="status">正在拉取订阅源…</Help></Stack> : null}
-      <ScheduleFailure kind="feed" status={data} title="上次自动拉取失败" />
+      {data.running ? <Stack><Help role="status">Fetching feeds…</Help></Stack> : null}
+      <ScheduleFailure kind="feed" status={data} title="Last auto-fetch failed" />
     </>
   );
 }
@@ -183,14 +183,14 @@ function ScheduleFailure({ kind, status, title }: {
   if (!status?.enabled || status.running || !status.last_error) return null;
   const failures = status.consecutive_failures ?? 0;
   const next = momentText(status.next_run_at);
-  const detail = [failures > 1 ? `已连续失败 ${failures} 次` : '', next ? `下一轮 ${next}` : '']
-    .filter(Boolean).join('，');
-  const reason = [status.last_error, detail, run.error ? `没有重试：${errorMessage(run.error)}` : '']
+  const detail = [failures > 1 ? `Failed ${failures} times in a row` : '', next ? `Next round ${next}` : '']
+    .filter(Boolean).join(', ');
+  const reason = [status.last_error, detail, run.error ? `Not retrying: ${errorMessage(run.error)}` : '']
     .filter(Boolean).join('\n');
   return (
     <Stack>
       <Note tone="error" title={title} action={<Button variant="secondary" size="small"
-        disabled={!status.available} {...busyProps(run.isPending)} onClick={() => run.mutate()}>立即重试</Button>}>
+        disabled={!status.available} {...busyProps(run.isPending)} onClick={() => run.mutate()}>Retry now</Button>}>
         {reason}
       </Note>
     </Stack>

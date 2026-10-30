@@ -41,7 +41,7 @@ import {
   type AmaneBridge, type Check, type CoverJob, type ScrapingData, type Source,
 } from './scraping';
 
-const NETWORKS = [['peach', 'Peach 代理'], ['direct', '直接连接']] as const;
+const NETWORKS = [['peach', 'Peach proxy'], ['direct', 'Direct connection']] as const;
 
 /** 连接方式的选项。数据库里存着这两种以外的值（旧版写下的、手改的）时把它原样列成一项，
  *  下拉框照实显示现在是什么，不落到空占位上。 */
@@ -57,7 +57,7 @@ export function linkHost(url: string): string {
     return url;
   }
 }
-const COOKIE_METHODS = [['paste', '粘贴 Cookie'], ['file', '导入文件']] as const;
+const COOKIE_METHODS = [['paste', 'Paste cookie'], ['file', 'Import file']] as const;
 
 function GitHubMark() {
   return <SiteMark source="github" />;
@@ -95,7 +95,7 @@ function SourceCard({ source, toast }: { source: Source } & ScrapingProps) {
           (row) => (row.source === result.saved.source ? result.saved : row)),
       });
       forgetSecrets();
-      toast(revoke ? 'Cookie 已撤销' : '来源设置已保存');
+      toast(revoke ? 'Cookie revoked' : 'Source settings saved');
     },
   });
   const check = useMutation({
@@ -134,7 +134,7 @@ function SourceCard({ source, toast }: { source: Source } & ScrapingProps) {
       // 超限的多半根本不是 Cookie 文件。在浏览器里就拦住，不拿它去占一次请求。
       input.value = '';
       setFileName('');
-      setFileProblem('Cookie 文本超过 256 KiB');
+      setFileProblem('Cookie text exceeds 256 KiB');
       return;
     }
     try {
@@ -142,7 +142,7 @@ function SourceCard({ source, toast }: { source: Source } & ScrapingProps) {
       setCookieText(text);
       setFileName(selected.name);
     } catch {
-      setFileProblem('Cookie 文件未读取，请重新选择');
+      setFileProblem('Cookie file not read; choose it again');
     }
   }
 
@@ -161,37 +161,37 @@ function SourceCard({ source, toast }: { source: Source } & ScrapingProps) {
       </span>
     }>
       <Rows>
-        <SettingsRow label="连接方式">
+        <SettingsRow label="Connection method">
           {/* 定宽：数据库里的长取值按内容撑宽会把左边的「连接方式」挤成竖排，定宽后取值在框里截断。 */}
-          <Select aria-label="连接方式" className="w-44 min-w-0" selectedKey={network}
+          <Select aria-label="Connection method" className="w-44 min-w-0" selectedKey={network}
             onSelectionChange={(key) => { if (key !== null) setNetwork(String(key)) }}>
             {networkOptions(network).map(([key, name]) => <SelectItem key={key} id={key}>{name}</SelectItem>)}
           </Select>
         </SettingsRow>
       </Rows>
       {source.cooldown_until && source.cooldown_until > Date.now() / 1000 ? (
-        <Note tone="warning"><span className="inline-flex flex-wrap items-center gap-2"><StatusLabel tone="warning">冷却中</StatusLabel><span>可在 {new Date(source.cooldown_until * 1000).toLocaleString('zh-CN')} 后重试。</span></span></Note>
+        <Note tone="warning"><span className="inline-flex flex-wrap items-center gap-2"><StatusLabel tone="warning">Cooling down</StatusLabel><span>You can retry after {new Date(source.cooldown_until * 1000).toLocaleString('en-US')}.</span></span></Note>
       ) : null}
       {detailed ? <Stack divided>
         {network === 'peach'
           ? <span className="self-start">
               <LinkButton href="/settings/library#peachProxy" size="small" trailingIcon={RiArrowRightLine}>
-                配置 Peach 代理
+                Set up Peach proxy
               </LinkButton>
             </span>
           : null}
         {/* 由本机浏览器过验证的来源不收 Cookie：浏览器自己带着会话。留着「撤销 Cookie」让人清掉旧的。 */}
         {source.browser
           ? <p className="text-body-2-regular text-text-secondary">
-              人机验证由本机浏览器自动完成；需要点击时窗口会弹出。这台机器上不需要 Cookie。
+              Human verification is completed automatically by the local browser; a window pops up when a click is needed. No cookie is needed on this machine.
             </p>
           : null}
         {source.accepts_cookie && !source.browser ? <>
-          <div className="flex flex-col gap-2"><span className="self-start"><StatusLabel tone={source.cookie_saved ? 'success' : 'neutral'}>{source.cookie_saved ? 'Cookie 已保存' : 'Cookie 未配置'}</StatusLabel></span>
-            <p className="text-body-2-regular text-text-secondary">{source.cookie_saved ? '登录有效性待验证。' : '需要登录时，任选一种方式提供 Cookie。'}</p></div>
+          <div className="flex flex-col gap-2"><span className="self-start"><StatusLabel tone={source.cookie_saved ? 'success' : 'neutral'}>{source.cookie_saved ? 'Cookie saved' : 'Cookie not configured'}</StatusLabel></span>
+            <p className="text-body-2-regular text-text-secondary">{source.cookie_saved ? 'Sign-in validity not yet verified.' : 'When sign-in is required, provide the cookie in either way.'}</p></div>
           {/* 两种方式互斥，交上去的只能是其中一种：切换时把另一种的输入清掉，
               不让看不见的那一份跟着提交。 */}
-          <RadioGroup aria-label="提供 Cookie 的方式（二选一）" value={method}
+          <RadioGroup aria-label="How to provide the cookie (choose one)" value={method}
             onChange={(next) => { setMethod(next); forgetSecrets() }}
             className={SEGMENTED_TRACK}>
             {COOKIE_METHODS.map(([value, label]) => (
@@ -203,11 +203,11 @@ function SourceCard({ source, toast }: { source: Source } & ScrapingProps) {
           {method === 'paste'
             ? <Input type="password" label="Cookie" autoComplete="off" value={cookie} onChange={setCookie} />
             : <div className="flex flex-col gap-2">
-                <FieldLabel>Netscape Cookie 文件（.txt）</FieldLabel>
+                <FieldLabel>Netscape cookie file (.txt)</FieldLabel>
                 <div className="flex flex-wrap items-center gap-3">
-                  <Button variant="secondary" onClick={() => file.current?.click()}>选择文件</Button>
+                  <Button variant="secondary" onClick={() => file.current?.click()}>Choose file</Button>
                   <span className="min-w-0 text-body-2-regular break-all text-text-secondary">
-                    {fileName || '未选择文件'}
+                    {fileName || 'No file chosen'}
                   </span>
                 </div>
                 {/* 原生文件选择器长相不可控，按钮归 BoardUI，输入框只留着接文件。 */}
@@ -218,7 +218,7 @@ function SourceCard({ source, toast }: { source: Source } & ScrapingProps) {
         {problem ? <ErrorText>{problem}</ErrorText> : null}
         {results.map((result) => (
           <Note key={result.label} tone={result.ok ? 'success' : 'error'}>
-            <span className="flex flex-col items-start gap-1"><ConnectionStatus tone={result.ok ? 'success' : 'error'}>{result.ok ? '可访问' : '连接失败'}</ConnectionStatus><span>{checkText(result, source.label)}</span></span>
+            <span className="flex flex-col items-start gap-1"><ConnectionStatus tone={result.ok ? 'success' : 'error'}>{result.ok ? 'Accessible' : 'Connection failed'}</ConnectionStatus><span>{checkText(result, source.label)}</span></span>
           </Note>
         ))}
       </Stack> : null}
@@ -226,10 +226,10 @@ function SourceCard({ source, toast }: { source: Source } & ScrapingProps) {
           表单里只有它一个 `type=submit`，所以挪位置不影响回车提交。 */}
       <Footer>
         {source.accepts_cookie && source.cookie_saved
-          ? <Button variant="secondary" onClick={revoke} {...busyProps(busy)}>撤销 Cookie</Button>
+          ? <Button variant="secondary" onClick={revoke} {...busyProps(busy)}>Revoke cookie</Button>
           : null}
-        <Button variant="secondary" onClick={connect} {...busyProps(busy)}>检查连接</Button>
-        <Button type="submit" {...busyProps(busy)}>保存</Button>
+        <Button variant="secondary" onClick={connect} {...busyProps(busy)}>Check connection</Button>
+        <Button type="submit" {...busyProps(busy)}>Save</Button>
       </Footer>
     </Section>
   );
@@ -243,7 +243,7 @@ function CoverCard({ toast }: ScrapingProps) {
     queryFn: ({ signal }) => fetchCoverJob(signal),
     start: () => apiSend<CoverJob>(SCRAPING_COVER_URL, { code }),
     onFinish: (state) => {
-      if (state.status === 'complete') toast(state.result || '封面采集完成');
+      if (state.status === 'complete') toast(state.result || 'Cover fetch finished');
     },
   });
 
@@ -254,25 +254,25 @@ function CoverCard({ toast }: ScrapingProps) {
   };
 
   const problem = start.error ? errorMessage(start.error)
-    : outcome?.status === 'failed' ? (outcome.error || '采集未取得') : '';
+    : outcome?.status === 'failed' ? (outcome.error || 'Fetch not obtained') : '';
   return (
-    <Section title="高清封面" onSubmit={submit}>
+    <Section title="HD cover" onSubmit={submit}>
       <Stack>
         <div className="flex flex-wrap items-end gap-2">
           <div className="min-w-0 flex-1">
-            <Input aria-label="馆藏番号" isRequired isDisabled={running} value={code} onChange={setCode}
-              placeholder="输入馆藏番号，如 ABW-232" />
+            <Input aria-label="Library code" isRequired isDisabled={running} value={code} onChange={setCode}
+              placeholder="Enter a library code, e.g. ABW-232" />
           </div>
           <Button type="submit" disabled={!code.trim()} {...busyProps(running || start.isPending)}>
-            抓取封面
+            Fetch cover
           </Button>
         </div>
         {/* 这一趟要挨个问几家站点、还可能走代理，没有可数的总量，也不能编一个百分比出来。
             关掉页面它照样在跑，回来能接上，所以状态得留在页面上，而不是只让按钮转一下。 */}
-        {running ? <LoadingDots label="正在抓取封面" /> : null}
+        {running ? <LoadingDots label="Fetching cover" /> : null}
         {problem ? <Note tone="error">{problem}</Note> : null}
         {outcome?.status === 'complete'
-          ? <Note tone="success">{outcome.result || '封面采集完成'}</Note>
+          ? <Note tone="success">{outcome.result || 'Cover fetch finished'}</Note>
           : null}
       </Stack>
     </Section>
@@ -290,7 +290,7 @@ function AmaneBridgeCard({ toast }: ScrapingProps) {
     jobOf: (card) => card.job,
     withJob: (card, started) => card && { ...card, job: started },
     onFinish: (state) => {
-      if (state.status === 'complete') toast(state.result || 'amane 桥已重建');
+      if (state.status === 'complete') toast(state.result || 'amane bridge rebuilt');
     },
   });
   const check = useMutation({
@@ -307,38 +307,38 @@ function AmaneBridgeCard({ toast }: ScrapingProps) {
   const busy = running || rebuild.isPending || check.isPending;
   const problem = rebuild.error ? errorMessage(rebuild.error)
     : check.error ? errorMessage(check.error)
-    : outcome?.status === 'failed' ? (outcome.error || '重建未完成') : '';
+    : outcome?.status === 'failed' ? (outcome.error || 'Rebuild didn\'t finish') : '';
   return (
     <Section id="amane" title="amane" aside={<ExternalLink href={data.repository} leadingIcon={GitHubMark}>{data.repository}</ExternalLink>}>
       <FactList>
-        <Fact term="已安装版本">{data.installed_version || '未安装'}</Fact>
-        <Fact term="上游最新版本">{check.data?.latest ?? '尚未检查'}</Fact>
-        <Fact term="运行环境">{data.installed ? '已安装' : '未安装'}</Fact>
-        <Fact term="内置站点">{data.sites.length.toLocaleString()} 个</Fact>
+        <Fact term="Installed version">{data.installed_version || 'Not installed'}</Fact>
+        <Fact term="Latest upstream version">{check.data?.latest ?? 'Not checked yet'}</Fact>
+        <Fact term="Runtime environment">{data.installed ? 'Installed' : 'Not installed'}</Fact>
+        <Fact term="Built-in sites">{data.sites.length.toLocaleString()}</Fact>
       </FactList>
       <Stack divided>
         {data.sites.length
-          ? <Disclosure summary="查看内置站点">
-              <p className="text-body-2-regular text-text-secondary">{data.sites.map((site) => site.label).join('、')}</p>
+          ? <Disclosure summary="View built-in sites">
+              <p className="text-body-2-regular text-text-secondary">{data.sites.map((site) => site.label).join(', ')}</p>
             </Disclosure>
           : null}
         {data.problem
           ? <Note tone="error">{data.problem}</Note>
           : <Help>
-              amane（{data.license}）提供这些内置站点的解析能力。首次需要时，Peach 会自动准备锁定的 {data.version} 版本；安装包内已有可用环境时直接使用。
-              手动安装也使用此版本，不随上游自动升级。
+              amane ({data.license}) provides parsing for these built-in sites. When first needed, Peach automatically prepares the pinned {data.version} version; if the installer already includes a usable environment, it is used directly.
+              Manual installs also use this version and don't upgrade automatically with upstream.
             </Help>}
-        {running ? <LoadingDots label="正在重建运行环境" /> : null}
+        {running ? <LoadingDots label="Rebuilding runtime environment" /> : null}
         {problem ? <Note tone="error">{problem}</Note> : null}
-        {outcome?.status === 'complete' ? <Note tone="success">{outcome.result || 'amane 桥已重建'}</Note> : null}
+        {outcome?.status === 'complete' ? <Note tone="success">{outcome.result || 'amane bridge rebuilt'}</Note> : null}
       </Stack>
       <Footer>
         <Button variant="secondary" onClick={() => { if (!busy) check.mutate() }} {...busyProps(check.isPending)}>
-          检查上游版本
+          Check upstream version
         </Button>
         <Button disabled={Boolean(data.problem)} onClick={() => { if (!busy) rebuild.mutate() }}
           {...busyProps(running || rebuild.isPending)}>
-          {data.installed ? '重新安装' : '安装'}
+          {data.installed ? 'Reinstall' : 'Install'}
         </Button>
       </Footer>
     </Section>
@@ -351,15 +351,15 @@ export function ScrapingPage({ toast }: ScrapingProps) {
   if (!data) {
     return (
       <Page>
-        <Note tone="error" title="采集来源读取失败">
-          {sources.error ? errorMessage(sources.error) : '读取采集来源失败'}
+        <Note tone="error" title="Couldn't load scraping sources">
+          {sources.error ? errorMessage(sources.error) : 'Failed to load scraping sources'}
         </Note>
       </Page>
     );
   }
   return (
     <Page>
-      <p className="text-body-2-regular text-text-secondary">高清图片可能要经代理才能下载，先检查连接。</p>
+      <p className="text-body-2-regular text-text-secondary">HD images may need a proxy to download; check the connection first.</p>
       <CoverCard toast={toast} />
       <CustomSources receipt={toast} />
       {(data.sources || []).map(

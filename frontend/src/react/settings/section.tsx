@@ -108,7 +108,7 @@ export function ExternalLink({ href, children, leadingIcon }: {
 export function TaskCenterLink() {
   return (
     <LinkButton href="/tasks" size="small" trailingIcon={RiArrowRightLine} className="self-start">
-      在任务中心查看进度
+      View progress in the task center
     </LinkButton>
   );
 }

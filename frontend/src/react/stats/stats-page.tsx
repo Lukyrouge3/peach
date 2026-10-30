@@ -43,7 +43,7 @@ import {
 } from './stats';
 
 /** 空馆藏与没有存储来源时「添加媒体」去的那一栏设置。 */
-const MEDIA_SETTINGS = settingsPath('媒体库与入库');
+const MEDIA_SETTINGS = settingsPath('Media libraries and import');
 
 /** 收起时露这么多条排行。三十条一次铺开会把下面两个面板整个顶到屏外。 */
 const RANKING_PREVIEW = 10;
@@ -54,16 +54,16 @@ const VIEWING_COLOR = CHART_COLORS[4];
 
 const CARD = `${cardClass()} flex flex-col gap-4`;
 
-const NO_VIDEO_HINT = '添加媒体目录或关注来源后，这里会显示馆藏统计。';
-const NO_TAG_HINT = '补全资料或添加标签后，这里会显示馆藏中的内容标签。';
-const NO_WATCH_HINT = '开始播放后，这里会显示最近的真实观看证据。';
-const NO_TAG_SOURCE_HINT = '补充作品资料或手动添加标签后，这里会显示各个标签来源对应的视频数量。';
-const NO_VOLUME_HINT = '添加媒体目录后，这里会显示存储空间。';
-const NO_LIBRARY_HINT = '把媒体目录归进媒体库后，这里会按库显示视频数。';
-const NO_LENGTH_HINT = '探测时长后，这里会显示时长分布。';
-const NO_QUALITY_HINT = '探测画质后，这里会显示画质分布。';
-const NO_PLAY_TIME_HINT = '开始播放后，这里会显示播放落在一周的哪些时段。';
-const NO_REPLAY_HINT = '开始播放后，这里会显示每个作品播了几次。';
+const NO_VIDEO_HINT = 'After you add a media folder or follow source, library stats show up here.';
+const NO_TAG_HINT = 'After you fill in metadata or add tags, the library\'s content tags show up here.';
+const NO_WATCH_HINT = 'Once you start playing, recent real viewing evidence shows up here.';
+const NO_TAG_SOURCE_HINT = 'After you add title metadata or tag manually, the video count for each tag source shows up here.';
+const NO_VOLUME_HINT = 'After you add a media folder, storage shows up here.';
+const NO_LIBRARY_HINT = 'After you assign media folders to libraries, video counts per library show up here.';
+const NO_LENGTH_HINT = 'After durations are probed, the duration distribution shows up here.';
+const NO_QUALITY_HINT = 'After quality is probed, the quality distribution shows up here.';
+const NO_PLAY_TIME_HINT = 'Once you start playing, the times of week you watch show up here.';
+const NO_REPLAY_HINT = 'Once you start playing, how many times each title was played shows up here.';
 
 /** 进度条的读数：超出总数时按满格画，读屏值也不越过上限。 */
 const within = (value: number, max: number) => Math.min(Math.max(value, 0), max);
@@ -93,7 +93,7 @@ function Coverage({ term, value, total }: { term: string; value: Count; total: n
             : null}
         </b>
       </p>
-      <Progress label={`${term}：${fmtCount(value)} / ${total.toLocaleString()}`}
+      <Progress label={`${term}: ${fmtCount(value)} / ${total.toLocaleString()}`}
         value={known(value) ? within(value, max) : 0} max={max} />
     </div>
   );
@@ -127,10 +127,10 @@ function InventoryDetail({ data }: { data: StatsData } & StatsProps) {
   const videos = data.by_loc.reduce((sum, row) => sum + row.videos, 0);
   if (!videos) {
     return (
-      <EmptyState icon={RiVideoLine} title="还没有视频" actions={
+      <EmptyState icon={RiVideoLine} title="No videos yet" actions={
         <>
-          <ButtonLink variant="secondary" href="/subscriptions?tab=add" size="small">添加关注</ButtonLink>
-          <ButtonLink variant="primary" href={MEDIA_SETTINGS} size="small">添加媒体</ButtonLink>
+          <ButtonLink variant="secondary" href="/subscriptions?tab=add" size="small">Add follows</ButtonLink>
+          <ButtonLink variant="primary" href={MEDIA_SETTINGS} size="small">Add media</ButtonLink>
         </>
       }>{NO_VIDEO_HINT}</EmptyState>
     );
@@ -138,17 +138,17 @@ function InventoryDetail({ data }: { data: StatsData } & StatsProps) {
   return (
     <div className="flex flex-col gap-5">
       <div className="inline-grid w-full gap-5 md:grid-cols-2">
-        <RadialCard title="网盘与本地" empty={NO_VIDEO_HINT} rows={data.by_loc.map((row) => (
+        <RadialCard title="Cloud and local" empty={NO_VIDEO_HINT} rows={data.by_loc.map((row) => (
           { name: LOC[row.k] ?? row.k, value: row.videos, bytes: row.bytes, mark: MEDIA_SOURCE_ICONS[row.k] || 'database' }))} />
-        <RadialCard title="媒体库" empty={NO_LIBRARY_HINT} rows={data.by_library.map((row) => (
+        <RadialCard title="Media library" empty={NO_LIBRARY_HINT} rows={data.by_library.map((row) => (
           { name: row.name, value: row.videos, bytes: row.bytes, mark: MEDIA_SOURCE_ICONS[row.icon] || row.icon || 'database' }))} />
       </div>
       <div className="inline-grid w-full gap-5 md:grid-cols-2 xl:grid-cols-3">
-        <BarCard title="时长" unit="个视频" series="视频" color={INVENTORY_COLOR}
+        <BarCard title="Duration" unit="videos" series="Videos" color={INVENTORY_COLOR}
           rows={lengthRows(data.by_length)} empty={NO_LENGTH_HINT} />
-        <BarCard title="画质" unit="个视频" series="视频" color={INVENTORY_COLOR}
+        <BarCard title="Quality" unit="videos" series="Videos" color={INVENTORY_COLOR}
           rows={bandRows(data.by_quality)} empty={NO_QUALITY_HINT} />
-        <BarCard title="文件类型" unit="个条目" series="条目" color={INVENTORY_COLOR} layout="horizontal"
+        <BarCard title="File type" unit="entries" series="Entry" color={INVENTORY_COLOR} layout="horizontal"
           rows={mediumRows(data.by_medium)} empty={NO_VIDEO_HINT} />
       </div>
     </div>
@@ -159,9 +159,9 @@ function InventoryDetail({ data }: { data: StatsData } & StatsProps) {
 function ViewingCharts({ data }: { data: StatsData }) {
   return (
     <>
-      <ActivityHeat activity={data.play_activity} title="播放时间" dailyTitle="每日播放"
-        words={{ unit: '个作品', series: '作品', cellUnit: '个作品' }} tone={5} empty={NO_PLAY_TIME_HINT} />
-      <BarCard title="播放次数" unit="个作品" series="作品" color={VIEWING_COLOR}
+      <ActivityHeat activity={data.play_activity} title="Playback time" dailyTitle="Daily plays"
+        words={{ unit: 'titles', series: 'Works', cellUnit: 'titles' }} tone={5} empty={NO_PLAY_TIME_HINT} />
+      <BarCard title="Play count" unit="titles" series="Works" color={VIEWING_COLOR}
         rows={replayRows(data.replays)} empty={NO_REPLAY_HINT} />
     </>
   );
@@ -171,11 +171,11 @@ function CoverageDetail({ attribution }: { attribution: Attribution }) {
   const videos = attribution.videos;
   return (
     <div className="flex flex-col">
-      <Coverage term="有创作者" value={attribution.creator} total={videos} />
-      <Coverage term="有番号" value={attribution.code} total={videos} />
-      <Coverage term="有厂牌" value={attribution.studio} total={videos} />
-      <Coverage term="已抽帧" value={attribution.thumb} total={videos} />
-      <Coverage term="已探测时长" value={attribution.duration} total={videos} />
+      <Coverage term="Has creator" value={attribution.creator} total={videos} />
+      <Coverage term="Has code" value={attribution.code} total={videos} />
+      <Coverage term="Has studio" value={attribution.studio} total={videos} />
+      <Coverage term="Frames sampled" value={attribution.thumb} total={videos} />
+      <Coverage term="Duration probed" value={attribution.duration} total={videos} />
     </div>
   );
 }
@@ -194,15 +194,15 @@ function VolumeRow({ volume }: { volume: StorageVolume }) {
             {fmtSize(used)}
             <span className="ml-1.5 text-caption-1-regular text-text-secondary">{percentText(used, total)}</span>
           </b>
-        ) : volume.online ? <StatusLabel>容量未取得</StatusLabel> : <ConnectionStatus online={false} />}
+        ) : volume.online ? <StatusLabel>Capacity not obtained</StatusLabel> : <ConnectionStatus online={false} />}
       </header>
       {total != null
-        ? <Progress label={`${volume.label}空间使用率`} value={within(used, Math.max(total, 1))} max={Math.max(total, 1)} />
+        ? <Progress label={`${volume.label} space usage`} value={within(used, Math.max(total, 1))} max={Math.max(total, 1)} />
         : null}
       <p className="flex justify-between gap-3 text-caption-1-regular text-text-secondary">
-        <span className="min-w-0 break-words">{volume.root ?? '未映射'}</span>
+        <span className="min-w-0 break-words">{volume.root ?? 'Not mapped'}</span>
         {total != null
-          ? <span className="whitespace-nowrap tabular-nums">{`可用 ${fmtSize(volume.free ?? 0)} · 共 ${fmtSize(total)}`}</span>
+          ? <span className="whitespace-nowrap tabular-nums">{`${fmtSize(volume.free ?? 0)} free · ${fmtSize(total)} total`}</span>
           : null}
       </p>
     </article>
@@ -212,8 +212,8 @@ function VolumeRow({ volume }: { volume: StorageVolume }) {
 function StorageDetail({ volumes }: { volumes: StorageVolume[] } & StatsProps) {
   if (!volumes.length) {
     return (
-      <EmptyState icon={RiHardDrive2Line} title="还没有存储来源" actions={
-        <ButtonLink variant="primary" href={MEDIA_SETTINGS} size="small">添加媒体</ButtonLink>
+      <EmptyState icon={RiHardDrive2Line} title="No storage sources yet" actions={
+        <ButtonLink variant="primary" href={MEDIA_SETTINGS} size="small">Add media</ButtonLink>
       }>{NO_VOLUME_HINT}</EmptyState>
     );
   }
@@ -227,8 +227,8 @@ function StorageDetail({ volumes }: { volumes: StorageVolume[] } & StatsProps) {
 function TagRanking({ tags, tagLabel, onTag, hasMedia }: { tags: TopTag[]; hasMedia: boolean } & StatsProps) {
   if (!tags.length) {
     return (
-      <EmptyState icon={RiPriceTag3Line} title="还没有内容标签"
-        actions={<ButtonLink variant="secondary" href={hasMedia ? '/data-cleanup' : '/settings/library'} size="small">{hasMedia ? '补全资料' : '添加媒体'}</ButtonLink>}>{NO_TAG_HINT}</EmptyState>
+      <EmptyState icon={RiPriceTag3Line} title="No content tags yet"
+        actions={<ButtonLink variant="secondary" href={hasMedia ? '/data-cleanup' : '/settings/library'} size="small">{hasMedia ? 'Complete metadata' : 'Add media'}</ButtonLink>}>{NO_TAG_HINT}</EmptyState>
     );
   }
   return (
@@ -251,8 +251,8 @@ function TagRanking({ tags, tagLabel, onTag, hasMedia }: { tags: TopTag[]; hasMe
 function RecentWatches({ rows, hasMedia }: { rows: RecentPlay[]; hasMedia: boolean }) {
   if (!rows.length) {
     return (
-      <EmptyState icon={RiHistoryLine} title="还没有观看记录"
-        actions={<ButtonLink variant="secondary" href={hasMedia ? '/' : '/settings/library'} size="small">{hasMedia ? '浏览馆藏' : '添加媒体'}</ButtonLink>}>{NO_WATCH_HINT}</EmptyState>
+      <EmptyState icon={RiHistoryLine} title="No watch history yet"
+        actions={<ButtonLink variant="secondary" href={hasMedia ? '/' : '/settings/library'} size="small">{hasMedia ? 'Browse library' : 'Add media'}</ButtonLink>}>{NO_WATCH_HINT}</EmptyState>
     );
   }
   return (
@@ -272,9 +272,9 @@ function RecentWatches({ rows, hasMedia }: { rows: RecentPlay[]; hasMedia: boole
               </p>
             </div>
             <div className="min-w-0 basis-40">
-              <Progress label={`真实观看 ${real.toFixed(0)}%`} value={real} />
+              <Progress label={`${real.toFixed(0)}% real viewing`} value={real} />
               <small className="mt-1.5 block text-caption-1-regular text-text-secondary">
-                {`真实 ${real.toFixed(0)}% · 到达 ${reachedShare(row).toFixed(0)}%`}
+                {`${real.toFixed(0)}% real · ${reachedShare(row).toFixed(0)}% reached`}
               </small>
             </div>
           </article>
@@ -287,8 +287,8 @@ function RecentWatches({ rows, hasMedia }: { rows: RecentPlay[]; hasMedia: boole
 function TagSources({ sources, videos }: { sources: TagSource[]; videos: number }) {
   if (!sources.length) {
     return (
-      <EmptyState icon={RiPriceTag3Line} title="还没有标签来源"
-        actions={<ButtonLink variant="secondary" href={videos ? '/data-cleanup' : '/settings/library'} size="small">{videos ? '补全资料' : '添加媒体'}</ButtonLink>}>{NO_TAG_SOURCE_HINT}</EmptyState>
+      <EmptyState icon={RiPriceTag3Line} title="No tag sources yet"
+        actions={<ButtonLink variant="secondary" href={videos ? '/data-cleanup' : '/settings/library'} size="small">{videos ? 'Complete metadata' : 'Add media'}</ButtonLink>}>{NO_TAG_SOURCE_HINT}</EmptyState>
     );
   }
   return (
@@ -299,12 +299,12 @@ function TagSources({ sources, videos }: { sources: TagSource[]; videos: number 
             <h3 className="min-w-0 text-body-2-medium break-words text-text-primary">{source.k}</h3>
             <b className="text-body-2-medium whitespace-nowrap text-text-primary">
               {source.assets.toLocaleString()}
-              <small className="ml-1 text-caption-1-regular font-normal text-text-secondary">个视频</small>
+              <small className="ml-1 text-caption-1-regular font-normal text-text-secondary">videos</small>
             </b>
           </header>
-          <Progress label={`${source.k} 覆盖视频`} value={within(source.assets, Math.max(videos, 1))}
+          <Progress label={`Videos covered by ${source.k}`} value={within(source.assets, Math.max(videos, 1))}
             max={Math.max(videos, 1)} />
-          <small className="text-caption-1-regular text-text-secondary">{source.n.toLocaleString()} 条标签</small>
+          <small className="text-caption-1-regular text-text-secondary">{source.n.toLocaleString()} tags</small>
         </article>
       ))}
     </div>
@@ -329,7 +329,7 @@ export function StatsPage(props: StatsProps) {
   if (!data) {
     return (
       <Page>
-        <Note tone="error" title="馆藏统计读取失败">{stats.error ? errorMessage(stats.error) : '未取得统计数据，请刷新页面重试。'}</Note>
+        <Note tone="error" title="Couldn't load library stats">{stats.error ? errorMessage(stats.error) : 'Stats not obtained; refresh the page and try again.'}</Note>
       </Page>
     );
   }
@@ -337,48 +337,48 @@ export function StatsPage(props: StatsProps) {
   const storage = data.storage_summary;
   const videos = data.by_loc.reduce((sum, row) => sum + row.videos, 0);
   const bytes = data.by_loc.reduce((sum, row) => sum + row.bytes, 0);
-  const coverage = known(data.tag_cov) ? percentText(data.tag_cov, data.attribution.videos) : '未取得';
+  const coverage = known(data.tag_cov) ? percentText(data.tag_cov, data.attribution.videos) : 'Not obtained';
   const covered = `${fmtCount(data.tag_cov)} / ${data.attribution.videos.toLocaleString()}`;
   return (
     <Page>
       <p className="text-caption-1-regular text-text-secondary">
-        {`数据库中的当前统计 · ${videos.toLocaleString()} 个视频 · ${fmtSize(bytes)}`}
+        {`Current database stats · ${videos.toLocaleString()} videos · ${fmtSize(bytes)}`}
       </p>
       <Tabs defaultSelectedKey="inventory" className="flex flex-col gap-4">
-        <TabList aria-label="统计视图" className={STAT_STRIP}>
-          <MetricTab id="inventory" label="馆藏视频" icon={RiDatabase2Line} accent={0}
+        <TabList aria-label="Stats views" className={STAT_STRIP}>
+          <MetricTab id="inventory" label="Library videos" icon={RiDatabase2Line} accent={0}
             figure={videos.toLocaleString()} detail={fmtSize(bytes)} />
-          <MetricTab id="viewing" label="看过" icon={RiEyeLine} accent={1}
+          <MetricTab id="viewing" label="Watched" icon={RiEyeLine} accent={1}
             figure={fmtCount(consumption.played)} detail={playedFor(consumption.play_seconds)} />
-          <MetricTab id="coverage" label="内容标签" icon={RiPriceTag3Line} accent={2}
+          <MetricTab id="coverage" label="Content tags" icon={RiPriceTag3Line} accent={2}
             figure={coverage} detail={covered} />
-          <MetricTab id="storage" label="使用空间" icon={RiHardDrive2Line} accent={3}
-            figure={`${storage.online.toLocaleString()} 个卷`}
-            detail={storage.measured ? `已用 ${fmtSize(storage.used)}` : '容量未取得'} />
+          <MetricTab id="storage" label="Space used" icon={RiHardDrive2Line} accent={3}
+            figure={`${storage.online.toLocaleString()} volumes`}
+            detail={storage.measured ? `${fmtSize(storage.used)} used` : 'Capacity not obtained'} />
         </TabList>
         <TabPanel id="inventory"><InventoryDetail data={data} {...props} /></TabPanel>
         <TabPanel id="viewing" className="flex flex-col gap-5">
-          <Detail headline={<Headline term="观看" figure={fmtCount(consumption.played)} unit="个作品有播放记录" />}>
+          <Detail headline={<Headline term="Viewing" figure={fmtCount(consumption.played)} unit="titles with play history" />}>
             <div className="inline-grid w-full gap-3 sm:grid-cols-2">
-              <Fact term="馆藏观看" value={consumption.library_played} />
-              <Fact term="在线直接观看" value={consumption.online_played} />
-              <Fact term="高潮计数" value={consumption.o_total} />
-              <Fact term="快进扫过" value={consumption.skimmed} />
-              <Fact term="喜欢" value={consumption.liked} />
-              <Fact term="明确不喜欢" value={consumption.dislike} />
-              <Fact term="看过了" value={consumption.seen} />
-              <Fact term="回收站" value={consumption.trash} />
+              <Fact term="Library viewing" value={consumption.library_played} />
+              <Fact term="Watched online directly" value={consumption.online_played} />
+              <Fact term="Climax count" value={consumption.o_total} />
+              <Fact term="Skimmed" value={consumption.skimmed} />
+              <Fact term="Like" value={consumption.liked} />
+              <Fact term="Explicitly disliked" value={consumption.dislike} />
+              <Fact term="Watched" value={consumption.seen} />
+              <Fact term="Trash" value={consumption.trash} />
             </div>
           </Detail>
           <ViewingCharts data={data} />
         </TabPanel>
         <TabPanel id="coverage">
-          <Detail headline={<Headline term="内容标签覆盖" figure={coverage} unit={covered} />}>
+          <Detail headline={<Headline term="Content tag coverage" figure={coverage} unit={covered} />}>
             <CoverageDetail attribution={data.attribution} />
           </Detail>
         </TabPanel>
         <TabPanel id="storage">
-          <Detail headline={<Headline term="使用空间" figure={storage.measured.toLocaleString()} unit="个卷已取得容量" />}>
+          <Detail headline={<Headline term="Space used" figure={storage.measured.toLocaleString()} unit="volumes with known capacity" />}>
             <StorageDetail volumes={data.storage_volumes} {...props} />
           </Detail>
         </TabPanel>
@@ -386,10 +386,10 @@ export function StatsPage(props: StatsProps) {
       {/* 旧 `.insightpanel`：整块一张 16px 的填充卡，页签是卡内顶上那条分段控件。 */}
       <Tabs defaultSelectedKey="tags" className={`${cardClass({ padding: 'none' })} flex flex-col`}>
         <div className="px-4 pt-3">
-          <SegmentedTabList aria-label="统计维度" className={SEGMENTED_TRACK}>
-            <Tab id="tags" className={SEGMENT}>内容标签</Tab>
-            <Tab id="recent" className={SEGMENT}>最近看过</Tab>
-            <Tab id="sources" className={SEGMENT}>标签来源</Tab>
+          <SegmentedTabList aria-label="Stats dimensions" className={SEGMENTED_TRACK}>
+            <Tab id="tags" className={SEGMENT}>Content tags</Tab>
+            <Tab id="recent" className={SEGMENT}>Recently watched</Tab>
+            <Tab id="sources" className={SEGMENT}>Tag sources</Tab>
           </SegmentedTabList>
         </div>
         <TabPanel id="tags" className="px-4 pt-3.5 pb-4"><TagRanking tags={data.top_tags} hasMedia={videos > 0} {...props} /></TabPanel>

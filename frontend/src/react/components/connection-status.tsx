@@ -22,6 +22,6 @@ export function ConnectionStatus({ online, tone, children }: {
     data-connection-tone={color}
     className={cx('inline-flex items-center gap-1.5 whitespace-nowrap text-body-2-medium', TEXT[color])}>
     <StatusDot color={color === 'success' ? 'green' : color === 'warning' ? 'yellow' : 'indigo'} />
-    {children ?? (online === true ? '在线' : online === false ? '离线' : '未检测')}
+    {children ?? (online === true ? 'Online' : online === false ? 'Offline' : 'Not checked')}
   </span>;
 }

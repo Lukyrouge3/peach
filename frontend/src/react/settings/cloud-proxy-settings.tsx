@@ -25,7 +25,7 @@ interface Account {
 }
 interface Library { name: string; root: string; location: string }
 interface ProxyList { accounts: Account[]; unlinked?: Library[]; configured?: boolean }
-const options = [['direct', '直连'], ['system', '跟随系统'], ['http', 'HTTP 代理'], ['socks5', 'SOCKS5 代理']] as const;
+const options = [['direct', 'Direct'], ['system', 'System'], ['http', 'HTTP proxy'], ['socks5', 'SOCKS5 proxy']] as const;
 
 export function CloudProxySettings({ receipt }: { receipt(message: string): void }) {
   const [state, setState] = useState<ProxyList | null>(null);
@@ -39,7 +39,7 @@ export function CloudProxySettings({ receipt }: { receipt(message: string): void
     dirty.current.clear();
     setState(result);
     setLoading(false);
-  }, cause => { setLoading(false); action.setError(cause instanceof Error ? cause.message : '无法读取网盘代理'); }); };
+  }, cause => { setLoading(false); action.setError(cause instanceof Error ? cause.message : 'Can\'t read cloud drive proxy'); }); };
   refreshRef.current = refresh;
   useEffect(() => {
     refreshRef.current();
@@ -54,17 +54,17 @@ export function CloudProxySettings({ receipt }: { receipt(message: string): void
     rememberShape('cloudProxy', { configured: state.configured !== false, unlinked: state.unlinked?.length ?? 0,
       accounts: state.accounts.map(account => [proxied(account.data), proxied(account.api)]) });
   }, [state]);
-  if (loading) return <SectionSkeleton label="正在读取网盘代理" html={cloudProxySkeleton} />;
-  return <Section title="CloudDrive 代理">
+  if (loading) return <SectionSkeleton label="Loading cloud drive proxy" html={cloudProxySkeleton} />;
+  return <Section title="CloudDrive proxy">
     <Stack>
       <Help>{CLOUD_PROXY_HELP}</Help>
       <div className="flex min-w-0 flex-col gap-4">
-      {action.error ? <Note tone="error" title="没有读取配置">{action.error} <LinkButton href="/settings/downloads" size="small">下载设置</LinkButton></Note> : null}
-      {state?.configured === false ? <Help>填写 CloudDrive2 地址和 API 令牌后，在这里设置各网盘账号的代理。 <LinkButton href="/settings/downloads" size="small">下载设置</LinkButton></Help>
-        : state?.accounts.length === 0 && !state.unlinked?.length ? <Help>还没有使用 CloudDrive 的媒体库。</Help> : null}
+      {action.error ? <Note tone="error" title="Settings not loaded">{action.error} <LinkButton href="/settings/downloads" size="small">Download settings</LinkButton></Note> : null}
+      {state?.configured === false ? <Help>After you enter the CloudDrive2 URL and API token, set the proxy for each cloud account here. <LinkButton href="/settings/downloads" size="small">Download settings</LinkButton></Help>
+        : state?.accounts.length === 0 && !state.unlinked?.length ? <Help>No media libraries use CloudDrive yet.</Help> : null}
       {state?.unlinked?.map(library => <div key={library.root} className="flex min-w-0 flex-col gap-1">
         <FieldLabel><span className="inline-flex items-center gap-2"><SourceMark mark={sourceMark(library.location)} />{library.name}</span></FieldLabel>
-        <Help>尚未匹配 CloudDrive 账号</Help>
+        <Help>No CloudDrive account matched yet</Help>
       </div>)}
       {state?.accounts.map(account => <ProxyAccount key={account.id + account.revision} initial={account} receipt={receipt}
         onDirty={() => dirty.current.add(account.id)} onSaving={pending => {
@@ -74,7 +74,7 @@ export function CloudProxySettings({ receipt }: { receipt(message: string): void
         onSaved={next => { dirty.current.delete(next.id); setState(current => current ? { ...current, accounts: current.accounts.map(row => row.id === next.id ? next : row) } : current); }} />)}
       </div>
     </Stack>
-    <Footer><Button variant="secondary" disabled={writing} onClick={refresh} {...busyProps(action.busy === 'refresh')}>重新读取</Button></Footer>
+    <Footer><Button variant="secondary" disabled={writing} onClick={refresh} {...busyProps(action.busy === 'refresh')}>Reload</Button></Footer>
   </Section>;
 }
 
@@ -83,7 +83,7 @@ function ProxyAccount({ initial, receipt, onDirty, onSaved, onSaving }: {
 }) {
   const [account, setAccount] = useState(initial);
   const [changed, setChanged] = useState<string[]>([]);
-  const name = account.libraries?.map(library => library.name).join('、') || account.name;
+  const name = account.libraries?.map(library => library.name).join(', ') || account.name;
   const action = useAction();
   const edit = (key: 'api' | 'data', value: ProxyValue) => {
     setAccount(current => ({ ...current, [key]: value }));
@@ -98,17 +98,17 @@ function ProxyAccount({ initial, receipt, onDirty, onSaved, onSaving }: {
       ...(changed.includes('api') ? { api: account.api } : {}),
       ...(changed.includes('data') ? { data: account.data } : {}),
     }, 'POST', signal), result => {
-      setAccount(result); setChanged([]); onSaved(result); receipt('已保存 CloudDrive 代理');
+      setAccount(result); setChanged([]); onSaved(result); receipt('CloudDrive proxy saved');
     }).finally(() => onSaving(false));
   };
-  return <form aria-label={`${name} 代理`} onSubmit={submit} className="flex min-w-0 flex-col gap-4 border-t border-separator-border pt-4">
+  return <form aria-label={`${name} proxy`} onSubmit={submit} className="flex min-w-0 flex-col gap-4 border-t border-separator-border pt-4">
     <FieldLabel><span className="inline-flex items-center gap-2"><SourceMark mark={sourceMark(account.libraries?.[0]?.location || (account.cloud === '115open' ? '115' : account.cloud.toLowerCase()))} />{name}</span></FieldLabel>
     <Help>{account.name} · {account.path}</Help>
-    <ProxyEditor label="数据代理" value={account.data} disabled={!account.writable || Boolean(action.busy)} onChange={value => edit('data', value)} />
-    <ProxyEditor label="API 代理" value={account.api} disabled={!account.writable || Boolean(action.busy)} onChange={value => edit('api', value)} />
-    {!account.writable ? <Help>API 令牌需要“修改云盘”权限才能保存。</Help> : null}
-    {action.error ? <Note tone="error" title="没有保存">{action.error}</Note> : null}
-    <div className="flex justify-end"><Button type="submit" disabled={!account.writable || !changed.length} {...busyProps(action.busy === 'save')}>保存配置</Button></div>
+    <ProxyEditor label="Data proxy" value={account.data} disabled={!account.writable || Boolean(action.busy)} onChange={value => edit('data', value)} />
+    <ProxyEditor label="API proxy" value={account.api} disabled={!account.writable || Boolean(action.busy)} onChange={value => edit('api', value)} />
+    {!account.writable ? <Help>The API token needs the “Modify cloud drive” permission to save.</Help> : null}
+    {action.error ? <Note tone="error" title="Not saved">{action.error}</Note> : null}
+    <div className="flex justify-end"><Button type="submit" disabled={!account.writable || !changed.length} {...busyProps(action.busy === 'save')}>Save settings</Button></div>
   </form>;
 }
 
@@ -120,22 +120,22 @@ function ProxyEditor({ label, value, disabled, onChange }: {
     <FieldLabel>{label}</FieldLabel>
     <Select aria-label={label} selectedKey={value.mode} isDisabled={disabled}
       onSelectionChange={key => { if (key) onChange({ ...value, mode: String(key) as Mode }); }}>
-      {value.mode === 'unknown' ? <SelectItem id="unknown">无法识别的代理类型</SelectItem> : null}
+      {value.mode === 'unknown' ? <SelectItem id="unknown">Unrecognized proxy type</SelectItem> : null}
       {options.map(([id, name]) => <SelectItem key={id} id={id}>{name}</SelectItem>)}
     </Select>
     {proxy ? <>
       <div className="flex flex-wrap gap-3">
-        <Input className="min-w-40 flex-1" label={`${label}地址`} value={value.host} autoComplete="off" isDisabled={disabled}
+        <Input className="min-w-40 flex-1" label={`${label} host`} value={value.host} autoComplete="off" isDisabled={disabled}
           onChange={host => onChange({ ...value, host })} />
-        <Input className="w-full sm:w-28" label={`${label}端口`} value={value.port ? String(value.port) : ''} inputMode="numeric" isDisabled={disabled}
+        <Input className="w-full sm:w-28" label={`${label} port`} value={value.port ? String(value.port) : ''} inputMode="numeric" isDisabled={disabled}
           onChange={port => onChange({ ...value, port: Number(port) })} />
       </div>
-      <Disclosure summary="代理认证">
-        <Input label={`${label}用户名`} value={value.username} autoComplete="off" isDisabled={disabled} onChange={username => onChange({ ...value, username })} />
-        <Input label={`${label}密码`} type="password" value={value.password || ''} autoComplete="new-password" isDisabled={disabled}
-          placeholder={value.password_set ? '已保存，留空不改' : '可选'} onChange={password => onChange({ ...value, password })} />
+      <Disclosure summary="Proxy authentication">
+        <Input label={`${label} username`} value={value.username} autoComplete="off" isDisabled={disabled} onChange={username => onChange({ ...value, username })} />
+        <Input label={`${label} password`} type="password" value={value.password || ''} autoComplete="new-password" isDisabled={disabled}
+          placeholder={value.password_set ? 'Saved; leave empty to keep' : 'Optional'} onChange={password => onChange({ ...value, password })} />
         {value.password_set ? <Checkbox isSelected={Boolean(value.clear_password)} isDisabled={disabled}
-          onChange={clear_password => onChange({ ...value, clear_password })}>清除已保存的密码</Checkbox> : null}
+          onChange={clear_password => onChange({ ...value, clear_password })}>Clear saved password</Checkbox> : null}
       </Disclosure>
     </> : null}
   </div>;

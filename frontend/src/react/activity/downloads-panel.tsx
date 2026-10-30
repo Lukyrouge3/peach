@@ -49,15 +49,15 @@ const taskName = (task: DownloadTask) => {
   const { title } = javTitleParts({
     is_jav: Boolean(code), code, name: task.display_title ?? task.title ?? task.display_name ?? task.remote_name,
   });
-  return [code, title].filter(Boolean).join(' · ') || `磁力 ${task.info_hash?.slice(0, 8) ?? task.id}`;
+  return [code, title].filter(Boolean).join(' · ') || `Magnet ${task.info_hash?.slice(0, 8) ?? task.id}`;
 };
 
 export const failureText = (task: DownloadTask) =>
-  task.failure_label ? [task.failure_label, task.failure_detail].filter(Boolean).join('：') : '';
+  task.failure_label ? [task.failure_label, task.failure_detail].filter(Boolean).join(': ') : '';
 
 const postprocessDetail = (task: DownloadTask) => (task.postprocess_detail || '')
-  .replace('正片已绑定', '已确认主视频对应的作品')
-  .replace('整理跳过：', '未整理文件：');
+  .replace('正片已绑定', 'Confirmed the title matching the main video')
+  .replace('整理跳过：', 'Files not organized:');
 
 export function DownloadsPanel() {
   const id = useId();
@@ -74,7 +74,7 @@ export function DownloadsPanel() {
   if (!tasks.length && !query.error) return null;
   return (
     <section id="cloudDownloads" aria-labelledby={id} className="flex min-w-0 flex-col gap-3">
-      <h3 id={id} className="text-title-2-medium text-text-primary">云下载</h3>
+      <h3 id={id} className="text-title-2-medium text-text-primary">Cloud download</h3>
       {query.error ? <Note tone="error">{errorMessage(query.error)}</Note> : null}
       {tasks.length
         ? <ul aria-live="polite" className="flex min-w-0 flex-col gap-3">
@@ -84,7 +84,7 @@ export function DownloadsPanel() {
       {query.hasNextPage ? <Button variant="secondary" size="small" leadingIcon={RiArrowDownSLine}
         className="self-start" {...busyProps(query.isFetchingNextPage)} onClick={() => {
           if (!query.isFetching) void query.fetchNextPage();
-        }}>加载更多</Button> : null}
+        }}>Load more</Button> : null}
     </section>
   );
 }
@@ -98,12 +98,12 @@ function TaskCard({ task, writable }: { task: DownloadTask; writable: boolean })
   const titleId = useId();
   /* 还在对账的任务没有失败分类：暂时性故障只记下原因、退避后再查，底栏照样把它读出来。 */
   const reason = failureText(task)
-    || (task.cancellable && task.failure_detail ? `稍后自动重试 · ${task.failure_detail}` : '');
+    || (task.cancellable && task.failure_detail ? `Retrying automatically later · ${task.failure_detail}` : '');
   const artwork = task.artwork;
   const people = artwork?.performer_entities || [];
   const detailHref = task.state === 'ingested' && task.asset_id ? `/assets/${task.asset_id}` : undefined;
   const failed = task.state === 'failed' || task.postprocess_state === 'failed';
-  const meta = [task.display_code || task.code ? '' : '番号未识别', task.target, momentText(task.submitted_at)]
+  const meta = [task.display_code || task.code ? '' : 'Code not recognized', task.target, momentText(task.submitted_at)]
     .filter(Boolean).join(' · ');
   const refresh = () => { void client.invalidateQueries({ queryKey: DOWNLOADS_KEY }) };
 
@@ -133,10 +133,10 @@ function TaskCard({ task, writable }: { task: DownloadTask; writable: boolean })
         <div data-download-cover="" data-media-pic=""
           style={{ '--card-ratio': String(COVER_FRONT_RATIO) } as CSSProperties}
           className="w-20 shrink-0 self-start text-caption-1-regular text-text-secondary sm:w-32">
-          {!artwork?.has_cover ? <span data-media-nopic="">无封面</span> : null}
+          {!artwork?.has_cover ? <span data-media-nopic="">No cover</span> : null}
           {artwork?.has_cover ? <ArtSlot artwork={{ kind: 'cover', html: coverImage(artwork, 'big') }}
             relayout={(root) => relayoutCovers(root, 'big')} /> : null}
-          {detailHref ? <a data-download-cover-link="" href={detailHref} aria-label={`打开作品详情：${taskName(task)}`}
+          {detailHref ? <a data-download-cover-link="" href={detailHref} aria-label={`Open title details: ${taskName(task)}`}
             className="absolute inset-0 z-1 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-border-focus-ring" /> : null}
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-1.5">
@@ -157,14 +157,14 @@ function TaskCard({ task, writable }: { task: DownloadTask; writable: boolean })
         {people.length ? <div className="flex min-w-0 items-center gap-2">
           <div className="flex shrink-0 items-center gap-1">
             {people.slice(0, 3).map((person) => <a key={person.id || person.name} data-media-avatar=""
-              href={entityPath('performer', person.name, person.id)} aria-label={`打开女优页：${entityDisplayName('performer', person.name, person.id)}`} title={entityDisplayName('performer', person.name, person.id)}
+              href={entityPath('performer', person.name, person.id)} aria-label={`Open actress page: ${entityDisplayName('performer', person.name, person.id)}`} title={entityDisplayName('performer', person.name, person.id)}
               dangerouslySetInnerHTML={{ __html: avatarInner(person.name, person, null) }} />)}
           </div>
           <span className="min-w-0 truncate text-caption-1-regular text-text-secondary"
-            title={people.map((person) => entityDisplayName('performer', person.name, person.id)).join('、')}>{people.map((person) => entityDisplayName('performer', person.name, person.id)).join('、')}{(artwork?.performer_total || 0) > people.length ? ` 等 ${artwork!.performer_total} 人` : ''}</span>
+            title={people.map((person) => entityDisplayName('performer', person.name, person.id)).join(', ')}>{people.map((person) => entityDisplayName('performer', person.name, person.id)).join(', ')}{(artwork?.performer_total || 0) > people.length ? ` +${artwork!.performer_total} more` : ''}</span>
         </div> : null}
         {task.state === 'remote_running' && task.progress != null
-          ? <Progress label="远端下载进度" value={Math.round(task.progress * 100)} max={100} />
+          ? <Progress label="Remote download progress" value={Math.round(task.progress * 100)} max={100} />
           : null}
         {task.ledger_path
           ? <p className="min-w-0 truncate text-caption-1-regular text-text-secondary" title={task.ledger_path}>{task.ledger_path}</p>
@@ -173,19 +173,19 @@ function TaskCard({ task, writable }: { task: DownloadTask; writable: boolean })
         {/* 辅助的（看标题、抄磁力）靠左，改动这条任务的靠右，最右是这张卡此刻的主动作。 */}
         <div data-download-actions="" className="flex flex-wrap items-center gap-2 pt-1 sm:mt-auto">
           <Button variant="ghost" size="small" aria-expanded={fullTitle} aria-controls={fullTitle ? titleId : undefined}
-            onClick={() => setFullTitle(!fullTitle)}>{fullTitle ? '收起标题' : '展开标题'}</Button>
-          <Button variant="ghost" size="small" onClick={copy}>{copied ? '已复制磁力' : '复制磁力'}</Button>
+            onClick={() => setFullTitle(!fullTitle)}>{fullTitle ? 'Collapse title' : 'Expand title'}</Button>
+          <Button variant="ghost" size="small" onClick={copy}>{copied ? 'Magnet copied' : 'Copy magnet'}</Button>
           {writable && (task.cancellable || task.resubmittable || task.postprocess_retryable)
             ? <div className="ml-auto flex flex-wrap items-center gap-2">
                 {task.cancellable
-                  ? <Button variant="secondary" size="small" {...busyProps(action.busy === 'cancel')} onClick={cancel}>取消</Button>
+                  ? <Button variant="secondary" size="small" {...busyProps(action.busy === 'cancel')} onClick={cancel}>Cancel</Button>
                   : null}
                 {task.resubmittable
-                  ? <Button variant="secondary" size="small" {...busyProps(action.busy === 'resubmit')} onClick={resubmit}>重新提交</Button>
+                  ? <Button variant="secondary" size="small" {...busyProps(action.busy === 'resubmit')} onClick={resubmit}>Resubmit</Button>
                   : null}
                 {task.postprocess_retryable
                   ? <Button variant="secondary" size="small" {...busyProps(action.busy === 'postprocess')}
-                      onClick={retryPostprocess}>重试入库后整理</Button>
+                      onClick={retryPostprocess}>Retry organizing after import</Button>
                   : null}
               </div>
             : null}

@@ -40,7 +40,7 @@ import { busyProps, useAction } from '../settings/use-action';
 
 /* 中文正文写成常量：JSX 里换行的文字会在接缝处多出一个空格，中文句子里看得见。
    卡片正文与首屏骨架共用 `SCAN_CARD_TEXT`（`management.ts`）。 */
-const STALLED_TEXT = '这一项耗时较长，暂时没有新进展。任务结束后可以重试未完成的部分。';
+const STALLED_TEXT = 'This item is taking a while with no new progress. You can retry the unfinished part after the task ends.';
 /* 补齐女优资料是落库之后的一步，一趟里常常什么都不用补，那时这句话不出现：
    四个读数全是 0 还写一句「别名 0 个」，读的人分不清是没得补还是这一步没跑。 */
 const profileText = (state: LibraryProcessingData) => {
@@ -49,17 +49,17 @@ const profileText = (state: LibraryProcessingData) => {
   const conflicts = state.performer_profile_conflicts || 0;
   const failed = state.performer_profile_failed || 0;
   if (!aliases && !avatars && !conflicts && !failed) return '';
-  const parts = [`补齐女优资料：别名 ${aliases} 个，头像 ${avatars} 张`];
-  if (conflicts) parts.push(`${conflicts} 项同名人物资料需要确认是否为同一人`);
-  if (failed) parts.push(`${failed} 张头像未取得`);
-  return `${parts.join('，')}。`;
+  const parts = [`Filled in actress profiles: ${aliases} aliases, ${avatars} avatars`];
+  if (conflicts) parts.push(`${conflicts} people profiles with the same name need confirming whether they're the same person`);
+  if (failed) parts.push(`${failed} avatars not obtained`);
+  return `${parts.join(', ')}.`;
 };
 
 const receiptText = (state: LibraryProcessingData) =>
-  state.requested_stage === 'previews' ? `已生成 ${state.previews || 0} 部视频预览。`
-  : `已扫描 ${state.scanned || 0} 个文件，识别 ${state.identified || 0} 个番号，`
-  + `取得 ${state.candidates || 0} 组作品资料，自动保存 ${state.auto_applied || 0} 条。`
-  + (state.previews ? `已生成 ${state.previews} 部视频预览。` : '')
+  state.requested_stage === 'previews' ? `Generated ${state.previews || 0} video previews.`
+  : `Scanned ${state.scanned || 0} files, identified ${state.identified || 0} codes,`
+  + `got ${state.candidates || 0} sets of title metadata, auto-saved ${state.auto_applied || 0}.`
+  + (state.previews ? `Generated ${state.previews} video previews.` : '')
   + profileText(state);
 
 /** 卡片外面那一块：这一趟怎么了。逐条明细要展开才读，完整清单在状态给出的日志文件里。 */
@@ -88,14 +88,14 @@ function Outcome(
       {slow
         ? <SlowItemNote state={state} slow={slow} />
         : state.status === 'running' && state.stalled
-        ? <Note tone="warning" title="处理较慢">{STALLED_TEXT}</Note>
+        ? <Note tone="warning" title="Processing is slow">{STALLED_TEXT}</Note>
         : null}
       {failed
         ? <Note tone={partial ? 'warning' : 'error'} className="gap-0 p-3"
-            title={partial ? '处理已结束，部分项目需处理' : '处理未完成'}
+            title={partial ? 'Processing finished; some items need attention' : 'Processing didn\'t finish'}
             action={<div className="flex flex-wrap items-center gap-2">
-              {partial ? <LinkButton href={ALL_CONTENT_URL} size="small" trailingIcon={RiArrowRightLine}>查看全部内容</LinkButton> : null}
-              {retryable ? <Button variant="secondary" size="small" aria-label="立即重试未完成项" onClick={onRetry}>立即重试</Button> : null}
+              {partial ? <LinkButton href={ALL_CONTENT_URL} size="small" trailingIcon={RiArrowRightLine}>View all content</LinkButton> : null}
+              {retryable ? <Button variant="secondary" size="small" aria-label="Retry unfinished items now" onClick={onRetry}>Retry now</Button> : null}
             </div>}
             extra={details
               /* 三层东西叠在同一块提示里：一句结论、一份清单、一条日志地址。各自之间
@@ -124,34 +124,34 @@ function Outcome(
                     {details.log
                       /* 日志地址与分隔线使用次级文字色。 */
                       ? <div className="mt-3 border-t border-current/20 pt-3 text-text-secondary">
-                          <PathLine path={details.log} prefix="完整记录：" className="text-caption-1-regular"
+                          <PathLine path={details.log} prefix="Full log:" className="text-caption-1-regular"
                             onRevealed={toast} />
                         </div>
                       : null}
                   </Disclosure>
                 </div>
               : null}>
-            {problem || state.error || '处理未完成，请重试'}
+            {problem || state.error || 'Processing didn\'t finish; try again'}
             {partial ? `\n${PARTIAL_RESULT_TEXT}` : null}
           </Note>
         : null}
       {settled?.status === 'complete'
-        ? <Note tone="success" title="处理完成">{receiptText(settled)}</Note>
+        ? <Note tone="success" title="Processing complete">{receiptText(settled)}</Note>
         : null}
-      {settled?.status === 'cancelled' ? <Note tone="neutral" title="任务已停止">
-        已取得的资料和预览已保留，不会自动继续这趟任务。
+      {settled?.status === 'cancelled' ? <Note tone="neutral" title="Task stopped">
+        Metadata and previews obtained so far are kept; this run won't continue automatically.
       </Note> : null}
-      {state.archived ? <Note tone="neutral">上一趟的问题提示已归档，历史记录仍保留。</Note> : null}
+      {state.archived ? <Note tone="neutral">The previous run's issue notices are archived; history is kept.</Note> : null}
       {!processingActive(state) && (state.issue_count || state.status === 'failed') ? <div className="flex flex-wrap items-center gap-2">
         {state.issue_count ? <Button variant="secondary" size="small" {...busyProps(!!exporter.busy)} onClick={() => void exporter.run('export',
           signal => exportProcessingIssues(state,signal), contents => {
-            downloadIssueList(state.job_id!,contents); toast('已导出问题清单');
-          })}>导出完整问题清单</Button> : null}
+            downloadIssueList(state.job_id!,contents); toast('Issue list exported');
+          })}>Export full issue list</Button> : null}
         {!state.archived ? <Button variant="secondary" size="small" {...busyProps(!!archive.busy)}
           onClick={() => void archive.run('archive',signal => apiSend<LibraryProcessingData>(LIBRARY_PROCESSING_URL,
             {action:'archive',job_id:state.job_id},'POST',signal), next => {
-              queryClient.setQueryData(LIBRARY_PROCESSING_KEY,next); toast('已归档问题提示');
-            })}>归档提示</Button> : null}
+              queryClient.setQueryData(LIBRARY_PROCESSING_KEY,next); toast('Issue notices archived');
+            })}>Archive notices</Button> : null}
       </div> : null}
       {exporter.error || archive.error ? <Note tone="warning">{exporter.error || archive.error}</Note> : null}
       {!processingActive(state) && notes
@@ -160,7 +160,7 @@ function Outcome(
             extra={state.issues_log && !logInList
               /* 中性提示的分隔线跟随次级文字色。 */
               ? <div className="mt-3 border-t border-current/20 pt-3 text-text-secondary">
-                  <PathLine path={state.issues_log} prefix="完整记录：" className="text-caption-1-regular"
+                  <PathLine path={state.issues_log} prefix="Full log:" className="text-caption-1-regular"
                     onRevealed={toast} />
                 </div>
               : null}>
@@ -207,12 +207,12 @@ export function LibraryProcessingCard(props: LibraryProcessingProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <Fieldset layout="stack" label="扫描与采集" footer={
+      <Fieldset layout="stack" label="Scan and scrape" footer={
         <>
-          <LinkButton href="/sources" size="small" trailingIcon={RiArrowRightLine}>来源和凭证</LinkButton>
-          <LinkButton href="/settings/diagnostics" size="small" trailingIcon={RiArrowRightLine}>诊断与日志</LinkButton>
+          <LinkButton href="/sources" size="small" trailingIcon={RiArrowRightLine}>Sources and credentials</LinkButton>
+          <LinkButton href="/settings/diagnostics" size="small" trailingIcon={RiArrowRightLine}>Diagnostics and logs</LinkButton>
           {state.candidates
-            ? <LinkButton href="/review" size="small" trailingIcon={RiArrowRightLine}>复核资料</LinkButton>
+            ? <LinkButton href="/review" size="small" trailingIcon={RiArrowRightLine}>Review metadata</LinkButton>
             : null}
           {/* 日常同步保留独立入口，原任务的定向重试只处理该任务的失败项。 */}
           <ProcessingActions scan busy={busy} metadataOnly={state?.metadata_only} speedMode={state.speed_mode}
@@ -222,19 +222,19 @@ export function LibraryProcessingCard(props: LibraryProcessingProps) {
         <div className="flex flex-col gap-2">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex flex-wrap items-center gap-2">
-              <FieldsetTitle>扫描与采集</FieldsetTitle>
+              <FieldsetTitle>Scan and scrape</FieldsetTitle>
               {state.new_asset_count ? <Chip variant="caption" color="blue">
-                <span className="tabular-nums">{state.new_asset_count.toLocaleString()} 部待补全</span>
+                <span className="tabular-nums">{state.new_asset_count.toLocaleString()} awaiting completion</span>
               </Chip> : null}
             </div>
             {hidden && (processingActive(state) || state.status === 'failed' || job.isError)
               ? <Button variant="secondary" size="small" onClick={() => setProcessingNoticeVisible(noticeKey, true)}>
-                  显示进度浮窗
+                  Show progress popup
                 </Button> : null}
           </div>
           <p className="text-body-2-regular text-text-secondary">{SCAN_CARD_TEXT}</p>
           {state.status === 'paused' && !state.total
-            ? <span className="self-start"><StatusLabel>已暂停</StatusLabel></span>
+            ? <span className="self-start"><StatusLabel>Paused</StatusLabel></span>
             : processingActive(state)
             ? <ProcessingProgress state={state} />
             : null}

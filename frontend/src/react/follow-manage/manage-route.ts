@@ -1,4 +1,4 @@
-export const FOLLOW_MANAGE_NAV = [['list', '关注列表'], ['add', '添加关注'], ['tags', '标签管理']] as const;
+export const FOLLOW_MANAGE_NAV = [['list', 'Following list'], ['add', 'Add follows'], ['tags', 'Tag management']] as const;
 export const FOLLOW_MANAGE_TABS = FOLLOW_MANAGE_NAV.map(([key]) => key);
 export type FollowManageTab = (typeof FOLLOW_MANAGE_TABS)[number];
 export interface FollowManageRoute { tab: FollowManageTab; page: number; sort: string; dir: string }
@@ -21,6 +21,6 @@ export function followManagePath(params: FollowManageRoute): string {
 
 export function followManageEntry(search: string, workspace?: FollowManageTab): string {
   if (!workspace && new URLSearchParams(search).get('tab') === 'wants') return '/jav?tab=wants';
-  if (!workspace && new URLSearchParams(search).get('tab') === 'source') return '/settings/library?section=' + encodeURIComponent('来源与订阅');
+  if (!workspace && new URLSearchParams(search).get('tab') === 'source') return '/settings/library?section=' + encodeURIComponent('Sources and subscriptions');
   return followManagePath({ tab: workspace || followManageParams(search).tab, page: 1, sort: '', dir: '' });
 }

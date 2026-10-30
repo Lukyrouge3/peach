@@ -10,14 +10,14 @@ import { boundedPreference } from '../../number-setting';
 export interface NumberSpec { min: number; max: number; unit: string; optional?: boolean; fallback: number }
 
 export const NUMBER_SPECS = {
-  batchSizeSetting: { min: 1, max: 200, unit: '个', fallback: 60 },
-  hoverDelaySetting: { min: 1, max: 60, unit: '秒', optional: true, fallback: 5 },
-  seekSecondsSetting: { min: 1, max: 300, unit: '秒', fallback: 10 },
-  relatedLimitSetting: { min: 1, max: 60, unit: '个', optional: true, fallback: 20 },
+  batchSizeSetting: { min: 1, max: 200, unit: 'items', fallback: 60 },
+  hoverDelaySetting: { min: 1, max: 60, unit: 's', optional: true, fallback: 5 },
+  seekSecondsSetting: { min: 1, max: 300, unit: 's', fallback: 10 },
+  relatedLimitSetting: { min: 1, max: 60, unit: 'items', optional: true, fallback: 20 },
   /* 上限跟 `/api/feeds/discoveries` 一致，服务端多于 100 也只回 100 部。 */
-  feedLimitSetting: { min: 1, max: 100, unit: '部', fallback: 12 },
-  searchHistoryLimitSetting: { min: 1, max: 50, unit: '条', optional: true, fallback: 10 },
-  followScheduleSetting: { min: 15, max: 10080, unit: '分钟', optional: true, fallback: 60 },
+  feedLimitSetting: { min: 1, max: 100, unit: 'titles', fallback: 12 },
+  searchHistoryLimitSetting: { min: 1, max: 50, unit: 'items', optional: true, fallback: 10 },
+  followScheduleSetting: { min: 15, max: 10080, unit: 'min', optional: true, fallback: 60 },
 } as const satisfies Record<string, NumberSpec>;
 
 export type NumberSettingId = keyof typeof NUMBER_SPECS;
@@ -27,9 +27,9 @@ const storageKey = (id: string) => `peach.number.${id}`;
 /** 以分钟计的间隔满一天时，单位旁边再说一遍是几天：「10080 分钟」读不出是一周。
  *  不满一天、不是整数或不是分钟的读数返回空串。 */
 export function dayReading(value: number, unit: string): string {
-  if (unit !== '分钟' || !Number.isInteger(value) || value < 1440) return '';
+  if (unit !== 'min' || !Number.isInteger(value) || value < 1440) return '';
   const days = value / 1440;
-  return Number.isInteger(days) ? `${days.toLocaleString()} 天` : `约 ${days.toFixed(1)} 天`;
+  return Number.isInteger(days) ? `${days.toLocaleString()} d` : `about ${days.toFixed(1)} d`;
 }
 
 export function NumberSetting({ id, label, value, disabled = false, onApply }: {
@@ -66,7 +66,7 @@ export function NumberSetting({ id, label, value, disabled = false, onApply }: {
     if (!node) return;
     if (!node.value || !node.checkValidity()) {
       node.setAttribute('aria-invalid', 'true');
-      setError(`请输入 ${min}–${max} 的整数（${unit}）`);
+      setError(`Enter a whole number from ${min} to ${max} (${unit})`);
       return;
     }
     node.removeAttribute('aria-invalid');
@@ -107,7 +107,7 @@ export function NumberSetting({ id, label, value, disabled = false, onApply }: {
   return (
     <div data-number-setting="">
       {optional
-        ? <input type="checkbox" data-toggle="" role="switch" aria-label={`启用${label}`}
+        ? <input type="checkbox" data-toggle="" role="switch" aria-label={`Enable ${label}`}
             checked={on} disabled={blocked} onChange={toggle} />
         : null}
       <div data-number-fields="" hidden={optional && !on}>

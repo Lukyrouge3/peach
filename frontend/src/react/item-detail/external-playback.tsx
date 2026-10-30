@@ -7,7 +7,7 @@ import { ErrorText, Help } from '../settings/section';
 import { busyProps, useAction } from '../settings/use-action';
 
 const TARGET_KEY = 'peach.playback-target.v1';
-const NETWORK_TARGETS = [['m3u', 'M3U 播放列表'], ['url', '网络播放地址 / VR']] as const;
+const NETWORK_TARGETS = [['m3u', 'M3U playlist'], ['url', 'Network playback URL / VR']] as const;
 
 function savedTarget() {
   try { return localStorage.getItem(TARGET_KEY) || `local:${localStorage.getItem('peach.local-player.v1') || 'default'}` }
@@ -63,7 +63,7 @@ export function ExternalPlayback({ id, onOpened }: { id: number; onOpened?(): vo
   });
   return <div data-local-playback="">
     <div data-local-playback-row="">
-      <SelectField id={`external-player-${id}`} label="外部播放器"
+      <SelectField id={`external-player-${id}`} label="External player"
         options={[...(players || []).map(item => [`local:${item.id}`, item.label] as const), ...NETWORK_TARGETS]}
         value={player} disabled={players === null || !!action.busy} epoch={epoch * 2 + Number(players !== null)} onPick={value => {
           setPlayer(value);
@@ -71,15 +71,15 @@ export function ExternalPlayback({ id, onOpened }: { id: number; onOpened?(): vo
           action.setError('');
           try { localStorage.setItem(TARGET_KEY, value) } catch { /* 浏览器未允许保存偏好。 */ }
         }} />
-      <Button variant="secondary" aria-label="使用外部播放器打开" disabled={players === null}
-        {...busyProps(action.busy === 'open')} onClick={open}>打开</Button>
+      <Button variant="secondary" aria-label="Open with external player" disabled={players === null}
+        {...busyProps(action.busy === 'open')} onClick={open}>Open details for</Button>
     </div>
     {action.error || loadError ? <ErrorText>{action.error || loadError}</ErrorText> : null}
     {loadError ? <Button variant="secondary" disabled={!!action.busy}
-      onClick={() => { setLoadError(''); setPlayers(null); setEpoch(value => value + 1) }}>重新检测播放器</Button> : null}
+      onClick={() => { setLoadError(''); setPlayers(null); setEpoch(value => value + 1) }}>Detect players again</Button> : null}
     {links ? <>
-      <Input label="网络播放地址" value={links.url} isReadOnly />
-      <Help>链接有效期为 6 小时。VR 播放器可使用网络播放地址；另一台设备需要能访问当前 Peach 地址。</Help>
+      <Input label="Network playback URL" value={links.url} isReadOnly />
+      <Help>Links are valid for 6 hours. VR players can use the network playback URL; another device must be able to reach the current Peach address.</Help>
     </> : null}
   </div>;
 }

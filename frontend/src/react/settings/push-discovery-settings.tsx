@@ -63,47 +63,47 @@ export function PushDiscoveryForm({ initial, receipt }: {
       enabled: state.enabled, watch_local: state.watch_local, cloud: state.cloud, prefixes: rows,
     };
     void action.run('save', (signal) => apiSend<PushDiscoveryState>(SAVE_URL, body, 'POST', signal),
-      (next) => settle(next, '已保存配置'), (cause) => setFailure(errorMessage(cause)));
+      (next) => settle(next, 'Settings saved'), (cause) => setFailure(errorMessage(cause)));
   };
 
   const rotate = () => {
     void action.run('secret', (signal) => apiSend<PushDiscoveryState>(SECRET_URL, {}, 'POST', signal),
-      (next) => settle(next, '已更换共享密钥'), (cause) => setFailure(errorMessage(cause)));
+      (next) => settle(next, 'Shared secret rotated'), (cause) => setFailure(errorMessage(cause)));
   };
 
-  const ingested = `已入库 ${live.queue.ingested} 个文件`
-    + (live.queue.failed ? `，${live.queue.failed} 个入库失败` : '')
-    + (live.queue.pending ? `，队列里还有 ${live.queue.pending} 条` : '');
+  const ingested = `${live.queue.ingested} files imported`
+    + (live.queue.failed ? `, ${live.queue.failed} failed to import` : '')
+    + (live.queue.pending ? `, ${live.queue.pending} still in the queue` : '');
   const watching = live.local_running
-    ? `正在监视 ${live.local_roots.join('、')}` : live.local_message || '没有运行';
+    ? `Watching ${live.local_roots.join(', ')}` : live.local_message || 'Not running';
 
   return (
-    <Section id="pushDiscovery" title="自动发现新文件" onSubmit={submit}>
+    <Section id="pushDiscovery" title="Discover new files automatically" onSubmit={submit}>
       <Stack>
-        <div className="flex flex-wrap items-center gap-2"><span className="text-body-regular text-text-secondary">本机监视</span>
-          <StatusLabel tone={!live.enabled || !live.watch_local ? 'neutral' : live.local_running ? 'progress' : 'warning'}>{!live.enabled || !live.watch_local ? '未启用' : live.local_running ? '运行中' : '未运行'}</StatusLabel></div>
+        <div className="flex flex-wrap items-center gap-2"><span className="text-body-regular text-text-secondary">Local watching</span>
+          <StatusLabel tone={!live.enabled || !live.watch_local ? 'neutral' : live.local_running ? 'progress' : 'warning'}>{!live.enabled || !live.watch_local ? 'Not enabled' : live.local_running ? 'Running' : 'Not running'}</StatusLabel></div>
       </Stack>
       <Rows>
-        <SettingsRow label="发现新文件后自动入库" description={live.enabled ? ingested : undefined}>
-          <Switch aria-label="发现新文件后自动入库" isSelected={state.enabled} isDisabled={!state.available}
+        <SettingsRow label="Import new files automatically" description={live.enabled ? ingested : undefined}>
+          <Switch aria-label="Import new files automatically" isSelected={state.enabled} isDisabled={!state.available}
             onChange={(enabled) => setState({ ...state, enabled })} />
         </SettingsRow>
-        <SettingsRow label="监视本机文件夹" description={live.enabled && live.watch_local ? watching : undefined}>
-          <Switch aria-label="监视本机文件夹" isSelected={state.watch_local}
+        <SettingsRow label="Watch local folders" description={live.enabled && live.watch_local ? watching : undefined}>
+          <Switch aria-label="Watch local folders" isSelected={state.watch_local}
             isDisabled={!state.available || !state.enabled}
             onChange={(watchLocal) => setState({ ...state, watch_local: watchLocal })} />
         </SettingsRow>
-        <SettingsRow label="接收 CloudDrive2 通知">
-          <Switch aria-label="接收 CloudDrive2 通知" isSelected={state.cloud}
+        <SettingsRow label="Receive CloudDrive2 notifications">
+          <Switch aria-label="Receive CloudDrive2 notifications" isSelected={state.cloud}
             isDisabled={!state.available || !state.enabled}
             onChange={(cloud) => setState({ ...state, cloud })} />
         </SettingsRow>
         {live.enabled && live.cloud ? (
-          <SettingsRow label="Webhook 配置" description={live.config_toml
-            ? '贴进 CloudDrive2「设置 → Webhooks」，需要会员；更换密钥后要重贴。'
+          <SettingsRow label="Webhook settings" description={live.config_toml
+            ? 'Paste into CloudDrive2 “Settings → Webhooks” (requires membership); paste again after rotating the secret.'
             : live.origin
-              ? '还没有共享密钥，保存配置后生成。'
-              : '要先有 CloudDrive2 能访问的局域网地址才能生成。'}>
+              ? 'No shared secret yet; it\'s generated after you save the settings.'
+              : 'A LAN address reachable by CloudDrive2 is needed before it can be generated.'}>
           </SettingsRow>
         ) : null}
       </Rows>
@@ -111,7 +111,7 @@ export function PushDiscoveryForm({ initial, receipt }: {
           定期全量扫描补上，所以这里只报原因，不给重试。 */}
       {live.enabled && live.queue.last_error ? (
         <Stack divided>
-          <Note tone="error" title="最近一次入库失败">{live.queue.last_error}</Note>
+          <Note tone="error" title="Last import failure">{live.queue.last_error}</Note>
         </Stack>
       ) : null}
       {live.enabled && live.cloud && live.config_toml ? (
@@ -119,11 +119,11 @@ export function PushDiscoveryForm({ initial, receipt }: {
           <div className="flex flex-col gap-3">
             {/* 收起来是因为抄它的人不用读它：三十行里只有地址和密钥两处跟这台机器有关，
                 两处都已经填好了。展开是留给要核对推到哪儿的那一次。 */}
-            <Disclosure summary="查看配置">
-              <CodeBlock code={live.config_toml} language="toml" label="CloudDrive2 配置" bounded={false} copyLabel="复制配置"
-                onCopy={() => receipt('已复制 CloudDrive2 配置')} />
-              <Help>Windows 桌面版粘贴后显示「无效」时，把这段存成 .toml 文件，放进
-                %LOCALAPPDATA%\CloudDrive.WinUI\webhooks\ 目录。</Help>
+            <Disclosure summary="View settings">
+              <CodeBlock code={live.config_toml} language="toml" label="CloudDrive2 configuration" bounded={false} copyLabel="Copy configuration"
+                onCopy={() => receipt('CloudDrive2 configuration copied')} />
+              <Help>If the Windows desktop app shows “Invalid” after pasting, save this as a .toml file in the
+                %LOCALAPPDATA%\CloudDrive.WinUI\webhooks\ folder.</Help>
             </Disclosure>
           </div>
         </Stack>
@@ -131,18 +131,18 @@ export function PushDiscoveryForm({ initial, receipt }: {
       {state.enabled && state.cloud ? (
         <Stack divided>
           <div className="flex flex-col gap-3">
-            <FieldLabel>云端路径前缀</FieldLabel>
-            <div role="group" aria-label="云端路径前缀" className="flex flex-col gap-3">
+            <FieldLabel>Cloud path prefix</FieldLabel>
+            <div role="group" aria-label="Cloud path prefix" className="flex flex-col gap-3">
               {rows.map((row, index) => (
                 <div key={index} className="flex items-start gap-2">
-                  <Input className="min-w-0 flex-1" aria-label={`云端路径前缀 ${index + 1}`}
+                  <Input className="min-w-0 flex-1" aria-label={`Cloud path prefix ${index + 1}`}
                     placeholder="/115" autoComplete="off" maxLength={200} value={row.prefix}
                     onChange={(prefix) => edit(index, { prefix })} />
-                  <Select aria-label={`前缀 ${index + 1} 对应的媒体根`} prefix="对应目录" selectedKey={row.root}
+                  <Select aria-label={`Media root for prefix ${index + 1}`} prefix="Mapped folder" selectedKey={row.root}
                     onSelectionChange={(key) => { if (key !== null) edit(index, { root: String(key) }); }}>
                     {roots.map((root) => <SelectItem key={root} id={root}>{root}</SelectItem>)}
                   </Select>
-                  <Button variant="danger" iconOnly leadingIcon={RiDeleteBinLine} aria-label="移除这一条"
+                  <Button variant="danger" iconOnly leadingIcon={RiDeleteBinLine} aria-label="Remove this entry"
                     onClick={() => setRows((list) => list.filter((_row, i) => i !== index))} />
                 </div>
               ))}
@@ -150,7 +150,7 @@ export function PushDiscoveryForm({ initial, receipt }: {
             <div>
               <Button variant="secondary"
                 onClick={() => setRows((list) => [...list, { prefix: '', root: roots[0] ?? '' }])}>
-                添加前缀
+                Add prefix
               </Button>
             </div>
           </div>
@@ -163,10 +163,10 @@ export function PushDiscoveryForm({ initial, receipt }: {
       <Footer>
         {live.enabled && live.cloud && live.config_toml ? (
           <Button variant="secondary" onClick={rotate} disabled={!state.available}
-            {...busyProps(action.busy === 'secret')}>更换密钥</Button>
+            {...busyProps(action.busy === 'secret')}>Rotate secret</Button>
         ) : null}
         <Button type="submit" disabled={!state.available} {...busyProps(action.busy === 'save')}>
-          保存配置
+          Save settings
         </Button>
       </Footer>
     </Section>

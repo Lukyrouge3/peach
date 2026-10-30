@@ -18,7 +18,7 @@ export function FollowCheckButton({ sources, report }: { sources: readonly numbe
     start: ids => startCheck(ids),
     onError: cause => setFailure(errorMessage(cause)),
     onFinish: result => {
-      if (result.status === 'failed') setFailure(result.error || '检查失败');
+      if (result.status === 'failed') setFailure(result.error || 'Check failed');
       void reloadFollowManage();
       void queryClient.invalidateQueries({ queryKey: ['follow-feed'] });
       report(result);
@@ -30,7 +30,7 @@ export function FollowCheckButton({ sources, report }: { sources: readonly numbe
       if (!ids.length || busy) return;
       setFailure('');
       start.mutate(ids);
-    }}>检查更新</Button>
+    }}>Check for updates</Button>
     {failure ? <Note tone="error">{failure}</Note> : null}
   </div>;
 }

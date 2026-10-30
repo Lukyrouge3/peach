@@ -18,12 +18,12 @@ export function ReportingChoices({ value, onChange, busy = false }: {
 }) {
   return <>
     <Rows>
-      <SettingsRow label="发送版本统计与错误诊断（推荐）" description="上传版本、系统信息、故障类型、代码位置与发生次数。">
-        <Switch aria-label="发送版本统计与错误诊断（推荐）" isSelected={value.usage && value.errors}
+      <SettingsRow label="Send version stats and error diagnostics (recommended)" description="Uploads version, system info, error type, code location and occurrence count.">
+        <Switch aria-label="Send version stats and error diagnostics (recommended)" isSelected={value.usage && value.errors}
           onChange={(enabled) => onChange({ ...value, usage: enabled, errors: enabled })} {...busyProps(busy)} />
       </SettingsRow>
     </Rows>
-    {!value.available ? <Stack divided><span className="self-start"><StatusLabel>上传服务未配置</StatusLabel></span></Stack> : null}
+    {!value.available ? <Stack divided><span className="self-start"><StatusLabel>Upload service not configured</StatusLabel></span></Stack> : null}
   </>;
 }
 
@@ -36,7 +36,7 @@ export function RemoteReportingSettings({ initial, receipt }: {
     <ReportingChoices value={value} busy={action.busy === 'save'} onChange={(next) => {
       void action.run('save', (signal) => apiSend<RemoteReportingState>('/api/configuration/remote-reporting',
       { usage: next.usage, errors: next.errors }, 'POST', signal), (saved) => {
-      setValue(saved); receipt('已保存诊断选项');
+      setValue(saved); receipt('Diagnostic options saved');
     });
     }} />
     {action.error ? <Stack divided><ErrorText>{action.error}</ErrorText></Stack> : null}

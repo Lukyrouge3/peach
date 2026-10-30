@@ -29,9 +29,9 @@ function SlowItemActions({ state }: { state: LibraryProcessingData }) {
         onClick={() => {
           if (state.job_id && state.current_asset_id != null)
             send({ action: 'skip_current', job_id: state.job_id, asset_id: state.current_asset_id });
-        }}>{state.skip_requested ? '正在跳过' : '跳过这部'}</Button>
+        }}>{state.skip_requested ? 'Skipping' : 'Skip this title'}</Button>
     </div>
-    {state.skip_requested ? <p role="status" className="text-caption-1-regular">当前请求结束后继续下一部。</p> : null}
+    {state.skip_requested ? <p role="status" className="text-caption-1-regular">Continues with the next title after the current request ends.</p> : null}
     {action.error ? <p role="alert" className="text-caption-1-regular text-text-error-primary">{action.error}</p> : null}
   </div>;
 }

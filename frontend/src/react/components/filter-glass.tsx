@@ -16,7 +16,7 @@ import { useHorizontalScroller } from './use-horizontal-scroller';
 import './filter-glass.css';
 
 const BusyIcon = ({ className }: { className?: string }) => <span aria-hidden className={className}
-  dangerouslySetInnerHTML={{ __html: spinnerHtml('正在处理') }} />;
+  dangerouslySetInnerHTML={{ __html: spinnerHtml('Processing') }} />;
 
 /** 筛选栏动作使用紧凑档（`size="small"`，32px）和蓝色动作表面。 */
 export function FilterIconButton({ label, icon, busy = false, busyStyle = 'spinner', onPress, ...props }:

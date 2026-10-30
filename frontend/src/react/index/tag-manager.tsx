@@ -60,32 +60,32 @@ export function TagManager({ search, category = 'all', view = 'cloud', onCategor
       const next = new Map(current); const row = rows.find(row => row.k === key); if (!next.delete(key) && row) next.set(key, row); return next;
     }) };
 
-  return <section ref={root} aria-label="标签管理" data-tag-manager="" className="flex min-w-0 flex-col">
-    {search === undefined ? <div className="mb-4 flex"><IndexSearch label="过滤标签" value={localSearch} onQuery={setLocalSearch} /></div> : null}
-    <TagFilters categories={categories} category={activeCategory} online={online} readout={inventory.data ? `${inventory.data.total.toLocaleString()} 个标签` : ''}
+  return <section ref={root} aria-label="Tag management" data-tag-manager="" className="flex min-w-0 flex-col">
+    {search === undefined ? <div className="mb-4 flex"><IndexSearch label="Filter tags" value={localSearch} onQuery={setLocalSearch} /></div> : null}
+    <TagFilters categories={categories} category={activeCategory} online={online} readout={inventory.data ? `${inventory.data.total.toLocaleString()} tags` : ''}
       letters={groups.map(([letter]) => letter)} view={activeView} onCategory={next => { setLocalCategory(next); onCategory?.(next) }}
       onView={next => { setLocalView(next); onView?.(next) }} onJump={at => onJump ? onJump(at) : root.current?.querySelector(`[data-alpha-group="${at}"]`)?.scrollIntoView({ block:'start', behavior:'smooth' })} status={{ hidden, blocked,
         onChange: value => { setHidden(value); setBlocked(false) },
         ...(online ? { onBlocked: () => { setBlocked(true); setHidden(false) } } : {}) }}
       actions={<>
-        {inventory.data?.duplicate_groups.length ? <GlassPill busy={action.busy === 'repair'} onPress={() => run({ operation: 'repair', ids: [] })}>整理重复标签</GlassPill> : null}
-        {visible.length ? <GlassPill onPress={() => setPicked(current => new Map([...current, ...visible.map(row => [row.k, row] as const)]))}>选择本页</GlassPill> : null}
-        {picked.size ? <GlassPill onPress={() => setPicked(new Map())}>清空选择</GlassPill> : null}
+        {inventory.data?.duplicate_groups.length ? <GlassPill busy={action.busy === 'repair'} onPress={() => run({ operation: 'repair', ids: [] })}>Clean up duplicate tags</GlassPill> : null}
+        {visible.length ? <GlassPill onPress={() => setPicked(current => new Map([...current, ...visible.map(row => [row.k, row] as const)]))}>Select page</GlassPill> : null}
+        {picked.size ? <GlassPill onPress={() => setPicked(new Map())}>Clear selection</GlassPill> : null}
       </>} />
     {inventory.isPending ? <div dangerouslySetInnerHTML={{ __html:tagSkeletonHtml({ mode:activeView, pageSize:pagination.pageSize }) }} />
-      : inventory.isError ? <Note tone="error" action={<Button variant="secondary" onClick={() => void inventory.refetch()}>立即重试</Button>}>无法读取标签</Note>
+      : inventory.isError ? <Note tone="error" action={<Button variant="secondary" onClick={() => void inventory.refetch()}>Retry now</Button>}>Can't load tags</Note>
         : visible.length ? (activeView === 'alphabet' ? <TagAlphabet groups={groups} actions={actions} /> : <TagCloud tags={tags} actions={actions} />)
-          : <Note tone="neutral">没有符合条件的标签。</Note>}
-    {inventory.data ? <div className="mt-5"><DataTableFooter label="标签管理" total={inventory.data.total} pagination={pagination}
-      onChange={changePage} unit="个标签" pageUnit="个" pageSizes={TAG_PAGE_SIZES} /></div> : null}
+          : <Note tone="neutral">No matching tags.</Note>}
+    {inventory.data ? <div className="mt-5"><DataTableFooter label="Tag management" total={inventory.data.total} pagination={pagination}
+      onChange={changePage} unit="tags" pageUnit="items" pageSizes={TAG_PAGE_SIZES} /></div> : null}
     {action.error ? <Note tone="error">{action.error}</Note> : null}
-    <SelectionDock label="标签管理操作" count={`已选 ${picked.size} 个标签`} visible={picked.size > 0}>
-      <Button variant="secondary" size="small" disabled={selected.length !== 1} onClick={() => setEditing('rename')}>重命名</Button>
-      <Button variant="secondary" size="small" disabled={selected.length < 2 || (online && new Set(selected.map(row => row.cat)).size > 1)} onClick={() => setEditing('merge')}>合并</Button>
+    <SelectionDock label="Tag management actions" count={`${picked.size} tags selected`} visible={picked.size > 0}>
+      <Button variant="secondary" size="small" disabled={selected.length !== 1} onClick={() => setEditing('rename')}>Rename</Button>
+      <Button variant="secondary" size="small" disabled={selected.length < 2 || (online && new Set(selected.map(row => row.cat)).size > 1)} onClick={() => setEditing('merge')}>Merge</Button>
       <Button variant="secondary" size="small" {...busyProps(Boolean(action.busy))}
-        onClick={() => run({ operation: hidden ? 'restore' : 'hide', ids })}>{hidden ? '恢复' : '隐藏'}</Button>
+        onClick={() => run({ operation: hidden ? 'restore' : 'hide', ids })}>{hidden ? 'Restore' : 'Hide'}</Button>
       {online ? <Button variant="secondary" size="small" {...busyProps(Boolean(action.busy))}
-        onClick={() => run({ operation: blocked ? 'unblock' : 'block', ids })}>{blocked ? '恢复内容' : '屏蔽内容'}</Button> : null}
+        onClick={() => run({ operation: blocked ? 'unblock' : 'block', ids })}>{blocked ? 'Restore content' : 'Block content'}</Button> : null}
     </SelectionDock>
     {editing ? <TagEditor key={editing} operation={editing} selected={selected} scope={scope}
       close={() => setEditing(null)} done={() => setPicked(new Map())} /> : null}

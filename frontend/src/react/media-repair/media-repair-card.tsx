@@ -32,7 +32,7 @@ export function MediaRepairCard({ toast = () => {} }: { toast?(message: string):
     start: (library) => apiSend<MediaRepairState>(MEDIA_REPAIR_URL, { library, restart: true }),
     onFinish: (result) => {
       if (result.status === 'complete' && !result.failed && !result.missing_tool) {
-        toast(result.repaired ? `已修复 ${result.repaired.toLocaleString()} 部视频` : '已检查媒体库，没有需要修复的视频');
+        toast(result.repaired ? `Repaired ${result.repaired.toLocaleString()} videos` : 'Media library checked; no videos need repair');
       }
     },
   });
@@ -52,11 +52,11 @@ export function MediaRepairCard({ toast = () => {} }: { toast?(message: string):
   const start = () => {
     if (!selected) return;
     void confirmModal({
-      title: `修复媒体库「${selected.name}」`,
-      body: '缺时间戳表的片子另存一份修好的头，原文件不动；缺索引的片子重建后替换原文件，'
-        + '坏原件改名成同目录的隐藏文件（.文件名.peach-original）留着。'
-        + (selected.metered ? '这个库在计费来源上，每修一部都要把片子完整拉一遍。' : ''),
-      confirmLabel: '修复媒体库',
+      title: `Repair media library “${selected.name}”`,
+      body: 'Videos missing a timestamp table get a separate repaired header and the original file is left alone; videos missing an index are rebuilt and replace the original,'
+        + 'with the broken original renamed to a hidden file in the same folder (.filename.peach-original) and kept.'
+        + (selected.metered ? 'This library is on a billed source; each repair downloads the whole video.' : ''),
+      confirmLabel: 'Repair media library',
       onConfirm: async () => { await repair.start.mutateAsync(selected.id) },
     });
   };
@@ -65,12 +65,12 @@ export function MediaRepairCard({ toast = () => {} }: { toast?(message: string):
 
   const outcome = repair.outcome;
   const line = statusLine(running ? state : outcome ?? IDLE_REPAIR);
-  const problem = action.error || outcome?.error || (repair.query.error ? '读不到媒体修复的状态' : '');
+  const problem = action.error || outcome?.error || (repair.query.error ? 'Can\'t read media repair status' : '');
   return (
     <div className="flex flex-col gap-4">
-      <Fieldset layout="split" label="媒体修复" footer={
+      <Fieldset layout="split" label="Media repair" footer={
         <>
-          <Select aria-label="媒体库" prefix="媒体库" className="w-48" selectedKey={selected?.id ?? null}
+          <Select aria-label="Media library" prefix="Media library" className="w-48" selectedKey={selected?.id ?? null}
             isDisabled={running || !libraries.length}
             onSelectionChange={(key) => { if (key !== null) setChosen(String(key)); }}>
             {libraries.map((row) => (
@@ -80,22 +80,22 @@ export function MediaRepairCard({ toast = () => {} }: { toast?(message: string):
             ))}
           </Select>
           {running
-            ? <Button onClick={stop} {...busyProps(action.busy === 'stop')}>停止</Button>
-            : <Button onClick={start} disabled={!selected}>开始修复</Button>}
+            ? <Button onClick={stop} {...busyProps(action.busy === 'stop')}>Stop</Button>
+            : <Button onClick={start} disabled={!selected}>Start repair</Button>}
         </>
       }>
         <div className="flex flex-col gap-2">
-          <FieldsetTitle>媒体修复</FieldsetTitle>
+          <FieldsetTitle>Media repair</FieldsetTitle>
           <p className="text-body-2-regular text-text-secondary">{REPAIR_CARD_TEXT}</p>
           {running && state.total
-            ? <Progress label="修复进度" value={state.checked} max={state.total} />
+            ? <Progress label="Repair progress" value={state.checked} max={state.total} />
             : null}
           {line ? <p role="status" className="text-caption-1-regular text-text-secondary">{line}</p> : null}
         </div>
       </Fieldset>
       <div aria-live="polite" className="flex flex-col gap-4 empty:hidden">
         {outcome?.status === 'complete' && outcome.missing_tool
-          ? <Note tone="warning" title="缺少 untrunc" action={<Button variant="ghost" size="small" onClick={repair.dismiss}>关闭提示</Button>}>{missingToolText(outcome)}</Note>
+          ? <Note tone="warning" title="untrunc missing" action={<Button variant="ghost" size="small" onClick={repair.dismiss}>Close notification</Button>}>{missingToolText(outcome)}</Note>
           : null}
         {problem ? <Note tone="error">{problem}</Note> : null}
       </div>

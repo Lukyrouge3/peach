@@ -59,15 +59,15 @@ export function projectBannerHtml(message:unknown,{variant='gray',href,label,val
   variant?: string; href?: string; label?: string; value?: unknown; max?: unknown;
 }={}):string{
   const kind=['gray','success','warning','error'].includes(variant)?variant:'gray';
-  return `<aside class="ui-project-banner ${PROJECT_BANNER_CLASSES[kind]}" role="${kind==='error'?'alert':'status'}"><div>${Number(max)>0?gaugeHtml('任务完成率',value,max):icon(kind==='error'||kind==='warning'?'alert':'info')}<p>${esc(message)}</p></div><a href="${esc(href)}">${esc(label)}</a></aside>`;
+  return `<aside class="ui-project-banner ${PROJECT_BANNER_CLASSES[kind]}" role="${kind==='error'?'alert':'status'}"><div>${Number(max)>0?gaugeHtml('Task completion rate',value,max):icon(kind==='error'||kind==='warning'?'alert':'info')}<p>${esc(message)}</p></div><a href="${esc(href)}">${esc(label)}</a></aside>`;
 }
 
 export function gaugeHtml(label:string,value:unknown,max:unknown=100,{usage=false,compact=false}={}):string{
   const ceiling=Number(max), current=Number(value);
-  if(!Number.isFinite(ceiling)||ceiling<=0||!Number.isFinite(current))return `<span>${esc(label)}：未取得</span>`;
+  if(!Number.isFinite(ceiling)||ceiling<=0||!Number.isFinite(current))return `<span>${esc(label)}: not obtained</span>`;
   const percent=Math.max(0,Math.min(100,current/ceiling*100));
   const level=usage?(percent>=95?'error':percent>=80?'warning':'normal'):'normal';
-  const status=usage?(level==='error'?'空间即将用满':level==='warning'?'空间使用偏高':'空间充足'):'';
+  const status=usage?(level==='error'?'Space almost full':level==='warning'?'Space usage high':'Plenty of space'):'';
   return `<span class="ui-geist-gauge" data-level="${level}" role="progressbar" aria-label="${esc(label+(status?'：'+status:''))}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percent}"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13"/><circle cx="16" cy="16" r="13" pathLength="100" stroke-dasharray="${percent} 100"/></svg></span>${status&&!compact?`<span class="ui-gauge-status">${status}</span>`:''}`;
 }
 
@@ -93,7 +93,7 @@ export function progressHtml(label:string,value:unknown,max:unknown=100,{variant
  * that has its own accessible name: repeating that name announces the same
  * words twice and tells the reader nothing changed.
  */
-export function spinnerHtml(label='加载中'):string{
+export function spinnerHtml(label='Loading'):string{
   const bars=Array.from({length:10},(_,index)=>
     `<i aria-hidden="true" style="--spinner-angle:${index*36}deg;--spinner-delay:${index*100-900}ms"></i>`).join('');
   return `<span class="ui-geist-spinner" role="status" aria-label="${esc(label)}">${bars}</span>`;
@@ -127,11 +127,11 @@ export function searchInputHtml({label,id='',name='',value='',placeholder='',att
  * 列表续页时 Loading Dots 旁那一句：目录哨兵、垃圾文件队列等无限滚动列表共用。三颗点已经在动，
  * 字不带省略号。
  */
-export const LOAD_MORE_STATUS = '载入中';
+export const LOAD_MORE_STATUS = 'Loading';
 
 /** Geist Loading Dots: indeterminate work continuing in the background. The dots already say
  *  "still going", so the label never ends in an ellipsis. */
-export function loadingDotsHtml(label='正在处理', {className=''}={}):string{
+export function loadingDotsHtml(label='Processing', {className=''}={}):string{
   return `<span class="ui-geist-loading${className?` ${esc(className)}`:''}" role="status">
     <span class="ui-geist-loading-dots" aria-hidden="true"><i></i><i></i><i></i></span>
     <span>${esc(label)}</span></span>`;
@@ -148,7 +148,7 @@ export function loadingDotsHtml(label='正在处理', {className=''}={}):string{
  * 时出现。
  */
 export function boardTabsHtml(items:{value:unknown;label:unknown;count?:unknown;symbol?:string}[],
-  {active='',attr='data-tab',label='页面视图',className='',panel=''}:{
+  {active='',attr='data-tab',label='Page view',className='',panel=''}:{
     active?: unknown; attr?: string; label?: string; className?: string; panel?: string;
   }={}):string{
   const tabs=items.map(({value,label:text,count,symbol})=>{

@@ -93,36 +93,36 @@ export function WantMagnets({ want, readOnly, downloads, provider, toast, onSour
         magnet: candidate.uri, provider: configured.key, target: configured.target,
         code: want.code, title: want.title, origin: queryUrl ? `work:${want.code}` : `wishlist:${want.id}`,
       }, 'POST', signal);
-      if (!result.ok) throw new Error(result.task.failure_detail || result.task.failure_label || '添加下载失败');
+      if (!result.ok) throw new Error(result.task.failure_detail || result.task.failure_label || 'Adding download failed');
       return result;
     }, (result) => {
       setSubmitted((current) => [...current, candidate.id]);
-      toast(result.outcome === 'submitted' ? `已添加下载：${candidate.name}` : `已关联现有下载：${candidate.name}`);
+      toast(result.outcome === 'submitted' ? `Download added: ${candidate.name}` : `Linked existing download: ${candidate.name}`);
       void client.invalidateQueries({ queryKey: DOWNLOADS_KEY });
     });
   };
   const copy = (candidate: MagnetCandidate) => {
     void action.run(`copy:${candidate.id}`, () => navigator.clipboard.writeText(candidate.uri),
-      () => toast('已复制链接'));
+      () => toast('Link copied'));
   };
   const waiting = query.isFetching || query.data?.state === 'busy';
   const failure = query.error ? errorMessage(query.error) : query.data?.error;
   return (
     <div ref={root} data-want-magnets="" className="flex min-w-0 flex-col gap-3 border-t border-separator-border pt-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h4 className="text-body-medium text-text-primary">资源链接{query.data?.items.length ? ` · ${query.data.items.length}` : ''}</h4>
+        <h4 className="text-body-medium text-text-primary">Resource links{query.data?.items.length ? ` · ${query.data.items.length}` : ''}</h4>
         <Button variant="secondary" size="small" leadingIcon={RiRefreshLine} {...busyProps(waiting)} onClick={() => {
           if (!waiting) { refresh.current = true; void query.refetch() }
-        }}>重新查询</Button>
+        }}>Search again</Button>
       </div>
-      {waiting ? <LoadingDots label="正在查找资源链接" /> : null}
-      {failure ? <Note tone="error" title="资源链接未取得">{failure}</Note> : null}
+      {waiting ? <LoadingDots label="Finding resource links" /> : null}
+      {failure ? <Note tone="error" title="Resource links not obtained">{failure}</Note> : null}
       {query.data?.warnings?.map((warning) => <Note key={warning} tone="neutral">{resourceNotice(warning)}</Note>)}
       {query.data?.warnings?.length && query.data.source_url ? <ButtonLink variant="secondary" size="small" className="self-start"
-        trailingIcon={RiExternalLinkLine} href={query.data.source_url} target="_blank" rel="noopener noreferrer">查看来源页</ButtonLink> : null}
+        trailingIcon={RiExternalLinkLine} href={query.data.source_url} target="_blank" rel="noopener noreferrer">View source page</ButtonLink> : null}
       {query.data?.state === 'ready' && !query.data.items.length && !query.data.warnings?.length
-        ? <Note tone="neutral">暂未找到资源链接。</Note> : null}
-      {action.error ? <Note tone="error" title="操作未完成">{action.error}</Note> : null}
+        ? <Note tone="neutral">No resource links found yet.</Note> : null}
+      {action.error ? <Note tone="error" title="Action not completed">{action.error}</Note> : null}
       {query.data?.items.length ? (() => {
         const rows = query.data.items.map((candidate) => {
           const added = submitted.includes(candidate.id) || downloads?.tasks.some((task) => candidate.protocol === 'magnet' &&
@@ -131,33 +131,33 @@ export function WantMagnets({ want, readOnly, downloads, provider, toast, onSour
             <div data-resource-main="" className="flex min-w-0 flex-col gap-1">
               <div className="flex min-w-0 flex-wrap items-center gap-2">
                 <Chip variant="caption" color={candidate.protocol === 'magnet' ? 'blue' : candidate.protocol === 'ed2k' ? 'purple' : 'neutral'}>
-                  {candidate.protocol === 'magnet' ? '磁链' : candidate.protocol === 'ed2k' ? 'ED2K' : '网页链接'}
+                  {candidate.protocol === 'magnet' ? 'Magnet' : candidate.protocol === 'ed2k' ? 'ED2K' : 'Web link'}
                 </Chip>
                 <p data-resource-title="" title={candidate.name} className="min-w-0 flex-1 text-body-2-medium text-text-primary">{candidate.name}</p>
               </div>
               <div data-resource-facts="" className="flex flex-wrap gap-x-2 gap-y-1 text-caption-1-regular text-text-secondary">
                 <ResourceFact icon={RiLink}>{candidate.source}</ResourceFact>
-                <ResourceFact icon={RiHardDrive2Line} title={`来源大小：${candidate.size}`}>{resourceSize(candidate.size)}</ResourceFact>
+                <ResourceFact icon={RiHardDrive2Line} title={`Source size: ${candidate.size}`}>{resourceSize(candidate.size)}</ResourceFact>
                 {candidate.files ? <ResourceFact icon={RiFileList2Line}>{candidate.files.replaceAll('個', '个')}</ResourceFact> : null}
-                <ResourceFact icon={RiCalendarLine} title={candidate.source === 'JavDB 评论' ? '评论日期' : '收录日期'}>{candidate.date ? candidate.date.slice(0, 10) : '日期未知'}</ResourceFact>
+                <ResourceFact icon={RiCalendarLine} title={candidate.source === 'JavDB 评论' ? 'Comment date' : 'Indexed date'}>{candidate.date ? candidate.date.slice(0, 10) : 'Date unknown'}</ResourceFact>
                 {candidate.attributes.filter(value => value !== '高清').map((value) => <ResourceFact key={value} icon={RiPriceTag3Line}>{value}</ResourceFact>)}
               </div>
             </div>
             <div data-resource-actions="" className="flex flex-wrap gap-2">
-              <ButtonLink data-button-link="" variant="secondary" size="small" trailingIcon={RiExternalLinkLine} href={candidate.source_url} target="_blank" rel="noopener noreferrer">链接来源</ButtonLink>
+              <ButtonLink data-button-link="" variant="secondary" size="small" trailingIcon={RiExternalLinkLine} href={candidate.source_url} target="_blank" rel="noopener noreferrer">Link source</ButtonLink>
               <Button variant="secondary" size="small" leadingIcon={RiFileCopyLine} {...busyProps(action.busy === `copy:${candidate.id}`)}
-                onClick={() => copy(candidate)}>复制链接</Button>
+                onClick={() => copy(candidate)}>Copy link</Button>
               {candidate.protocol === 'magnet' ?
-              <Button variant="primary" size="small" leadingIcon={configured ? providerIcon(configured.key) : RiCloudLine} title={configured ? `下载到 ${configured.label}` : undefined} disabled={readOnly || !downloads?.available || !configured || added}
+              <Button variant="primary" size="small" leadingIcon={configured ? providerIcon(configured.key) : RiCloudLine} title={configured ? `Download to ${configured.label}` : undefined} disabled={readOnly || !downloads?.available || !configured || added}
                 {...busyProps(action.busy === candidate.id)} onClick={() => add(candidate)}>
-                {added ? '已添加' : '添加下载'}
+                {added ? 'Added' : 'Add download'}
               </Button> : null}
             </div>
           </li>;
         });
         return <>
           <ul className="flex min-w-0 flex-col gap-4">{rows.slice(0, 3)}</ul>
-          {rows.length > 3 ? <Disclosure summary={`更多资源（${rows.length - 3} 条）`}>
+          {rows.length > 3 ? <Disclosure summary={`More resources (${rows.length - 3})`}>
             <ul className="flex min-w-0 flex-col gap-4">{rows.slice(3)}</ul>
           </Disclosure> : null}
         </>;

@@ -117,10 +117,10 @@ export function FollowManagePage(props: FollowManageProps) {
   return (
     <Page>
       {readOnly ? (
-        <Note tone="warning" title="本机只能浏览"
+        <Note tone="warning" title="Browse-only on this device"
           extra={writerUrl
             ? <p className="text-body-2-regular">
-                <ExternalLink href={writerUrl}>前往写入端管理关注</ExternalLink>
+                <ExternalLink href={writerUrl}>Manage follows on the writer</ExternalLink>
               </p>
             : undefined}>
           {readOnlyMessage}
@@ -128,13 +128,13 @@ export function FollowManagePage(props: FollowManageProps) {
       ) : null}
 
       {/* 前四张是关注，后两张是 JAV 订阅源：订了几位、拉回来的新作还有几条没看。 */}
-      <div className={STAT_STRIP_SIX} aria-label="关注概览">
-        <Reading term="关注创作者" figure={groups.length} unit="位" />
-        <Reading term="启用来源" figure={enabled} unit={`/ ${sources.length}`} />
-        <Reading term="检查失败" figure={broken} unit="个来源" />
-        <Reading term="未看更新" figure={data.counts?.new || 0} unit="条" />
-        <Reading term="JAV 订阅" figure={subscribed} unit="位" />
-        <Reading term="未看新作" figure={feeds.data?.unread || 0} unit="条" />
+      <div className={STAT_STRIP_SIX} aria-label="Follow overview">
+        <Reading term="Followed creators" figure={groups.length} unit="people" />
+        <Reading term="Enabled sources" figure={enabled} unit={`/ ${sources.length}`} />
+        <Reading term="Check failed" figure={broken} unit="sources" />
+        <Reading term="Unwatched updates" figure={data.counts?.new || 0} unit="items" />
+        <Reading term="JAV subscriptions" figure={subscribed} unit="people" />
+        <Reading term="Unwatched releases" figure={feeds.data?.unread || 0} unit="items" />
       </div>
 
       <Tabs selectedKey={tab} onSelectionChange={(key) => {
@@ -145,7 +145,7 @@ export function FollowManagePage(props: FollowManageProps) {
         setTab(next);
         go({ tab: next });
       }} className="flex flex-col gap-6">
-        <PillAriaTabList aria-label="关注管理区域" data-section-nav data-section-items
+        <PillAriaTabList aria-label="Follow management areas" data-section-nav data-section-items
           className="flex max-w-full flex-nowrap overflow-x-auto">
           {TABS.map(([key, name]) => (
             <Tab key={key} id={key} data-pill-selected={tab === key ? '' : undefined} data-pill-variant="gray"
@@ -196,7 +196,7 @@ export function FollowManagePage(props: FollowManageProps) {
         </TabPanel>
 
       </Tabs>
-      <div><ButtonLink variant="secondary" href="/settings/subscriptions">来源与订阅设置{pending ? `（${pending}）` : ''}</ButtonLink></div>
+      <div><ButtonLink variant="secondary" href="/settings/subscriptions">Source and subscription settings{pending ? ` (${pending})` : ''}</ButtonLink></div>
     </Page>
   );
 }

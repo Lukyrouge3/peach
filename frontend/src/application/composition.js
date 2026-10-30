@@ -195,7 +195,7 @@ applicationEffects.own(peachHistory.listen(navigation=>{
   // 历史通知内先同步页面代次，再由路由元素的微任务领取取数代次。
   if(compositionState.routing&&!navigation.claimed)syncRouteChrome();
 }));
-loadRouter(compositionState.shellActions).catch(error=>console.error('客户端导航装载失败',error));
+loadRouter(compositionState.shellActions).catch(error=>console.error('Client navigation failed to load',error));
 mountManageHeader();
 mountBatchDock();
 buildManageBar();
@@ -203,10 +203,10 @@ Promise.all([loadSourceStatus(),loadSyncedSettings(),loadingState.entityShapesRe
   .then(()=>{
     if(!effects.isActive)return;
     /* 顶部两排与筛选栏的两个聚合自带骨架、取回后自己落位，页面打开不等它们：作品列表与它们同时去取。 */
-    if(loadingState.wantsDiscoveryBars())buildBars().catch(error=>console.error('首页横条装载失败',error));
+    if(loadingState.wantsDiscoveryBars())buildBars().catch(error=>console.error('Home banner failed to load',error));
     syncNavigation();wireAllDrag();
     // 路由树里按匹配打开的页面等这一下才开始打开：壳的状态到这时才齐。
     compositionState.routing=true;writeShell({pageOpens:1});syncRouteChrome();
     scheduleStickySurfaces();
-  }).catch(error=>{if(effects.isActive)console.error('应用启动失败',error)});
+  }).catch(error=>{if(effects.isActive)console.error('App failed to start',error)});
 }
